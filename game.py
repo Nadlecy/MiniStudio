@@ -1,5 +1,6 @@
 # Example file showing a circle moving on screen
 import pygame
+import math
 
 #///////////////
 # Game Classes 
@@ -7,8 +8,9 @@ import pygame
 
 # Creating a player class for player and game info
 class player ():
-    def __init__(self, currentSurface, shotVisu = "shot.png",dmg = 1,shotSpd = 2, shotCoolDown = 20, currentShotCoolDown = 0, shotsList = [] , position = pygame.Vector2(0,0) ,lives = 3):
+    def __init__(self, currentSurface, visual = "image/astronaute.gif", shotVisu = "shot.png",dmg = 1,shotSpd = 2, shotCoolDown = 20, currentShotCoolDown = 0, shotsList = [] , position = pygame.Vector2(0,0) ,lives = 3):
         self.currentSurface = currentSurface
+        self.visual = visual
         self.shotVisu = shotVisu
         self.dmg = dmg
         self.shotSpd = shotSpd
@@ -20,7 +22,7 @@ class player ():
     
     def shoot (self):
         if self.currentShotCoolDown < 1:
-            self.shotsList.append(plrBullet(self.currentSurface, self.dmg, self.shotSpd, pygame.Vector2(self.position.x,self.position.y)))
+            self.shotsList.append(plrBullet(self.currentSurface, self.dmg, self.shotSpd, pygame.Vector2(self.position.x+80,self.position.y+40)))
             self.currentShotCoolDown = 0 + self.shotCoolDown
 
 # creating a shot class for each shot by the player
@@ -31,15 +33,14 @@ class plrBullet ():
         self.spd = spd
         self.position = position
     
+    #making the visible bullets move every frame
     def move(self):
         if self.currentSurface.get_width() + 40 > self.position.x:
             pygame.draw.circle(self.currentSurface, "green", self.position, 10)
             self.position.x += 300 * dt * self.spd
             return True
         else:
-            return False
-
-        
+            return False   
 
 # pygame setup
 pygame.init()
@@ -47,23 +48,38 @@ pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 
-
-running = True
 dt = 0
-
 thisPlayer=player(currentSurface=screen, position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
 
+#preparing the scrolling screen
+bg = pygame.transform.scale(pygame.image.load("image/background2.jpg"),(1005,screen.get_height()))
+bg_width = bg.get_width()
+scroll = 0
+tiles = math.ceil(screen.get_width() / bg_width) +1
+
+#showing the player character
+plrVisual = pygame.transform.scale(pygame.image.load("image/astronaute.gif"),(80,80))
+
+#launching the game
+running = True
 while running:
+
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    # fill the screen with a color to wipe away anything from last frame
-    screen.fill("purple")
+    # draw scrolling background
+    for i in range(0, tiles):
+        screen.blit(bg,(i*bg_width+ scroll,0))
+    scroll -= 5
+    #scroll reset
+    if abs(scroll) > bg_width:
+        scroll = 0
 
-    pygame.draw.circle(screen, "red", thisPlayer.position, 40)
+    #test character circle
+    screen.blit(plrVisual, thisPlayer.position)
 
     thisPlayer.currentShotCoolDown -=1
     if thisPlayer.shotsList:
@@ -76,21 +92,21 @@ while running:
         if toDelete:
             for i in toDelete:
                 del thisPlayer.shotsList[i]
-                
-
+    
     
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_z] or keys[pygame.K_UP]:
+    if (keys[pygame.K_z] or keys[pygame.K_UP]) and thisPlayer.position.y > 0:
         thisPlayer.position.y -= 400 * dt
-    if keys[pygame.K_s] or keys[pygame.K_DOWN]:
+    if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and thisPlayer.position.y < screen.get_height() - 80:
         thisPlayer.position.y += 400 * dt
-    if keys[pygame.K_q] or keys[pygame.K_LEFT]:
+    if (keys[pygame.K_q] or keys[pygame.K_LEFT]) and thisPlayer.position.x > 0:
         thisPlayer.position.x -= 400 * dt
-    if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+    if (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and thisPlayer.position.x < screen.get_width() - 80:
         thisPlayer.position.x += 400 * dt
     if keys[pygame.K_SPACE]:
         thisPlayer.shoot()
 
+    pygame.display.update()
     # flip() the display to put your work on screen
     pygame.display.flip()
 
