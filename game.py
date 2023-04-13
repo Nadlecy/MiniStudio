@@ -6,7 +6,14 @@ import math
 # Game Classes 
 #///////////////
 
-# Creating a player class for player and game info
+# Creating a gameState class for game info
+class gameState ():
+    def __init__(self, Map, currentScrollDirection = "H"):
+        self.Map = Map
+        self.currentScrollDirection = currentScrollDirection
+
+
+# Creating a player class for the player 
 class player ():
     def __init__(self, currentSurface, visual = "image/astronaute.gif", shotVisu = "shot.png",dmg = 1,shotSpd = 2, shotCoolDown = 20, currentShotCoolDown = 0, shotsList = [] , position = pygame.Vector2(0,0) ,lives = 3):
         self.currentSurface = currentSurface
