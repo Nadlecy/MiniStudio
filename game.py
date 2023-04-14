@@ -31,6 +31,9 @@ plrVisual = pygame.transform.scale(pygame.image.load("image/astronaute.gif"),(80
 running = True
 dt = 0
 
+#preparing shown enemy storage list
+enemiesOnScreen = []
+
 while running:
 
     # poll for events
