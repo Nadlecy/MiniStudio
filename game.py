@@ -1,6 +1,7 @@
 # Example file showing a circle moving on screen
 import pygame
 import math
+from player import Player,PlayerBullet
 
 #///////////////
 # Game Classes 
@@ -14,50 +15,16 @@ class gameState ():
 
 
 # Creating a player class for the player 
-class player ():
-    def __init__(self, currentSurface, visual = "image/astronaute.gif", shotVisu = "shot.png",dmg = 1,shotSpd = 2, shotCoolDown = 20, currentShotCoolDown = 0, shotsList = [] , position = pygame.Vector2(0,0) ,lives = 3):
-        self.currentSurface = currentSurface
-        self.visual = visual
-        self.shotVisu = shotVisu
-        self.dmg = dmg
-        self.shotSpd = shotSpd
-        self.shotCoolDown = shotCoolDown
-        self.currentShotCoolDown = currentShotCoolDown
-        self.position = position
-        self.shotsList = shotsList
-        self.lives = 3
-    
-    def shoot (self):
-        if self.currentShotCoolDown < 1:
-            self.shotsList.append(plrBullet(self.currentSurface, self.dmg, self.shotSpd, pygame.Vector2(self.position.x+80,self.position.y+40)))
-            self.currentShotCoolDown = 0 + self.shotCoolDown
+
 
 # creating a shot class for each shot by the player
-class plrBullet ():
-    def __init__(self, currentSurface, dmg, spd, position = pygame.Vector2(0,0)):
-        self.currentSurface = currentSurface
-        self.dmg = dmg
-        self.spd = spd
-        self.position = position
-    
-    #making the visible bullets move every frame
-    def move(self):
-        if self.currentSurface.get_width() + 40 > self.position.x:
-            pygame.draw.circle(self.currentSurface, "green", self.position, 10)
-            self.position.x += 300 * dt * self.spd
-            return True
-        else:
-            return False   
-
 # pygame setup
 pygame.init()
 #creating a screen
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 
-dt = 0
-thisPlayer=player(currentSurface=screen, position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
-
+thisPlayer=Player(currentSurface=screen, position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
 #preparing the scrolling screen
 bg = pygame.transform.scale(pygame.image.load("image/background2.jpg"),(1005,screen.get_height()))
 bg_width = bg.get_width()
@@ -69,6 +36,7 @@ plrVisual = pygame.transform.scale(pygame.image.load("image/astronaute.gif"),(80
 
 #launching the game
 running = True
+dt = 0
 while running:
 
     # poll for events
@@ -92,7 +60,7 @@ while running:
     if thisPlayer.shotsList:
         toDelete=[]
         for i in range(len(thisPlayer.shotsList)):
-            keeping = thisPlayer.shotsList[i].move()
+            keeping = thisPlayer.shotsList[i].move(dt)
             print(i, ",    ", keeping)
             if not keeping:
                 toDelete.append(i)
