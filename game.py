@@ -3,21 +3,12 @@ import pygame
 import math
 from player import Player,PlayerBullet
 
-#///////////////
-# Game Classes 
-#///////////////
-
 # Creating a gameState class for game info
 class gameState ():
     def __init__(self, Map, currentScrollDirection = "H"):
         self.Map = Map
         self.currentScrollDirection = currentScrollDirection
 
-
-# Creating a player class for the player 
-
-
-# creating a shot class for each shot by the player
 # pygame setup
 pygame.init()
 #creating a screen
@@ -25,18 +16,21 @@ screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 
 thisPlayer=Player(currentSurface=screen, position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
+walkCycle = 0
+
 #preparing the scrolling screen
 bg = pygame.transform.scale(pygame.image.load("image/background2.jpg"),(1005,screen.get_height()))
 bg_width = bg.get_width()
 scroll = 0
 tiles = math.ceil(screen.get_width() / bg_width) +1
 
-#showing the player character
+"""#showing the player character
 plrVisual = pygame.transform.scale(pygame.image.load("image/astronaute.gif"),(80,80))
-
+"""
 #launching the game
 running = True
 dt = 0
+
 while running:
 
     # poll for events
@@ -52,6 +46,15 @@ while running:
     #scroll reset
     if abs(scroll) > bg_width:
         scroll = 0
+    
+    #walking animation
+    walkCycle += 1
+    if walkCycle <= 14 :
+        plrVisual = pygame.transform.scale(pygame.image.load("image/astronaute_1.gif"),(80,80))
+    else:
+        plrVisual = pygame.transform.scale(pygame.image.load("image/astronaute_2.gif"),(80,80))
+        if walkCycle == 28:
+            walkCycle = 0
 
     #test character circle
     screen.blit(plrVisual, thisPlayer.position)
