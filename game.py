@@ -15,7 +15,7 @@ pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 
-thisPlayer=Player(currentSurface=screen, position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
+thisPlayer=Player(currentSurface=screen, visualsList=["image/astronaute_1.png","image/astronaute_2.png"], position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
 walkCycle = 0
 
 #preparing the scrolling screen
@@ -51,16 +51,10 @@ while running:
         scroll = 0
     
     #walking animation
-    walkCycle += 1
-    if walkCycle <= 14 :
-        plrVisual = pygame.transform.scale(pygame.image.load("image/astronaute_1.gif"),(80,80))
-    else:
-        plrVisual = pygame.transform.scale(pygame.image.load("image/astronaute_2.gif"),(80,80))
-        if walkCycle == 28:
-            walkCycle = 0
+    playerVisuals = thisPlayer.flyingAnimation()
 
     #test character circle
-    screen.blit(plrVisual, thisPlayer.position)
+    screen.blit(playerVisuals, thisPlayer.position)
 
     thisPlayer.currentShotCoolDown -=1
     if thisPlayer.shotsList:
