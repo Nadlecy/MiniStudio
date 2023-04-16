@@ -2,10 +2,11 @@
 import pygame
 import math
 from player import Player
+from enemies import Enemy
 
 # Creating a gameState class for game info
 class gameState ():
-    def __init__(self, Map, currentScrollDirection = "H"):
+    def __init__(self, Map, currentScrollDirection = "Right"):
         self.Map = Map
         self.currentScrollDirection = currentScrollDirection
 
@@ -24,9 +25,6 @@ bg_width = bg.get_width()
 scroll = 0
 tiles = math.ceil(screen.get_width() / bg_width) +1
 
-"""#showing the player character
-plrVisual = pygame.transform.scale(pygame.image.load("image/astronaute.gif"),(80,80))
-"""
 #launching the game
 running = True
 dt = 0
@@ -50,10 +48,15 @@ while running:
     if abs(scroll) > bg_width:
         scroll = 0
     
-    #animating the player character
-    screen.blit(thisPlayer.animate(), thisPlayer.position)
+    # animates the player in the right place for every frame
+    thisPlayer.animate()
+    for i in enemiesOnScreen:
+        i.ai()
 
+    # decreases the cooldown on the player's attack
     thisPlayer.currentShotCoolDown -=1
+
+
     if thisPlayer.shotsList:
         toDelete=[]
         for i in range(len(thisPlayer.shotsList)):
@@ -77,14 +80,17 @@ while running:
         thisPlayer.position.x += 400 * dt
     if keys[pygame.K_SPACE]:
         thisPlayer.shoot()
+    # testing enemy creation
+    if keys[pygame.K_a]:
+        print("a pressed")
+        enemiesOnScreen.append(Enemy(screen).spawn())
 
     pygame.display.update()
     # flip() the display to put your work on screen
     pygame.display.flip()
 
     # limits FPS to 60
-    # dt is delta time in seconds since last frame, used for framerate-
-    # independent physics.
+    # dt is delta time in seconds since last frame, used for framerate-independent physics.
     dt = clock.tick(60) / 1000
 
 pygame.quit()
