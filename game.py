@@ -1,7 +1,7 @@
 # Example file showing a circle moving on screen
 import pygame
 import math
-from player import Player,PlayerBullet
+from player import Player
 
 # Creating a gameState class for game info
 class gameState ():
@@ -50,11 +50,8 @@ while running:
     if abs(scroll) > bg_width:
         scroll = 0
     
-    #walking animation
-    playerVisuals = thisPlayer.flyingAnimation()
-
-    #test character circle
-    screen.blit(playerVisuals, thisPlayer.position)
+    #animating the player character
+    screen.blit(thisPlayer.animate(), thisPlayer.position)
 
     thisPlayer.currentShotCoolDown -=1
     if thisPlayer.shotsList:

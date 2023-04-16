@@ -19,7 +19,7 @@ class Player ():
             self.shotsList.append(PlayerBullet(self.currentSurface, self.damage, self.shotSpeed, pygame.Vector2(self.position.x+80,self.position.y+40)))
             self.currentShotCoolDown = 0 + self.shotCoolDown
     
-    def flyingAnimation (self):
+    def animate (self):
         self.visualsDelayer +=1
         if self.visualsDelayer == 28:
                 self.visualsDelayer = 0
