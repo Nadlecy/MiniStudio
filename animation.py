@@ -24,9 +24,7 @@ def animate(classname):
 def load_frames(classname, spritesheet_name):
 
     my_spritesheet = Spritesheet('spritesheets/' + spritesheet_name + '.png')
-    #pygame.image.load('MY_IMAGE_NAME.png').convert()
-    # for i in range(len(self.idle_frames[])):
     
-    for i in range (my_spritesheet.lenght) :
+    for i in range (my_spritesheet.length) :
         print(i)
         classname.idle_frames.append(my_spritesheet.parse_sprite(spritesheet_name + " " + str(i) + ".png"))

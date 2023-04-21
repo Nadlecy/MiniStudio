@@ -1,7 +1,6 @@
 import pygame
 import json
 
-
 class Spritesheet:
     def __init__(self, filename):
         self.filename = filename
@@ -9,9 +8,8 @@ class Spritesheet:
         self.meta_data = self.filename.replace('png', 'json')
         with open(self.meta_data) as f:
             self.data = json.load(f)
-            self.lenght = len(self.data["frames"])
+            self.length= len(self.data["frames"])
         f.close()
-
 
 
     def get_sprite(self, x, y, w, h):

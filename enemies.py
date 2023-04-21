@@ -1,6 +1,5 @@
 import random
 import pygame
-import math
 
 #making the Enemy class for everything that revolves around basic adversaries
 class Enemy():
@@ -18,10 +17,10 @@ class Enemy():
         if self.position == pygame.Vector2(0,0):
             self.position = pygame.Vector2(self.currentSurface.get_width(),random.randint((self.currentSurface.get_height()/9)*2,(self.currentSurface.get_height()/9)*8))
 
-        # maybe delete that next line and do something smarter
+        # this returns the enemy so it can be stored in the list of "currently on screen" enemies
         return self
 
-    #everything that happens every frame while the enemy exists
+    #everything that happens each frame while the enemy exists
     def ai(self):
         match self.enemyType:
             case 0:
