@@ -1,6 +1,6 @@
 import random
 import pygame
-from animation import animation_init, animate
+from animation import animation_init, animate_loop, animate_one
 
 #making the Enemy class for everything that revolves around basic adversaries
 class Enemy():
@@ -19,9 +19,10 @@ class Enemy():
         
         animation_init(self, spritesheet_name = self.currentVisuals, animationType = "enemy")
         
+    
 
     def enemyAnimate(self):
-        animate(self, rescale_size = (80,80))
+        animate_loop(self, rescale_size = (80,80))
 
 
 
@@ -40,7 +41,7 @@ class Enemy():
         match self.enemyType:
             case 0:
                 self.position.x -= 2
-                animate(self, rescale_size = (80,80))
+                animate_loop(self, rescale_size = (80,80))
 
 
     # removing the enemy from the screen etc

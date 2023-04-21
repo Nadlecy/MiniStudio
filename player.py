@@ -1,5 +1,5 @@
 import pygame
-from animation import animation_init, animate
+from animation import animation_init, animate_loop
 
 class Player ():
     def __init__(self, currentSurface, currentVisuals = "player_anim1", shotVisuals = "shot.png",damage = 1,shotSpeed = 2, shotCoolDown = 20, currentShotCoolDown = 0, shotsList = [] , position = pygame.Vector2(0,0) ,lives = 3):
@@ -22,7 +22,7 @@ class Player ():
         animation_init(self, spritesheet_name = self.currentVisuals, animationType = "player_anim")
 
     def playerAnimate(self):
-        animate(self, rescale_size = (80,160))
+        animate_loop(self, rescale_size = (80,160))
 
     def shoot (self):
         if self.currentShotCoolDown < 1:

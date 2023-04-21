@@ -107,7 +107,7 @@ while running:
         
         
     # testing enemy creation
-    if keys[pygame.K_a]:
+    if keys[pygame.K_1]:
         print("a pressed")
         enemiesOnScreen.append(Enemy(screen).spawn())
 
@@ -132,6 +132,7 @@ while running:
                 if DelEnemies:
                     del enemiesOnScreen[i]
                     print("supprimer")
+                    
 
 
     #BUTTONS
