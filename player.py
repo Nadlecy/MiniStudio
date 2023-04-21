@@ -20,14 +20,9 @@ class Player ():
         # animation
         
         animation_init(self, spritesheet_name = self.currentVisuals, animationType = "player_anim")
-        animate(self)
 
     def playerAnimate(self):
-        animate(self)
-
-    def playerAnimationChange(self, newVisuals):
-        self.currentVisuals = newVisuals
-        animation_init(self, spritesheet_name = self.currentVisuals, animationType = "player_anim")
+        animate(self, rescale_size = (80,160))
 
     def shoot (self):
         if self.currentShotCoolDown < 1:

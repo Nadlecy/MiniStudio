@@ -3,6 +3,8 @@ import pygame
 import math
 from player import Player,PlayerBullet
 from enemies import Enemy
+import buttons
+
 
 # Creating a gameState class for game info
 class gameState ():
@@ -16,11 +18,30 @@ pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 
+#load button images
+plus_btn_img = pygame.image.load('image/plus_btn.png')
+minus_btn_img = pygame.image.load('image/minus_btn.png')
+
+#create button instances
+plus_btn = buttons.Button(90, 30, plus_btn_img, 2)
+minus_btn = buttons.Button(30, 30, minus_btn_img, 2)
+
+
+#Load Music
+music_volume = 0.5
+music_volume_display = 5
+pygame.mixer.music.load("music/birds_attacks_intro.ogg")
+pygame.mixer.music.play()
+
 #creating the player character
 thisPlayer=Player(currentSurface=screen, currentVisuals= "player_anim1", position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
 
+
+#Text through GUI
+volumeFont = pygame.font.SysFont("Times New Roman", 18, True)
+
 #preparing the scrolling screen
-bg = pygame.transform.scale(pygame.image.load("image/background2.jpg"),(1005,screen.get_height()))
+bg = pygame.transform.scale(pygame.image.load("image/background2.png"),(3000,screen.get_height()))
 bg_width = bg.get_width()
 scroll = 0
 tiles = math.ceil(screen.get_width() / bg_width) +1
@@ -40,6 +61,12 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    # music
+    pygame.mixer.music.set_volume(music_volume)
+    if (pygame.mixer.music.get_busy() == False):
+        pygame.mixer.music.load("music/birds_attacks.ogg")
+        pygame.mixer.music.play(-1)
+
     # draw scrolling background
     for i in range(0, tiles):
         screen.blit(bg,(i*bg_width+ scroll,0))
@@ -48,10 +75,9 @@ while running:
     if abs(scroll) > bg_width:
         scroll = 0
     
-    # animates the player in the right place for every frame
-    thisPlayer.playerAnimate()
     for i in enemiesOnScreen:
         i.ai()
+
 
     # decreases the cooldown on the player's attack
     thisPlayer.currentShotCoolDown -=1
@@ -78,6 +104,7 @@ while running:
         thisPlayer.position.x += 400 * dt
     if keys[pygame.K_SPACE]:
         thisPlayer.shoot()
+        
         
     # testing enemy creation
     if keys[pygame.K_a]:
@@ -106,6 +133,33 @@ while running:
                     del enemiesOnScreen[i]
                     print("supprimer")
 
+
+    #BUTTONS
+
+        #VOLUME
+
+        #+
+    if plus_btn.draw(screen):
+        if music_volume<0.9:
+            music_volume = music_volume + 0.1
+            music_volume_display += 1
+        print(music_volume)
+        #-
+    if minus_btn.draw(screen):
+        if music_volume>0.1:
+            music_volume = music_volume - 0.1
+            music_volume_display -= 1
+        print(music_volume)
+    
+    volumeLabel = volumeFont.render("Music = " + str(music_volume_display), False, (0,0,0))
+    
+
+    #ANIMATION READER
+    thisPlayer.playerAnimate()
+
+
+
+    screen.blit(volumeLabel, (30, 70))
     pygame.display.update()
     # flip() the display to put your work on screen
     pygame.display.flip()
