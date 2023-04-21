@@ -26,7 +26,7 @@ class Player ():
 
     def shoot (self):
         if self.currentShotCoolDown < 1:
-            self.shotsList.append(PlayerBullet(self.currentSurface, self.damage, self.shotSpeed, pygame.Vector2(self.position.x+80,self.position.y+40)))
+            self.shotsList.append(PlayerBullet(self.currentSurface, self.damage, self.shotSpeed, pygame.Vector2(self.position.x+80,self.position.y+60)))
             self.currentShotCoolDown = 0 + self.shotCoolDown
 
 class PlayerBullet ():
