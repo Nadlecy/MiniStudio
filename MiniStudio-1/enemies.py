@@ -1,6 +1,5 @@
 import random
 import pygame
-import math
 
 #making the Enemy class for everything that revolves around basic adversaries
 class Enemy():

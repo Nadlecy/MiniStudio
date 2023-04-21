@@ -16,7 +16,7 @@ pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 
-thisPlayer=Player(currentSurface=screen, visualsList=["image/astronaute_1.png","image/astronaute_2.png"], position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
+thisPlayer=Player(currentSurface=screen, position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
 walkCycle = 0
 
 #preparing the scrolling screen
