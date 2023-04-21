@@ -108,8 +108,9 @@ while running:
         
     # testing enemy creation
     if keys[pygame.K_1]:
-        print("a pressed")
         enemiesOnScreen.append(Enemy(screen).spawn())
+    if keys[pygame.K_2]:
+        enemiesOnScreen.append(Enemy(screen, "enemy_anim3", enemyType = 1).spawn())
 
      #Collision    
     for i in range (len(enemiesOnScreen)):
