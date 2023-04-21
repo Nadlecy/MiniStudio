@@ -2,9 +2,10 @@ import pygame
 from animation import animation_init, animate
 
 class Player ():
-    def __init__(self, currentSurface, shotVisuals = "shot.png",damage = 1,shotSpeed = 2, shotCoolDown = 20, currentShotCoolDown = 0, shotsList = [] , position = pygame.Vector2(0,0) ,lives = 3):
+    def __init__(self, currentSurface, currentVisuals = "player_anim1", shotVisuals = "shot.png",damage = 1,shotSpeed = 2, shotCoolDown = 20, currentShotCoolDown = 0, shotsList = [] , position = pygame.Vector2(0,0) ,lives = 3):
         # general data
         self.currentSurface = currentSurface # which surface the player is currently seen
+        self.currentVisuals = currentVisuals # which spritesheet will be used to animate the player
         self.position = position # the player's position on screen
         self.lives = lives # number of lives the player has
         
@@ -18,11 +19,15 @@ class Player ():
 
         # animation
         
-        animation_init(self, spritesheet_name ="astronaute_anim")
+        animation_init(self, spritesheet_name = self.currentVisuals, animationType = "player_anim")
         animate(self)
 
-    def animate(self):
+    def playerAnimate(self):
         animate(self)
+
+    def playerAnimationChange(self, newVisuals):
+        self.currentVisuals = newVisuals
+        animation_init(self, spritesheet_name = self.currentVisuals, animationType = "player_anim")
 
     def shoot (self):
         if self.currentShotCoolDown < 1:

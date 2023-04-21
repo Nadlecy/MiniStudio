@@ -2,10 +2,12 @@ import pygame
 import json
 
 class Spritesheet:
-    def __init__(self, filename):
+    def __init__(self, filename, animationType):
         self.filename = filename
         self.sprite_sheet = pygame.image.load(filename).convert()
-        self.meta_data = self.filename.replace('png', 'json')
+
+        #determining which json to use depending on the animationType
+        self.meta_data = "spritesheets/" + animationType + ".json"
         with open(self.meta_data) as f:
             self.data = json.load(f)
             self.length= len(self.data["frames"])

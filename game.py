@@ -17,7 +17,7 @@ screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 
 #creating the player character
-thisPlayer=Player(currentSurface=screen, position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
+thisPlayer=Player(currentSurface=screen, currentVisuals= "player_anim1", position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
 
 #preparing the scrolling screen
 bg = pygame.transform.scale(pygame.image.load("image/background2.jpg"),(1005,screen.get_height()))
@@ -49,7 +49,7 @@ while running:
         scroll = 0
     
     # animates the player in the right place for every frame
-    thisPlayer.animate()
+    thisPlayer.playerAnimate()
     for i in enemiesOnScreen:
         i.ai()
 
@@ -78,7 +78,7 @@ while running:
         thisPlayer.position.x += 400 * dt
     if keys[pygame.K_SPACE]:
         thisPlayer.shoot()
-
+        
     # testing enemy creation
     if keys[pygame.K_a]:
         print("a pressed")
