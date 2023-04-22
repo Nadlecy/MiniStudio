@@ -2,13 +2,12 @@ import pygame
 from animation import animation_init, animate_loop
 
 class Player ():
-    def __init__(self, currentSurface, currentVisuals = "player_anim1", shotVisuals = "shot.png",damage = 1,shotSpeed = 2, shotCoolDown = 20, currentShotCoolDown = 0, shotsList = [] , position = pygame.Vector2(0,0) ,lives = 3):
+    def __init__(self, currentSurface, currentVisuals, shotVisuals = "shot.png",damage = 1,shotSpeed = 3, shotCoolDown = 20, currentShotCoolDown = 0, shotsList = [] , position = pygame.Vector2(0,0) ,lives = 3):
         # general data
         self.currentSurface = currentSurface # which surface the player is currently seen
         self.currentVisuals = currentVisuals # which spritesheet will be used to animate the player
         self.position = position # the player's position on screen
         self.lives = lives # number of lives the player has
-        
         # bullet data
         self.shotVisuals = shotVisuals # what the player's attacks look like
         self.damage = damage # the current damage dealt by the player's attacks
@@ -16,6 +15,20 @@ class Player ():
         self.shotCoolDown = shotCoolDown # total delay between each attack
         self.currentShotCoolDown = currentShotCoolDown # decreases over time, counts time before next attack
         self.shotsList = shotsList # stores every bullet fired by the player
+
+        #MARCHE PAS :(
+
+        # #power-ups
+        # if pygame.key.get_pressed() == [pygame.K_p]:
+        #     if self.speedBonus == True :
+        #         self.speedBonus = False
+        #     if self.speedBonus == False:
+        #         self.speedBonus = True
+        #     print(self.speedBonuss)
+        # if self.speedBonus == True:
+        #     self.shotSpeed = 4
+        # if self.speedBonus == False:
+        #     self.shotSpeed = 2
 
         # animation
         
