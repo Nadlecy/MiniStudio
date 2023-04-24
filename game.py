@@ -123,6 +123,8 @@ while running:
             elif event.key == pygame.K_ESCAPE:
                 print("Caca")
                 menu.menu_pause()
+            elif event.key == pygame.K_3:
+                enemiesOnScreen.append(Enemy(screen, "enemy_anim2", enemyType = 2).spawn())
 
     # music
     pygame.mixer.music.set_volume(music_volume)
@@ -133,41 +135,40 @@ while running:
     # draw scrolling background
     for i in range(0, tiles):
         screen.blit(bg,(i*bg_width+ scroll,0))
-    scroll -= 5
+    scroll -= screen.get_width()/240
     #scroll reset
     if abs(scroll) > bg_width:
         scroll = 0
     
     # enemies act
     for i in enemiesOnScreen:
-        i.ai()
+        i.ai(thisPlayer,dt)
 
 
     # decreases the cooldown on the player's attack
     thisPlayer.currentShotCoolDown -=1
 
-
-    if thisPlayer.shotsList:
-        toDelete=[]
-        for i in range(len(thisPlayer.shotsList)):
-            keeping = thisPlayer.shotsList[i].move(dt)
-            if not keeping:
-                toDelete.append(i)
-        if toDelete:
-            for i in toDelete:
-                del thisPlayer.shotsList[i]
-    
     for i in range(len(enemiesOnScreen)):
-        enemiesOnScreen[i].currentShotCoolDown -= 1
-        if enemiesOnScreen[i].shotsList:
-            toDelete=[]
-            for a in range(len(enemiesOnScreen[i].shotsList)):
-                keeping = enemiesOnScreen[i].shotsList[a].move(dt)   
+        enemy = enemiesOnScreen[i]
+        enemy.currentShotCoolDown -= 1
+        if not enemy.shotsList: continue
+        if enemy.enemyType == 2:
+            for j in range(len(enemy.shotsList)-1, 0, -1):
+                shot = enemy.shotsList[j]
+                keeping = True
+                if not shot.broken:
+                    keeping = shot.move_bis(dt, thisPlayer, enemy)
+                else:
+                    keeping = shot.move_test(dt)
                 if not keeping:
-                    toDelete.append(a)
-            if toDelete:
-                for a in toDelete:
-                    del enemiesOnScreen[i].shotsList[a]
+                    del enemy.shotsList[j]
+        elif enemy.enemyType == 0:
+            for j in range(len(enemy.shotsList)):
+                keeping = enemy.shotsList[j].move(dt)
+                if not keeping:
+                    del enemy.shotsList[j]
+
+        
     
     keys = pygame.key.get_pressed()
     if (keys[pygame.K_z] or keys[pygame.K_UP]) and thisPlayer.position.y > screen.get_height()/9:
@@ -220,18 +221,34 @@ while running:
         if thisPlayer:
             col = thisPlayer.Collision(enemiesOnScreen[i].position,80)
             elapsed = time.time() - thisPlayer.lastHitTime
-            if col and elapsed > 1.5 and thisPlayer.shield == False:
-                thisPlayer.lives -= 1
-                thisPlayer.position.x -= 50
-                thisPlayer.lastHitTime = time.time()
-                print("hp : ", thisPlayer.lives)
-                break
-            elif col and elapsed > 1.5 and thisPlayer.shield == True:
-                thisPlayer.shield = False
-                thisPlayer.position.x -= 50
-                thisPlayer.lastHitTime = time.time()
-                print("hp : ", thisPlayer.lives)
-                break
+            if enemiesOnScreen[i].enemyType == 0:
+                if col and elapsed > 1.5 and thisPlayer.shield == False:
+                    thisPlayer.lives -= 1
+                    thisPlayer.position.x -= 50
+                    thisPlayer.lastHitTime = time.time()
+                    print("hp : ", thisPlayer.lives)
+                    break
+                elif col and elapsed > 1.5 and thisPlayer.shield == True:
+                    thisPlayer.shield = False
+                    thisPlayer.position.x -= 50
+                    thisPlayer.lastHitTime = time.time()
+                    print("hp : ", thisPlayer.lives)
+                    break
+            elif enemiesOnScreen[i].enemyType == 1:
+                if col and elapsed > 1.5 and thisPlayer.shield == False:
+                    enemiesOnScreen[i].hp -= 1
+                    thisPlayer.lives -= 1
+                    thisPlayer.position.x -= 50
+                    thisPlayer.lastHitTime = time.time()
+                    print("hp : ", thisPlayer.lives)
+                    break
+                elif col and elapsed > 1.5 and thisPlayer.shield == True:
+                    enemiesOnScreen[i].hp -= 1
+                    thisPlayer.shield = False
+                    thisPlayer.position.x -= 50
+                    thisPlayer.lastHitTime = time.time()
+                    print("hp : ", thisPlayer.lives)
+                    break
 
     if enemiesOnScreen:
         DelEnemies = []
@@ -249,9 +266,9 @@ while running:
             print(len(thisPlayer.powerUps))
                     
     #map management
-    if currentSections[0].pixelsAdvanced == screen.get_width() * 2:
+    if currentSections[0].pixelsAdvanced >= screen.get_width() * 2 and len(currentSections) == 2:
         del currentSections[0]
-    if currentSections[0].pixelsAdvanced == screen.get_width():
+    if currentSections[0].pixelsAdvanced >= screen.get_width() and len(currentSections) == 1:
         currentSections.append(currentSections[0].nextSection)
     for i in currentSections:
         i.loadGrid()
