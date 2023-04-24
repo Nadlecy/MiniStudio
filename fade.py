@@ -9,9 +9,9 @@ class FadingSurf:
         self.order = 1
         self.speed = fadingSpeed
         
-    def fade(self, dt):
+    def fade(self, dt, fade_start, fade_end):
         self.t += dt * self.speed * self.order
         if 0.0 >= self.t or self.t >= 1.0:
             self.order *= -1
-        alpha = lerp(255, 0, self.t, QuadEaseIn())
+        alpha = lerp(fade_start, fade_end, self.t, QuadEaseIn())
         self.surf.set_alpha(alpha)

@@ -120,6 +120,9 @@ while running:
                 enemiesOnScreen.append(Enemy(screen).spawn())
             elif event.key == pygame.K_2:
                 enemiesOnScreen.append(Enemy(screen, "enemy_anim3", enemyType = 1).spawn())
+            elif event.ket == pygame.K_ESCAPE:
+                print("Caca")
+                menu.menu_pause()
 
     # music
     pygame.mixer.music.set_volume(music_volume)
