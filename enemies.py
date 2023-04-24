@@ -15,7 +15,7 @@ class Enemy():
         self.shotSpeed = 2
         self.damage = 1
         self.currentShotCoolDown = random.randint(10, 55)
-        self.shotCooldown = 100
+        self.shotCooldown = 70
         self.shotsList = []
 
         if self.enemyType == 1:

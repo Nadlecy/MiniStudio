@@ -58,7 +58,6 @@ dt = 0
 
 #preparing enemy storage list
 enemiesOnScreen = []
-
 while running:
 
     # poll for events

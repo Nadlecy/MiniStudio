@@ -3,7 +3,7 @@ from animation import animation_init, animate_loop
 import time
 
 class Player ():
-    def __init__(self, currentSurface, currentVisuals, shotVisuals = "shot.png",damage = 1,shotSpeed = 3, shotCoolDown = 20, currentShotCoolDown = 0, shotsList = [] , position = pygame.Vector2(0,0) ,lives = 3):
+    def __init__(self, currentSurface, currentVisuals, shotVisuals = "shot.png",damage = 1,shotSpeed = 3, shotCoolDown = 20, currentShotCoolDown = 0, shotsList = [] , position = pygame.Vector2(0,0) ,lives = 3,laserSprite = "laserSprite.png"):
         # general data
         self.currentSurface = currentSurface # which surface the player is currently seen
         self.currentVisuals = currentVisuals # which spritesheet will be used to animate the player
@@ -27,12 +27,17 @@ class Player ():
             "Heal" : 0
         }
         self.shield = False
-        #MARCHE PAS :(
-        # animation
-        
+        self.laser = True
+        self.laserSprite = laserSprite
         animation_init(self, spritesheet_name = self.currentVisuals, animationType = "player_anim")
+
+
+
     def playerAnimate(self):
         animate_loop(self, rescale_size = (80,160))
+
+    def laserColision(self,Object:pygame.Vector2,size):
+        pass
 
     def shoot (self):
         if self.currentShotCoolDown < 1:

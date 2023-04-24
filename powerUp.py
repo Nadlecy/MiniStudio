@@ -60,7 +60,19 @@ class Heal(PowerUp):
     def clean(self):
         super().clean()
 
+class Laser(PowerUp):
+    def __init__(self,player,duration):
+        super().__init__(self,duration)
+        self.duration = duration
+        self.player = player
+        self.player.laser = True
 
+    def effect(self,dt):
+        super().effect(dt)
+    
+    def clean(self):
+        super().clean()
+        self.player.laser = False
 
 
 
