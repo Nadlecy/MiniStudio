@@ -3,7 +3,7 @@ import pygame
 import math
 from player import Player,PlayerBullet
 from enemies import Enemy, EnemyBullet
-from menu import Menu
+from menu import Menu, Button
 import buttons
 from powerUp import *
 from map import GridObjects, MapSection
@@ -24,7 +24,6 @@ clock = pygame.time.Clock()
 
 #menu init
 menu = Menu()
-
 
 
 #load button images
@@ -181,8 +180,8 @@ while running:
         thisPlayer.position.x += 400 * dt
     if keys[pygame.K_SPACE]:
         thisPlayer.shoot()
-    if keys[pygame.K_ESCAPE]:
-        pygame.quit()
+#    if keys[pygame.K_ESCAPE]:
+#        pygame.quit()
         
         
 

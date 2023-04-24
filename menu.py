@@ -1,9 +1,30 @@
 import pygame
 from fade import FadingSurf
 
+from pygame.mouse import get_pos as mouse_pos
+from pygame.mouse import get_pressed as mouse_buttons
+
 class Button:
-    def __init__(self):
-        self.name = "Ratio"
+  def __init__(self, size, pos, sprite_path):
+    self.displaySurf = pygame.display.get_surface()
+    self.size = size
+    self.position = pos
+    self.sprite = pygame.transform.scale(pygame.image.load(sprite_path), size)
+    self.to = None
+    self.isPressed = False
+
+  def bind(self, to):
+    self.to = to
+
+  def draw(self):
+    rect = self.displaySurf.blit(self.sprite, self.position)
+    
+    if self.to and not self.isPressed and rect.collidepoint(mouse_pos()) and mouse_buttons()[0]:
+      self.isPressed = True
+      self.to()
+    else:
+      self.isPressed = False
+
 
 class Menu:
     def __init__(self):
@@ -13,6 +34,16 @@ class Menu:
         self.splash = pygame.transform.scale(pygame.image.load('image/menu_bg_space.png'), (self.width,self.height))
         self.logo = pygame.transform.scale(pygame.image.load('image/menu_logo.png'), (self.width/2.5, self.height/2.5))
         self.msg =  pygame.transform.scale(pygame.image.load('image/press_start.png'), (self.width/2.5, self.height/20))
+        self.newGameButton = Button((640, 128),(325,650),'image/new_game_min.png')
+        self.newGameButton.bind(self.handleNewGame)
+        self.resumeButton = Button((640, 128),(325,800),'image/resume_min.png')
+        self.resumeButton.bind(self.handleResume)
+        self.howToPlayButton = Button((640, 128),(965,650),'image/how_to_min.png')
+        self.howToPlayButton.bind(self.handleNewGame)
+        self.optionsButton = Button((640, 128),(965,800),'image/options_min.png')
+        self.optionsButton.bind(self.handleResume)
+        self.quitButton = Button((192, 96),(15,979),'image/quit.png')
+        self.quitButton.bind(self.handleNewGame)
         self.fadingText = FadingSurf(self.msg, 0.5)
         # 0:no update,  1:continue, 2:quit 
         self.splash_status = 0
@@ -40,6 +71,11 @@ class Menu:
         logo_mid_width = self.logo.get_width()/2
         logo_mid_height = self.logo.get_height()/2
         self.surf.blit(self.logo, (self.width/2-logo_mid_width, self.height/3.5-logo_mid_height))
+        self.newGameButton.draw()
+        self.resumeButton.draw()
+        self.howToPlayButton.draw()
+        self.optionsButton.draw()
+        self.quitButton.draw()
         pygame.display.update()
 
         for event in pygame.event.get():
@@ -49,8 +85,29 @@ class Menu:
             elif event.type == pygame.QUIT:
                 self.home_status = 2
 
+    def handleNewGame(self):
+        # Handles its shit
+        pass
+
+    def handleResume(self):
+        # Handles its shit
+        pass
+
+    def handleHowToPlay(self):
+        # Handles its shit
+        pass
+
+    def handleOptions(self):
+        # Handles its shit
+        pass
+
+    def handleQuit(self):
+        # Handles its shit
+        pass
+
+
     def menu_pause(self):
-        
+
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_0:
