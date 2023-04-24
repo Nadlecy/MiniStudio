@@ -26,7 +26,7 @@ class Menu:
         msg_mid_width = self.logo.get_width()/2
         msg_mid_height = self.logo.get_height()/2
         self.surf.blit(self.msg, (self.width/2-msg_mid_width, self.height-msg_mid_height))
-        self.fadingText.fade(dt)
+        self.fadingText.fade(dt, 255, 0)
         pygame.display.update()
 
         for event in pygame.event.get():
@@ -49,5 +49,9 @@ class Menu:
             elif event.type == pygame.QUIT:
                 self.home_status = 2
 
-    def menu_ingame(self):
-        pass
+    def menu_pause(self):
+        
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_0:
+                    pass

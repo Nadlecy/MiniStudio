@@ -121,6 +121,9 @@ while running:
                 enemiesOnScreen.append(Enemy(screen).spawn())
             elif event.key == pygame.K_2:
                 enemiesOnScreen.append(Enemy(screen, "enemy_anim3", enemyType = 1).spawn())
+            elif event.key == pygame.K_ESCAPE:
+                print("Caca")
+                menu.menu_pause()
             elif event.key == pygame.K_3:
                 enemiesOnScreen.append(Enemy(screen, "enemy_anim2", enemyType = 2).spawn())
 
@@ -133,7 +136,7 @@ while running:
     # draw scrolling background
     for i in range(0, tiles):
         screen.blit(bg,(i*bg_width+ scroll,0))
-    scroll -= 5
+    scroll -= screen.get_width()/240
     #scroll reset
     if abs(scroll) > bg_width:
         scroll = 0
@@ -264,9 +267,9 @@ while running:
             print(len(thisPlayer.powerUps))
                     
     #map management
-    if currentSections[0].pixelsAdvanced == screen.get_width() * 2:
+    if currentSections[0].pixelsAdvanced >= screen.get_width() * 2 and len(currentSections) == 2:
         del currentSections[0]
-    if currentSections[0].pixelsAdvanced == screen.get_width():
+    if currentSections[0].pixelsAdvanced >= screen.get_width() and len(currentSections) == 1:
         currentSections.append(currentSections[0].nextSection)
     for i in currentSections:
         i.loadGrid()
