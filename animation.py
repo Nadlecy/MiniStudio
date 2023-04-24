@@ -23,7 +23,6 @@ def animate_loop(classname, rescale_size):
     classname.currentSurface.blit(pygame.transform.scale (classname.idle_frames[classname.current_frame],rescale_size) , classname.position)
 
 
-
 #prototype qui marche pas lol
 def animate_one(classname, rescale_size):
     while classname.current_frame != len(classname.idle_frames) :

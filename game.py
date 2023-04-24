@@ -5,6 +5,7 @@ from player import Player,PlayerBullet
 from enemies import Enemy
 from menu import Menu
 import buttons
+from map import GridObjects, MapSection
 
 
 # Creating a gameState class for game info
@@ -63,6 +64,13 @@ dt = 0
 
 #preparing enemy storage list
 enemiesOnScreen = []
+
+#testing map and objects
+box = GridObjects("image/testbox.png")
+testmap1 = MapSection(None,gridItems=[[box, 1, 2]])
+testmap2 = MapSection(testmap1,gridItems=[[box, 1, 2],[box, 4, 2]])
+testmap1.nextSection = testmap2
+currentSections = [testmap1]
 
 while running:
 
@@ -139,23 +147,26 @@ while running:
                 for a in range (len(thisPlayer.shotsList)):
                     collision = PlayerBullet.isCollision(thisPlayer.shotsList[a],enemiesOnScreen[i].position,80)
                     if collision :
-                        thisPlayer.shotsList[a].position.y = 730
+                        thisPlayer.shotsList[a].position.x = pygame.display.get_surface().get_width() + 1
                         enemiesOnScreen[i].hp -= 1
                         print(enemiesOnScreen[i].hp)
 
-
+    # checking if an enemy has to be removed
     if enemiesOnScreen:
         DelEnemies = []
         for i in range(len(enemiesOnScreen)-1,-1,-1):
             if (enemiesOnScreen[i].die()==True):
-                print(enemiesOnScreen[i].die())
                 DelEnemies.append(i)
-                print("a")
                 if DelEnemies:
                     del enemiesOnScreen[i]
-                    print("supprimer")
                     
-
+    #map management
+    if currentSections[0].pixelsAdvanced == screen.get_width() * 2:
+        del currentSections[0]
+    if currentSections[0].pixelsAdvanced == screen.get_width():
+        currentSections.append(currentSections[0].nextSection)
+    for i in currentSections:
+        i.loadGrid()
 
     #BUTTONS
 
