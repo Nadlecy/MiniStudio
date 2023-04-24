@@ -40,7 +40,7 @@ next_btn = buttons.Button(1200, 30, next_btn_img, 2)
 last_btn = buttons.Button(1140, 30, last_btn_img, 2)
 
 #Load Music
-music_volume = 0.3
+music_volume = 0.1
 music_volume_display = 3
 pygame.mixer.music.load("music/birds_attacks_intro.ogg")
 pygame.mixer.music.play()
@@ -54,7 +54,7 @@ thisPlayer=Player(currentSurface=screen, currentVisuals= "player_anim" + str(ski
 volumeFont = pygame.font.SysFont("Times New Roman", 18, True)
 
 #preparing the scrolling screen
-bg = pygame.transform.scale(pygame.image.load("image/background2.png"),(3000,screen.get_height()))
+bg = pygame.transform.scale(pygame.image.load("image/background2.png"),(screen.get_height() * 4, screen.get_height()))
 bg_width = bg.get_width()
 scroll = 0
 tiles = math.ceil(screen.get_width() / bg_width) +1
@@ -79,6 +79,7 @@ while running:
     # limits FPS to 60
     # dt is delta time in seconds since last frame, used for framerate-independent physics.
     dt = clock.tick(60) / 1000
+
     if menu:
         if menu_splash_ongoing:
             menu.splash_screen(dt)
@@ -135,6 +136,7 @@ while running:
     if abs(scroll) > bg_width:
         scroll = 0
     
+    # enemies act
     for i in enemiesOnScreen:
         i.ai()
 
@@ -166,13 +168,13 @@ while running:
                     del enemiesOnScreen[i].shotsList[a]
     
     keys = pygame.key.get_pressed()
-    if (keys[pygame.K_z] or keys[pygame.K_UP]) and thisPlayer.position.y > 0:
+    if (keys[pygame.K_z] or keys[pygame.K_UP]) and thisPlayer.position.y > screen.get_height()/9:
         thisPlayer.position.y -= 400 * dt
-    if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and thisPlayer.position.y < screen.get_height() - 80:
+    if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and thisPlayer.position.y < screen.get_height() - (screen.get_height()/9)*2:
         thisPlayer.position.y += 400 * dt
     if (keys[pygame.K_q] or keys[pygame.K_LEFT]) and thisPlayer.position.x > 0:
         thisPlayer.position.x -= 400 * dt
-    if (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and thisPlayer.position.x < screen.get_width() - 80:
+    if (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and thisPlayer.position.x < screen.get_width() - (screen.get_width()/16):
         thisPlayer.position.x += 400 * dt
     if keys[pygame.K_SPACE]:
         thisPlayer.shoot()
@@ -256,13 +258,13 @@ while running:
 
         #VOLUME
 
-        #+
+        #UP
     if plus_btn.draw(screen):
         if music_volume<0.9:
             music_volume = music_volume + 0.1
             music_volume_display += 1
         print(music_volume)
-        #-
+        #DOWN
     if minus_btn.draw(screen):
         if music_volume>0.1:
             music_volume = music_volume - 0.1
@@ -271,8 +273,7 @@ while running:
     
     volumeLabel = volumeFont.render("Music = " + str(music_volume_display), False, (0,0,0))
     
-        #SKINS
-
+    #SKINS
     if next_btn.draw(screen):
         if skin < 6:
             skin+=1

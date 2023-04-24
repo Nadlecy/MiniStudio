@@ -34,7 +34,7 @@ class Player ():
 
 
     def playerAnimate(self):
-        animate_loop(self, rescale_size = (80,160))
+        animate_loop(self, rescale_size = (self.currentSurface.get_width()/16, (self.currentSurface.get_height()/9)*2))
 
     def laserColision(self,Object:pygame.Vector2,size):
         pass
@@ -62,7 +62,7 @@ class PlayerBullet ():
         self.dmg = dmg
         self.spd = spd
         self.position = position
-        self.bullet_sprite = pygame.transform.scale(pygame.image.load('image/player_laser.png'),(80,80))
+        self.bullet_sprite = pygame.transform.scale(pygame.image.load('image/player_laser.png'),(self.currentSurface.get_width()/16, self.currentSurface.get_height()/9))
 
 
     #making the visible bullets move every frame

@@ -24,4 +24,4 @@ class MapSection():
         display_height = display.get_height()
         for objectData in self.gridItems :
             display.blit((pygame.transform.scale(objectData[0].image, (objectData[0].sizeOnGrid[0] * display_width/16, objectData[0].sizeOnGrid[1]  * display_height/9))), (objectData[1] * display_width/16 + (display_width - self.pixelsAdvanced), objectData[2] * display_height/16))
-        self.pixelsAdvanced += 1
+        self.pixelsAdvanced += display_width/350
