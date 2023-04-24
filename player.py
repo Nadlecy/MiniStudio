@@ -69,7 +69,7 @@ class PlayerBullet ():
     def move(self, dt):
         if self.currentSurface.get_width() + 40 > self.position.x:
             self.currentSurface.blit(self.bullet_sprite, self.position)
-            self.position.x += 300 * dt * self.spd
+            self.position.x += self.currentSurface.get_width()/4 * dt * self.spd
             return True
         else:
             return False
