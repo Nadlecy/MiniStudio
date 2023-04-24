@@ -43,7 +43,7 @@ class Enemy():
     
     def shoot (self):
         if self.currentShotCoolDown < 1:
-            self.shotsList.append(EnemyBullet(self.currentSurface, self.damage, self.shotSpeed, pygame.Vector2(self.position.x-80,self.position.y+10)))
+            self.shotsList.append(EnemyBullet(self.currentSurface, self.damage, self.shotSpeed, pygame.Vector2(self.position.x-self.currentSurface.get_width()/16, self.position.y+self.currentSurface.get_height()/72)))
             self.currentShotCoolDown = 0 + self.shotCooldown
 
     #everything that happens every frame while the enemy exists
@@ -53,19 +53,18 @@ class Enemy():
             case 0:
                 self.position.x -= 2
                 self.shoot()
-                animate_loop(self, rescale_size = (80,80))
+                animate_loop(self, rescale_size = (self.currentSurface.get_width()/16, self.currentSurface.get_height()/9))
             case 1:
+                self.position.x -= self.currentSurface.get_width()*(2/720)
                 if self.isGoingUp:
-                    self.position.x -= 2
                     self.position.y -= 1 + self.position.y/96
-                    if self.position.y < (self.currentSurface.get_height() / 6) - 80:
+                    if self.position.y < (self.currentSurface.get_height() / 6) - self.currentSurface.get_height()/9:
                         self.isGoingUp = False
                 else:
-                    self.position.x -= 2
                     self.position.y += 1 + (self.currentSurface.get_height() - self.position.y)/96
                     if self.position.y > (self.currentSurface.get_height() - (self.currentSurface.get_height() / 6)):
                         self.isGoingUp = True
-                animate_loop(self, rescale_size = (80,80))
+                animate_loop(self, rescale_size = (self.currentSurface.get_width()/16, self.currentSurface.get_height()/9))
 
 
 
@@ -79,7 +78,7 @@ class EnemyBullet ():
         self.dmg = dmg
         self.spd = spd
         self.position = position
-        self.bullet_sprite = pygame.transform.scale(pygame.image.load('image/enemy_laser.png'),(80,80))
+        self.bullet_sprite = pygame.transform.scale(pygame.image.load('image/enemy_laser.png'),(self.currentSurface.get_width()/16, self.currentSurface.get_height()/9))
 
     #making the visible bullets move every frame
     def move(self, dt):
