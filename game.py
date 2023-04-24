@@ -27,22 +27,24 @@ menu = Menu()
 #load button images
 plus_btn_img = pygame.image.load('image/plus_btn.png')
 minus_btn_img = pygame.image.load('image/minus_btn.png')
-menu_background = pygame.transform.scale(pygame.image.load('image/menu_bg_space.png'),(screen.get_width(),screen.get_height()))
+next_btn_img = pygame.image.load('image/next_btn.png')
+last_btn_img = pygame.image.load('image/last_btn.png')
 
 #create button instances
 plus_btn = buttons.Button(90, 30, plus_btn_img, 2)
 minus_btn = buttons.Button(30, 30, minus_btn_img, 2)
-
-
+next_btn = buttons.Button(1200, 30, next_btn_img, 2)
+last_btn = buttons.Button(1140, 30, last_btn_img, 2)
 
 #Load Music
-music_volume = 0.5
-music_volume_display = 5
+music_volume = 0.3
+music_volume_display = 3
 pygame.mixer.music.load("music/birds_attacks_intro.ogg")
 pygame.mixer.music.play()
 
 #creating the player character
-thisPlayer=Player(currentSurface=screen, currentVisuals= "player_anim1", position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
+skin = 1
+thisPlayer=Player(currentSurface=screen, currentVisuals= "player_anim" + str(skin), position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
 
 
 #Text through GUI
@@ -126,9 +128,10 @@ while running:
         
         
     # testing enemy creation
-    if keys[pygame.K_a]:
-        print("a pressed")
+    if keys[pygame.K_1]:
         enemiesOnScreen.append(Enemy(screen).spawn())
+    if keys[pygame.K_2]:
+        enemiesOnScreen.append(Enemy(screen, "enemy_anim3", enemyType = 1).spawn())
 
      #Collision    
     for i in range (len(enemiesOnScreen)):
@@ -151,6 +154,7 @@ while running:
                 if DelEnemies:
                     del enemiesOnScreen[i]
                     print("supprimer")
+                    
 
 
     #BUTTONS
@@ -172,6 +176,20 @@ while running:
     
     volumeLabel = volumeFont.render("Music = " + str(music_volume_display), False, (0,0,0))
     
+        #SKINS
+
+    if next_btn.draw(screen):
+        if skin < 6:
+            skin+=1
+        else:
+            skin=1
+        thisPlayer=Player(currentSurface=screen, currentVisuals= "player_anim" + str(skin), position = pygame.Vector2(thisPlayer.position,thisPlayer.position))
+    if last_btn.draw(screen):
+        if skin > 1:
+            skin-=1
+        else:
+            skin=6
+        thisPlayer=Player(currentSurface=screen, currentVisuals= "player_anim" + str(skin), position = pygame.Vector2(thisPlayer.position,thisPlayer.position))
 
     #ANIMATION READER
     thisPlayer.playerAnimate()
