@@ -2,8 +2,10 @@
 import pygame
 import math
 from player import Player,PlayerBullet
-from enemies import Enemy
+from enemies import Enemy,EnemyBullet
 import buttons
+import time
+from powerUp import *
 
 
 # Creating a gameState class for game info
@@ -15,7 +17,7 @@ class gameState ():
 # pygame setup
 pygame.init()
 #creating a screen
-screen = pygame.display.set_mode((1280, 720))
+screen = pygame.display.set_mode((0, 0),pygame.FULLSCREEN)
 clock = pygame.time.Clock()
 
 #load button images
@@ -64,6 +66,27 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_o:
+                if thisPlayer.inventoryBoost["ASPBoost"]> 0:
+                    thisPlayer.inventoryBoost["ASPBoost"] -= 1
+                    thisPlayer.powerUps.append(ASPBoost(6,thisPlayer))
+            elif event.key == pygame.K_p:
+                if thisPlayer.inventoryBoost["Shield"]> 0:
+                    thisPlayer.inventoryBoost["Shield"] -= 1
+                    thisPlayer.powerUps.append(Shield(10,thisPlayer))
+            elif event.key == pygame.K_i:
+                if thisPlayer.inventoryBoost["Heal"]> 0:
+                    thisPlayer.inventoryBoost["Heal"] -= 1
+                    if thisPlayer.lives < 3:
+                        thisPlayer.powerUps.append(Heal(thisPlayer,1))
+                        print(thisPlayer.lives)
+            elif event.key == pygame.K_1:
+                enemiesOnScreen.append(Enemy(screen).spawn())
+            elif event.key == pygame.K_2:
+                enemiesOnScreen.append(Enemy(screen, "enemy_anim3", enemyType = 1).spawn())
+
+
 
     # music
     pygame.mixer.music.set_volume(music_volume)
@@ -86,7 +109,6 @@ while running:
     # decreases the cooldown on the player's attack
     thisPlayer.currentShotCoolDown -=1
 
-
     if thisPlayer.shotsList:
         toDelete=[]
         for i in range(len(thisPlayer.shotsList)):
@@ -96,25 +118,36 @@ while running:
         if toDelete:
             for i in toDelete:
                 del thisPlayer.shotsList[i]
+
+    for i in range(len(enemiesOnScreen)):
+        enemiesOnScreen[i].currentShotCoolDown -= 1
+        if enemiesOnScreen[i].shotsList:
+            toDelete=[]
+            for a in range(len(enemiesOnScreen[i].shotsList)):
+                keeping = enemiesOnScreen[i].shotsList[a].move(dt)   
+                if not keeping:
+                    toDelete.append(a)
+            if toDelete:
+                for a in toDelete:
+                    del enemiesOnScreen[i].shotsList[a]
     
     keys = pygame.key.get_pressed()
     if (keys[pygame.K_z] or keys[pygame.K_UP]) and thisPlayer.position.y > 0:
-        thisPlayer.position.y -= 400 * dt
+        thisPlayer.position.y -= thisPlayer.speed * dt
     if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and thisPlayer.position.y < screen.get_height() - 80:
-        thisPlayer.position.y += 400 * dt
+        thisPlayer.position.y += thisPlayer.speed * dt
     if (keys[pygame.K_q] or keys[pygame.K_LEFT]) and thisPlayer.position.x > 0:
-        thisPlayer.position.x -= 400 * dt
+        thisPlayer.position.x -= thisPlayer.speed * dt
     if (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and thisPlayer.position.x < screen.get_width() - 80:
-        thisPlayer.position.x += 400 * dt
+        thisPlayer.position.x += thisPlayer.speed * dt
     if keys[pygame.K_SPACE]:
         thisPlayer.shoot()
+    if keys[pygame.K_ESCAPE]:
+        pygame.quit()
         
         
     # testing enemy creation
-    if keys[pygame.K_1]:
-        enemiesOnScreen.append(Enemy(screen).spawn())
-    if keys[pygame.K_2]:
-        enemiesOnScreen.append(Enemy(screen, "enemy_anim3", enemyType = 1).spawn())
+        
 
      #Collision    
     for i in range (len(enemiesOnScreen)):
@@ -122,23 +155,56 @@ while running:
                 for a in range (len(thisPlayer.shotsList)):
                     collision = PlayerBullet.isCollision(thisPlayer.shotsList[a],enemiesOnScreen[i].position,80)
                     if collision :
-                        thisPlayer.shotsList[a].position.y = 730
+                        thisPlayer.shotsList[a].position.y = screen.get_height()+40
                         enemiesOnScreen[i].hp -= 1
-                        print(enemiesOnScreen[i].hp)
+    for i in range (len(enemiesOnScreen)):
+            if enemiesOnScreen[i].shotsList:
+                for a in range (len(enemiesOnScreen[i].shotsList)):
+                    collision = EnemyBullet.isCollision(enemiesOnScreen[i].shotsList[a],thisPlayer.position,80)
+                    elapsed = time.time() - thisPlayer.lastHitTime
+                    if collision and elapsed >1.5 and thisPlayer.shield == False:
+                        enemiesOnScreen[i].shotsList[a].position.y = screen.get_height()+40
+                        thisPlayer.position.x -= 50
+                        thisPlayer.lastHitTime = time.time()
+                        thisPlayer.lives -= 1
+                        print(thisPlayer.lives)
+                        break
+                    elif collision and elapsed > 1.5 and thisPlayer.shield:
+                        enemiesOnScreen[i].shotsList[a].position.y = screen.get_height()+40
+                        thisPlayer.shield = False
+                        thisPlayer.position.x -= 50
+                        thisPlayer.lastHitTime = time.time()
+                        print("hp : ", thisPlayer.lives)
+                        print(thisPlayer.shield)
+                        break
 
+
+    for i in range(len(enemiesOnScreen)):
+        if thisPlayer:
+            col = thisPlayer.Collision(enemiesOnScreen[i].position,80)
+            elapsed = time.time() - thisPlayer.lastHitTime
+            if col and elapsed > 1.5 and thisPlayer.shield == False:
+                thisPlayer.lives -= 1
+                thisPlayer.position.x -= 50
+                thisPlayer.lastHitTime = time.time()
+                print("hp : ", thisPlayer.lives)
+                break
+            elif col and elapsed > 1.5 and thisPlayer.shield == True:
+                thisPlayer.shield = False
+                thisPlayer.position.x -= 50
+                thisPlayer.lastHitTime = time.time()
+                print("hp : ", thisPlayer.lives)
+                break
 
     if enemiesOnScreen:
         DelEnemies = []
         for i in range(len(enemiesOnScreen)-1,-1,-1):
             if (enemiesOnScreen[i].die()==True):
-                print(enemiesOnScreen[i].die())
                 DelEnemies.append(i)
-                print("a")
                 if DelEnemies:
                     del enemiesOnScreen[i]
-                    print("supprimer")
-                    
 
+    
 
     #BUTTONS
 
@@ -158,6 +224,14 @@ while running:
         print(music_volume)
     
     volumeLabel = volumeFont.render("Music = " + str(music_volume_display), False, (0,0,0))
+
+    #Power Ups
+    for i in range (len(thisPlayer.powerUps)-1,-1,-1):
+        power = thisPlayer.powerUps[i]
+        power.effect(dt)
+        if power.isOver():
+            del thisPlayer.powerUps[i]
+            print(len(thisPlayer.powerUps))
     
         #SKINS
 
