@@ -122,7 +122,6 @@ while running:
             elif event.key == pygame.K_2:
                 enemiesOnScreen.append(Enemy(screen, "enemy_anim3", enemyType = 1).spawn())
             elif event.key == pygame.K_ESCAPE:
-                print("Caca")
                 menu.menu_pause()
             elif event.key == pygame.K_3:
                 enemiesOnScreen.append(Enemy(screen, "enemy_anim2", enemyType = 2).spawn())
@@ -149,6 +148,16 @@ while running:
     # decreases the cooldown on the player's attack
     thisPlayer.currentShotCoolDown -=1
 
+    if thisPlayer.shotsList:
+        toDelete=[]
+        for i in range(len(thisPlayer.shotsList)):
+            keeping = thisPlayer.shotsList[i].move(dt)
+            if not keeping:
+                toDelete.append(i)
+        if toDelete:
+            for i in toDelete:
+                del thisPlayer.shotsList[i]
+
     for i in range(len(enemiesOnScreen)):
         enemy = enemiesOnScreen[i]
         enemy.currentShotCoolDown -= 1
@@ -164,7 +173,7 @@ while running:
                 if not keeping:
                     del enemy.shotsList[j]
         elif enemy.enemyType == 0:
-            for j in range(len(enemy.shotsList)):
+            for j in range(len(enemy.shotsList)-1,0,-1):
                 keeping = enemy.shotsList[j].move(dt)
                 if not keeping:
                     del enemy.shotsList[j]
@@ -182,8 +191,6 @@ while running:
         thisPlayer.position.x += 400 * dt
     if keys[pygame.K_SPACE]:
         thisPlayer.shoot()
-    if keys[pygame.K_ESCAPE]:
-        pygame.quit()
         
         
 
