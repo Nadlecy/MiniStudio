@@ -12,6 +12,11 @@ class Enemy():
         self.speed = speed
         self.position = position
         self.isOnScreen = isOnScreen
+        self.shotSpeed = 2
+        self.damage = 1
+        self.currentShotCoolDown = random.randint(10, 55)
+        self.shotCooldown = 70
+        self.shotsList = []
 
         if self.enemyType == 1:
             self.isGoingUp = True
@@ -35,8 +40,11 @@ class Enemy():
 
         # maybe delete that next line and do something smarter
         return self
-
-
+    
+    def shoot (self):
+        if self.currentShotCoolDown < 1:
+            self.shotsList.append(EnemyBullet(self.currentSurface, self.damage, self.shotSpeed, pygame.Vector2(self.position.x-80,self.position.y+10)))
+            self.currentShotCoolDown = 0 + self.shotCooldown
 
     #everything that happens every frame while the enemy exists
     def ai(self):
@@ -44,6 +52,7 @@ class Enemy():
             #change movement values to take in account the framerate
             case 0:
                 self.position.x -= 2
+                self.shoot()
                 animate_loop(self, rescale_size = (80,80))
             case 1:
                 if self.isGoingUp:
@@ -63,3 +72,28 @@ class Enemy():
     # removing the enemy from the screen etc
     def die(self):
         return self.hp <= 0 
+    
+class EnemyBullet ():
+    def __init__(self, currentSurface, dmg, spd, position = pygame.Vector2(0,0)):
+        self.currentSurface = currentSurface
+        self.dmg = dmg
+        self.spd = spd
+        self.position = position
+        self.bullet_sprite = pygame.transform.scale(pygame.image.load('image/enemy_laser.png'),(80,80))
+
+    #making the visible bullets move every frame
+    def move(self, dt):
+        if 40 < self.position.x:
+            self.currentSurface.blit(self.bullet_sprite, self.position)
+            self.position.x -= self.currentSurface.get_width()/6 * dt * self.spd
+            return True
+        else:
+            return False
+        
+    def isCollision (self,Object:pygame.Vector2,size):
+        vect = Object + pygame.Vector2(size/2,size/2)
+        distance = (vect-self.position).magnitude()
+        if distance < size/2:
+            return True
+        else:
+            return False
