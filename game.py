@@ -6,6 +6,7 @@ from enemies import Enemy
 from menu import Menu
 import buttons
 from map import GridObjects, MapSection
+from map import GridObjects, MapSection
 
 
 # Creating a gameState class for game info

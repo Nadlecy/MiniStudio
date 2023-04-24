@@ -31,7 +31,6 @@ class Player ():
         #     self.shotSpeed = 2
 
         # animation
-        
         animation_init(self, spritesheet_name = self.currentVisuals, animationType = "player_anim")
 
     def playerAnimate(self):
