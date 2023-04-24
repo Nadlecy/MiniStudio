@@ -3,7 +3,7 @@ import pygame
 import math
 from player import Player,PlayerBullet
 from enemies import Enemy, EnemyBullet
-from menu import Menu
+from menu import Menu, Button
 import buttons
 from powerUp import *
 from map import GridObjects, MapSection
@@ -24,7 +24,6 @@ clock = pygame.time.Clock()
 
 #menu init
 menu = Menu()
-
 
 
 #load button images
