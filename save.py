@@ -1,6 +1,7 @@
 import pygame, os, json
 from pygame import Vector2 as vector
 
+#CHANGE NAME
 class Player:
     def __init__(self):
         self.position = vector(0,0)
