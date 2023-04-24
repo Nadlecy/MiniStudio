@@ -181,8 +181,8 @@ while running:
         thisPlayer.position.x += 400 * dt
     if keys[pygame.K_SPACE]:
         thisPlayer.shoot()
-#    if keys[pygame.K_ESCAPE]:
-#        pygame.quit()
+    if keys[pygame.K_ESCAPE]:
+        pygame.quit()
         
         
 
