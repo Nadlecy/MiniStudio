@@ -3,6 +3,7 @@ import pygame
 import math
 from player import Player,PlayerBullet
 from enemies import Enemy
+from menu import Menu
 import buttons
 
 
@@ -18,13 +19,20 @@ pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 
+#menu init
+menu = Menu()
+
+
+
 #load button images
 plus_btn_img = pygame.image.load('image/plus_btn.png')
 minus_btn_img = pygame.image.load('image/minus_btn.png')
+menu_background = pygame.transform.scale(pygame.image.load('image/menu_bg_space.png'),(screen.get_width(),screen.get_height()))
 
 #create button instances
 plus_btn = buttons.Button(90, 30, plus_btn_img, 2)
 minus_btn = buttons.Button(30, 30, minus_btn_img, 2)
+
 
 
 #Load Music
@@ -48,12 +56,23 @@ tiles = math.ceil(screen.get_width() / bg_width) +1
 
 #launching the game
 running = True
+menu_ongoing = True
 dt = 0
 
 #preparing enemy storage list
 enemiesOnScreen = []
 
 while running:
+
+    if menu_ongoing:
+        menu.splash_screen()
+        if menu.status == 1:
+            menu_ongoing = False
+            menu.menu_screen()
+        elif menu.status == 2:
+            running = False
+        continue
+        
 
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
