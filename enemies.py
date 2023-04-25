@@ -36,7 +36,7 @@ class Enemy():
     # generating the enemy and starting its script
     def spawn(self):
         if self.position == pygame.Vector2(0,0):
-            self.position = pygame.Vector2(self.currentSurface.get_width() , random.randint ( (self.currentSurface.get_height()/9)*2 , (self.currentSurface.get_height()/9)*8 ))
+            self.position = pygame.Vector2(self.currentSurface.get_width() , random.randint ( (self.currentSurface.get_height()/9) , (self.currentSurface.get_height()/9)*7 ))
 
         # maybe delete that next line and do something smarter
         return self
@@ -100,7 +100,7 @@ class EnemyBullet ():
             enemy.shotsList.append(EnemyBullet(self.currentSurface, self.dmg, self.spd,1,True,pygame.Vector2(self.position.x-self.currentSurface.get_width()/16, self.position.y+self.currentSurface.get_height()/72)))
             enemy.shotsList.append(EnemyBullet(self.currentSurface, self.dmg, self.spd,0,True,pygame.Vector2(self.position.x-self.currentSurface.get_width()/16, self.position.y+self.currentSurface.get_height()/72)))
         elif 40 < self.position.x :
-            self.currentSurface.blit(pygame.transform.scale(pygame.image.load('image/oeuf_small.png'),(self.currentSurface.get_width()/32, self.currentSurface.get_height()/16)), self.position)
+            self.currentSurface.blit(pygame.transform.scale(pygame.image.load('image/egg.png'),(self.currentSurface.get_width()/32, self.currentSurface.get_height()/16)), self.position)
             self.position.x -= self.currentSurface.get_width()/5 * dt * self.spd
             return True
         else:
@@ -108,11 +108,11 @@ class EnemyBullet ():
         
     def move_test(self, dt):
         if 40 < self.position.x and self.broken and self.rotation == 1:
-            self.currentSurface.blit(pygame.transform.scale(pygame.image.load('image/oeuf_small.png'),(self.currentSurface.get_width()/32, self.currentSurface.get_height()/16)), self.position)
+            self.currentSurface.blit(pygame.transform.scale(pygame.image.load('image/egg.png'),(self.currentSurface.get_width()/32, self.currentSurface.get_height()/16)), self.position)
             self.position.y -= self.currentSurface.get_height()/5 * dt
             return True
         elif 40 < self.position.x and self.broken and self.rotation == 0:
-            self.currentSurface.blit(pygame.transform.scale(pygame.image.load('image/oeuf_small.png'),(self.currentSurface.get_width()/32, self.currentSurface.get_height()/16)), self.position)
+            self.currentSurface.blit(pygame.transform.scale(pygame.image.load('image/egg.png'),(self.currentSurface.get_width()/32, self.currentSurface.get_height()/16)), self.position)
             self.position.y += self.currentSurface.get_height()/5 * dt
             return True
         else :

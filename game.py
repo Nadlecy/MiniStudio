@@ -178,7 +178,7 @@ while running:
                     del enemy.shotsList[j]
 
         
-    
+    #MOVEMENT
     keys = pygame.key.get_pressed()
     if (keys[pygame.K_z] or keys[pygame.K_UP]) and thisPlayer.position.y > screen.get_height()/9:
         thisPlayer.position.y -= 400 * dt
@@ -192,9 +192,7 @@ while running:
         thisPlayer.shoot()
         
         
-
-
-     #Collision    
+    #Collision    
     for i in range (len(enemiesOnScreen)):
             if thisPlayer.shotsList:
                 for a in range (len(thisPlayer.shotsList)):
@@ -209,7 +207,7 @@ while running:
                     elapsed = time.time() - thisPlayer.lastHitTime
                     if collision and elapsed >1.5 and thisPlayer.shield == False:
                         enemiesOnScreen[i].shotsList[a].position.y = screen.get_height()+40
-                        thisPlayer.position.x -= 50
+                        thisPlayer.position.x -= screen.get_width()/400
                         thisPlayer.lastHitTime = time.time()
                         thisPlayer.lives -= 1
                         print(thisPlayer.lives)
@@ -217,7 +215,7 @@ while running:
                     elif collision and elapsed > 1.5 and thisPlayer.shield:
                         enemiesOnScreen[i].shotsList[a].position.y = screen.get_height()+40
                         thisPlayer.shield = False
-                        thisPlayer.position.x -= 50
+                        thisPlayer.position.x -= screen.get_width()/400
                         thisPlayer.lastHitTime = time.time()
                         print("hp : ", thisPlayer.lives)
                         print(thisPlayer.shield)
@@ -274,9 +272,12 @@ while running:
                     
     #map management
     if currentSections[0].pixelsAdvanced >= screen.get_width() * 2 and len(currentSections) == 2:
+        currentSections[0].pixelsAdvanced = 0
         del currentSections[0]
+        print(currentSections)
     if currentSections[0].pixelsAdvanced >= screen.get_width() and len(currentSections) == 1:
         currentSections.append(currentSections[0].nextSection)
+        print(currentSections)
     for i in currentSections:
         i.loadGrid()
 
