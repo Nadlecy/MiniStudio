@@ -8,7 +8,6 @@ import buttons
 from powerUp import *
 from map import Level1
 
-
 # pygame setup
 pygame.init()
 #creating a screen
@@ -59,6 +58,8 @@ dt = 0
 
 #preparing enemy storage list
 enemiesOnScreen = []
+
+
 
 while running:
     # limits FPS to 60
@@ -112,8 +113,6 @@ while running:
                 enemiesOnScreen.append(Enemy(screen, "enemy_anim2", enemyType = 2).spawn())
 
     
-    #map management
-    Level1.mapProceed(thisPlayer)
 
     # draw scrolling background
     for i in range(0, tiles):
@@ -122,6 +121,8 @@ while running:
     #scroll reset
     if abs(scroll) > bg_width:
         scroll = 0
+    #map management
+    Level1.mapProceed(thisPlayer)
 
 
     # music

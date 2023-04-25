@@ -39,7 +39,7 @@ class Map():
             del self.currentSections[0]
             print(self.currentSections[0].bayNumber)
         if self.currentSections[0].pixelsAdvanced >= pygame.display.get_surface().get_width() and len(self.currentSections) == 1:
-            if self.currentSections[0].secondarySection != None and (player.position.y < (pygame.display.get_surface().get_height() / 2)):
+            if self.currentSections[0].secondarySection != None and (player.position.y < (pygame.display.get_surface().get_height() / 2 + pygame.display.get_surface().get_height()/18)):
                 self.currentSections.append(self.currentSections[0].secondarySection)
                 print("up'd")
             else:
@@ -50,10 +50,12 @@ class Map():
 
 # Level design
 box = GridObjects("image/testbox.png")
+bay1 = GridObjects("image/bay1.png", [4, 1])
+bay2 = GridObjects("image/bay2.png", [4, 1])
 secondcircle2= MapSection(2, None,gridItems=[[box, 2, 1],[box, 3, 1],[box, 4, 1]])
 secondcircle1= MapSection(2, secondcircle2,gridItems=[[box, 6, 1]])
 testmap1 = MapSection(1, None,gridItems=[[box, 1, 2]])
-intersection1 = MapSection(1, testmap1, secondarySection= secondcircle1,gridItems=[[box, 2, 2],[box, 2, 3],[box, 2, 4]])
+intersection1 = MapSection(1, testmap1, secondarySection= secondcircle1,gridItems=[[box, 2, 2],[bay1, 2, 6],[bay2, 2, 2]])
 testmap2 = MapSection(1, intersection1,gridItems=[[box, 1, 2],[box, 4, 2]])
 testmap1.nextSection = testmap2
 secondcircle2.nextSection = intersection1
