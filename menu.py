@@ -34,17 +34,19 @@ class Menu:
         self.splash = pygame.transform.scale(pygame.image.load('image/menu_bg_space.png'), (self.width,self.height))
         self.logo = pygame.transform.scale(pygame.image.load('image/menu_logo.png'), (self.width/2.5, self.height/2.5))
         self.msg =  pygame.transform.scale(pygame.image.load('image/press_start.png'), (self.width/2.5, self.height/20))
+        self.fadingText = FadingSurf(self.msg, 0.5)
+
         self.newGameButton = Button((640, 128),(325,650),'image/new_game_min.png')
         self.newGameButton.bind(self.handleNewGame)
-        self.resumeButton = Button((640, 128),(325,800),'image/resume_min.png')
+        self.resumeButton = Button((640, 128),(965,650),'image/resume_min.png')
         self.resumeButton.bind(self.handleResume)
-        self.howToPlayButton = Button((640, 128),(965,650),'image/how_to_min.png')
-        self.howToPlayButton.bind(self.handleNewGame)
+        self.howToPlayButton = Button((640, 128),(325,800),'image/how_to_min.png')
+        self.howToPlayButton.bind(self.handleHowToPlay)
         self.optionsButton = Button((640, 128),(965,800),'image/options_min.png')
-        self.optionsButton.bind(self.handleResume)
+        self.optionsButton.bind(self.handleOptions)
         self.quitButton = Button((192, 96),(15,979),'image/quit.png')
-        self.quitButton.bind(self.handleNewGame)
-        self.fadingText = FadingSurf(self.msg, 0.5)
+        self.quitButton.bind(self.handleQuit)
+
         # 0:no update,  1:continue, 2:quit 
         self.splash_status = 0
         self.home_status = 0
@@ -58,6 +60,7 @@ class Menu:
         msg_mid_height = self.logo.get_height()/2
         self.surf.blit(self.msg, (self.width/2-msg_mid_width, self.height-msg_mid_height))
         self.fadingText.fade(dt, 255, 0)
+
         pygame.display.update()
 
         for event in pygame.event.get():
@@ -71,11 +74,13 @@ class Menu:
         logo_mid_width = self.logo.get_width()/2
         logo_mid_height = self.logo.get_height()/2
         self.surf.blit(self.logo, (self.width/2-logo_mid_width, self.height/3.5-logo_mid_height))
+
         self.newGameButton.draw()
         self.resumeButton.draw()
         self.howToPlayButton.draw()
         self.optionsButton.draw()
         self.quitButton.draw()
+
         pygame.display.update()
 
         for event in pygame.event.get():
@@ -86,29 +91,29 @@ class Menu:
                 self.home_status = 2
 
     def handleNewGame(self):
+        print("new game")
         # Handles its shit
         pass
 
     def handleResume(self):
+        print("Resuming")
         # Handles its shit
         pass
 
     def handleHowToPlay(self):
+        print("How to play ?")
         # Handles its shit
         pass
 
     def handleOptions(self):
-        # Handles its shit
-        pass
+        self.surf.blit(self.splash, (0, 0))
 
     def handleQuit(self):
-        # Handles its shit
-        pass
-
+        pygame.quit()
 
     def menu_pause(self):
-
+        pass
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_0:
+                if event.key == pygame.K_ESCAPE:
                     pass

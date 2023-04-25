@@ -6,7 +6,35 @@ from enemies import Enemy, EnemyBullet
 from menu import Menu, Button
 import buttons
 from powerUp import *
-from map import Level1
+from map import GridObjects, MapSection
+
+
+# Creating a gameState class for game info
+class gameState ():
+    def __init__(self, Map, currentScrollDirection = "Right"):
+        self.Map = Map
+        self.currentScrollDirection = currentScrollDirection
+
+class TriggerFunction () :
+    def __init__(self,TimeTrigger,function,param):
+        self.function = function
+        self.TimeTrigger = TimeTrigger
+        self.clock = 0
+        self.param = param
+
+    def UpdateClock(self,Dt) :
+        self.clock += Dt
+
+    def TriggerCheck (self,Dt) :
+        self.UpdateClock(Dt)
+        if self.TimeTrigger < self.clock:
+            self.function(self.param)
+            self.clock = 0
+    
+
+def spawn_ennemi_1 (enemiesOnScreen):
+    enemiesOnScreen.append(Enemy(screen).spawn())
+
 
 # pygame setup
 pygame.init()
@@ -58,13 +86,21 @@ dt = 0
 
 #preparing enemy storage list
 enemiesOnScreen = []
+fonction_spawn = TriggerFunction(2,spawn_ennemi_1,enemiesOnScreen)
 
-
+#testing map and objects
+box = GridObjects("image/testbox.png")
+testmap1 = MapSection(None,gridItems=[[box, 1, 2]])
+testmap2 = MapSection(testmap1,gridItems=[[box, 1, 2],[box, 4, 2]])
+testmap1.nextSection = testmap2
+currentSections = [testmap1]
 
 while running:
     # limits FPS to 60
     # dt is delta time in seconds since last frame, used for framerate-independent physics.
     dt = clock.tick(60) / 1000
+
+    fonction_spawn.TriggerCheck(dt)
 
     if menu:
         if menu_splash_ongoing:
@@ -112,7 +148,11 @@ while running:
             elif event.key == pygame.K_3:
                 enemiesOnScreen.append(Enemy(screen, "enemy_anim2", enemyType = 2).spawn())
 
-    
+    # music
+    pygame.mixer.music.set_volume(music_volume)
+    if (pygame.mixer.music.get_busy() == False):
+        pygame.mixer.music.load("music/birds_attacks.ogg")
+        pygame.mixer.music.play(-1)
 
     # draw scrolling background
     for i in range(0, tiles):
@@ -121,16 +161,6 @@ while running:
     #scroll reset
     if abs(scroll) > bg_width:
         scroll = 0
-    #map management
-    Level1.mapProceed(thisPlayer)
-
-
-    # music
-    pygame.mixer.music.set_volume(music_volume)
-    if (pygame.mixer.music.get_busy() == False):
-        pygame.mixer.music.load("music/birds_attacks.ogg")
-        pygame.mixer.music.play(-1)
-
     
     # enemies act
     for i in enemiesOnScreen:
@@ -262,6 +292,17 @@ while running:
         if power.isOver():
             del thisPlayer.powerUps[i]
             print(len(thisPlayer.powerUps))
+                    
+    #map management
+    if currentSections[0].pixelsAdvanced >= screen.get_width() * 2 and len(currentSections) == 2:
+        currentSections[0].pixelsAdvanced = 0
+        del currentSections[0]
+        print(currentSections)
+    if currentSections[0].pixelsAdvanced >= screen.get_width() and len(currentSections) == 1:
+        currentSections.append(currentSections[0].nextSection)
+        print(currentSections)
+    for i in currentSections:
+        i.loadGrid()
 
     #BUTTONS
 
