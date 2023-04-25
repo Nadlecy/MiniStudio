@@ -18,11 +18,7 @@ class Enemy():
         self.shotCooldown = 70
         self.shotsList = []
 
-        if self.enemyType == 1:
-            self.isGoingUp = True
-
         # animation
-        
         animation_init(self, spritesheet_name = self.currentVisuals, animationType = "enemy")
         
     
@@ -68,9 +64,7 @@ class Enemy():
                 self.shoot_bis()
                 animate_loop(self,rescale_size=(self.currentSurface.get_width()/16,self.currentSurface.get_height()/9))
 
-
-
-    # removing the enemy from the screen etc
+    # checks if the enemy has 0 or less health points
     def die(self):
         return self.hp <= 0 
     

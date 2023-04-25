@@ -6,8 +6,7 @@ from enemies import Enemy, EnemyBullet
 from menu import Menu, Button
 import buttons
 from powerUp import *
-from map import GridObjects, MapSection
-from map import GridObjects, MapSection
+from map import GridObjects, MapSection, Map
 
 
 # Creating a gameState class for game info
@@ -67,12 +66,16 @@ dt = 0
 #preparing enemy storage list
 enemiesOnScreen = []
 
-#testing map and objects
+#map and objects
 box = GridObjects("image/testbox.png")
-testmap1 = MapSection(None,gridItems=[[box, 1, 2]])
-testmap2 = MapSection(testmap1,gridItems=[[box, 1, 2],[box, 4, 2]])
+secondcircle2= MapSection(2, None,gridItems=[[box, 2, 1],[box, 3, 1],[box, 4, 1]])
+secondcircle1= MapSection(2, secondcircle2,gridItems=[[box, 6, 1]])
+testmap1 = MapSection(1, None,gridItems=[[box, 1, 2]])
+intersection1 = MapSection(1, testmap1, secondarySection= secondcircle1,gridItems=[[box, 2, 2],[box, 2, 3],[box, 2, 4]])
+testmap2 = MapSection(1, intersection1,gridItems=[[box, 1, 2],[box, 4, 2]])
 testmap1.nextSection = testmap2
-currentSections = [testmap1]
+secondcircle2.nextSection = intersection1
+Level = Map([testmap1])
 
 while running:
     # limits FPS to 60
@@ -271,15 +274,7 @@ while running:
             print(len(thisPlayer.powerUps))
                     
     #map management
-    if currentSections[0].pixelsAdvanced >= screen.get_width() * 2 and len(currentSections) == 2:
-        currentSections[0].pixelsAdvanced = 0
-        del currentSections[0]
-        print(currentSections)
-    if currentSections[0].pixelsAdvanced >= screen.get_width() and len(currentSections) == 1:
-        currentSections.append(currentSections[0].nextSection)
-        print(currentSections)
-    for i in currentSections:
-        i.loadGrid()
+    Level.mapProceed(thisPlayer)
 
     #BUTTONS
 
