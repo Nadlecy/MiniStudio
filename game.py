@@ -6,14 +6,8 @@ from enemies import Enemy, EnemyBullet
 from menu import Menu, Button
 import buttons
 from powerUp import *
-from map import GridObjects, MapSection, Map
+from map import Level1
 
-
-# Creating a gameState class for game info
-class gameState ():
-    def __init__(self, Map, currentScrollDirection = "Right"):
-        self.Map = Map
-        self.currentScrollDirection = currentScrollDirection
 
 # pygame setup
 pygame.init()
@@ -66,17 +60,6 @@ dt = 0
 #preparing enemy storage list
 enemiesOnScreen = []
 
-#map and objects
-box = GridObjects("image/testbox.png")
-secondcircle2= MapSection(2, None,gridItems=[[box, 2, 1],[box, 3, 1],[box, 4, 1]])
-secondcircle1= MapSection(2, secondcircle2,gridItems=[[box, 6, 1]])
-testmap1 = MapSection(1, None,gridItems=[[box, 1, 2]])
-intersection1 = MapSection(1, testmap1, secondarySection= secondcircle1,gridItems=[[box, 2, 2],[box, 2, 3],[box, 2, 4]])
-testmap2 = MapSection(1, intersection1,gridItems=[[box, 1, 2],[box, 4, 2]])
-testmap1.nextSection = testmap2
-secondcircle2.nextSection = intersection1
-Level = Map([testmap1])
-
 while running:
     # limits FPS to 60
     # dt is delta time in seconds since last frame, used for framerate-independent physics.
@@ -128,11 +111,9 @@ while running:
             elif event.key == pygame.K_3:
                 enemiesOnScreen.append(Enemy(screen, "enemy_anim2", enemyType = 2).spawn())
 
-    # music
-    pygame.mixer.music.set_volume(music_volume)
-    if (pygame.mixer.music.get_busy() == False):
-        pygame.mixer.music.load("music/birds_attacks.ogg")
-        pygame.mixer.music.play(-1)
+    
+    #map management
+    Level1.mapProceed(thisPlayer)
 
     # draw scrolling background
     for i in range(0, tiles):
@@ -141,6 +122,14 @@ while running:
     #scroll reset
     if abs(scroll) > bg_width:
         scroll = 0
+
+
+    # music
+    pygame.mixer.music.set_volume(music_volume)
+    if (pygame.mixer.music.get_busy() == False):
+        pygame.mixer.music.load("music/birds_attacks.ogg")
+        pygame.mixer.music.play(-1)
+
     
     # enemies act
     for i in enemiesOnScreen:
@@ -272,9 +261,6 @@ while running:
         if power.isOver():
             del thisPlayer.powerUps[i]
             print(len(thisPlayer.powerUps))
-                    
-    #map management
-    Level.mapProceed(thisPlayer)
 
     #BUTTONS
 

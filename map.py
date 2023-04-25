@@ -12,6 +12,7 @@ class GridObjects():
 #some grids have a secondary grid, that's where the player may split paths
 class MapSection():
     def __init__(self, bayNumber, nextSection, secondarySection = None, gridItems = [], pixelsAdvanced = 0):
+        #self.background = pygame.image.load()
         self.bayNumber = bayNumber
         self.nextSection = nextSection
         self.secondarySection = secondarySection
@@ -31,7 +32,7 @@ class Map():
     def __init__(self, currentSections = [], backgrounds = []):
         self.currentSections = currentSections
         self.backgrounds = backgrounds
-    
+
     def mapProceed(self, player):
         if self.currentSections[0].pixelsAdvanced >= pygame.display.get_surface().get_width() * 2 and len(self.currentSections) == 2:
             self.currentSections[0].pixelsAdvanced = 0
@@ -46,3 +47,14 @@ class Map():
                 print("forwards")
         for i in self.currentSections:
             i.loadGrid()
+
+# Level design
+box = GridObjects("image/testbox.png")
+secondcircle2= MapSection(2, None,gridItems=[[box, 2, 1],[box, 3, 1],[box, 4, 1]])
+secondcircle1= MapSection(2, secondcircle2,gridItems=[[box, 6, 1]])
+testmap1 = MapSection(1, None,gridItems=[[box, 1, 2]])
+intersection1 = MapSection(1, testmap1, secondarySection= secondcircle1,gridItems=[[box, 2, 2],[box, 2, 3],[box, 2, 4]])
+testmap2 = MapSection(1, intersection1,gridItems=[[box, 1, 2],[box, 4, 2]])
+testmap1.nextSection = testmap2
+secondcircle2.nextSection = intersection1
+Level1 = Map([testmap1])
