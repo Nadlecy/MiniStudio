@@ -4,7 +4,7 @@ from animation import animation_init, animate_loop, animate_one
 
 #making the Enemy class for everything that revolves around basic adversaries
 class Enemy():
-    def __init__(self, currentSurface, currentVisuals = "enemy_anim1", hp:int = 1, enemyType:int = 0, speed:int = 800, position:pygame.Vector2 = (0,0), isOnScreen:bool = False):
+    def __init__(self, currentSurface, hp, currentVisuals = "enemy_anim1", enemyType:int = 0, speed:int = 800, position:pygame.Vector2 = (0,0), isOnScreen:bool = False):
         self.currentSurface = currentSurface
         self.currentVisuals = currentVisuals # which spritesheet will be used to animate the player
         self.hp = hp
@@ -14,11 +14,16 @@ class Enemy():
         self.isOnScreen = isOnScreen
         self.shotSpeed = 2
         self.damage = 1
-        self.currentShotCoolDown = random.randint(10,12)
+        self.currentShotCoolDown = random.randint(3,6)
         self.shotCooldown = 70
         self.shotsList = []
+        self.up = False
+
+        if self.enemyType == 1:
+            self.isGoingUp = True
 
         # animation
+        
         animation_init(self, spritesheet_name = self.currentVisuals, animationType = "enemy")
         
     
@@ -60,11 +65,28 @@ class Enemy():
                 self.position -= dir * self.currentSurface.get_width()/3 * dt
                 animate_loop(self, rescale_size = (self.currentSurface.get_width()/16, self.currentSurface.get_height()/9))
             case 2:
-                self.position.x -= (self.speed - 600) * dt
+                self.position.x -= (self.speed - 700) * dt
                 self.shoot_bis()
                 animate_loop(self,rescale_size=(self.currentSurface.get_width()/16,self.currentSurface.get_height()/9))
+            case 3:
+                animate_loop(self,rescale_size=(self.currentSurface.get_width()/16,self.currentSurface.get_height()/9))
+                self.shoot()
+                if self.position.x > self.currentSurface.get_width()-self.currentSurface.get_width()/16:
+                    self.position.x -= (self.speed - 700) * dt
+                else:
+                    if self.position.y >= self.currentSurface.get_height()/10 and self.up == False:
+                        self.position.y -= round((self.speed - 500) * dt)
+                        if self.position.y < self.currentSurface.get_height()/9:
+                            self.up = True
+                    elif self.position.y + 80 < (self.currentSurface.get_height() - self.currentSurface.get_height()/9) and self.up == True:
+                        self.position.y += round((self.speed - 500) * dt)
+                        if self.position.y + 80 > self.currentSurface.get_height() - self.currentSurface.get_height()/9:
+                            self.up = False
 
-    # checks if the enemy has 0 or less health points
+
+
+
+    # removing the enemy from the screen etc
     def die(self):
         return self.hp <= 0 
     
@@ -95,19 +117,19 @@ class EnemyBullet ():
             enemy.shotsList.append(EnemyBullet(self.currentSurface, self.dmg, self.spd,0,True,pygame.Vector2(self.position.x-self.currentSurface.get_width()/16, self.position.y+self.currentSurface.get_height()/72)))
         elif 40 < self.position.x :
             self.currentSurface.blit(pygame.transform.scale(pygame.image.load('image/egg.png'),(self.currentSurface.get_width()/32, self.currentSurface.get_height()/16)), self.position)
-            self.position.x -= self.currentSurface.get_width()/5 * dt * self.spd
+            self.position.x -= self.currentSurface.get_width()/8 * dt * self.spd
             return True
         else:
             return False
         
     def move_test(self, dt):
         if 40 < self.position.x and self.broken and self.rotation == 1:
-            self.currentSurface.blit(pygame.transform.scale(pygame.image.load('image/egg.png'),(self.currentSurface.get_width()/32, self.currentSurface.get_height()/16)), self.position)
-            self.position.y -= self.currentSurface.get_height()/5 * dt
+            self.currentSurface.blit(pygame.transform.scale(pygame.image.load('image/egg_top.png'),(self.currentSurface.get_width()/64, self.currentSurface.get_height()/32)), self.position)
+            self.position.y -= self.currentSurface.get_height()/7 * dt
             return True
         elif 40 < self.position.x and self.broken and self.rotation == 0:
-            self.currentSurface.blit(pygame.transform.scale(pygame.image.load('image/egg.png'),(self.currentSurface.get_width()/32, self.currentSurface.get_height()/16)), self.position)
-            self.position.y += self.currentSurface.get_height()/5 * dt
+            self.currentSurface.blit(pygame.transform.scale(pygame.image.load('image/egg_bottom.png'),(self.currentSurface.get_width()/64, self.currentSurface.get_height()/32)), self.position)
+            self.position.y += self.currentSurface.get_height()/7 * dt
             return True
         else :
             return False

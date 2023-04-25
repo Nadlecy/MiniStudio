@@ -103,13 +103,15 @@ while running:
                         thisPlayer.powerUps.append(Heal(thisPlayer,1))
                         print(thisPlayer.lives)
             elif event.key == pygame.K_1:
-                enemiesOnScreen.append(Enemy(screen).spawn())
+                enemiesOnScreen.append(Enemy(screen,3).spawn())
             elif event.key == pygame.K_2:
-                enemiesOnScreen.append(Enemy(screen, "enemy_anim3", enemyType = 1).spawn())
+                enemiesOnScreen.append(Enemy(screen,1, "enemy_anim3", enemyType = 1).spawn())
             elif event.key == pygame.K_ESCAPE:
                 menu.menu_pause()
             elif event.key == pygame.K_3:
-                enemiesOnScreen.append(Enemy(screen, "enemy_anim2", enemyType = 2).spawn())
+                enemiesOnScreen.append(Enemy(screen,5, "enemy_anim2", enemyType = 2).spawn())
+            elif event.key == pygame.K_4:
+                enemiesOnScreen.append(Enemy(screen,2, "enemy_anim4", enemyType = 3).spawn())
 
     
     #map management
@@ -168,6 +170,11 @@ while running:
                 keeping = enemy.shotsList[j].move(dt)
                 if not keeping:
                     del enemy.shotsList[j]
+        elif enemy.enemyType == 3:
+            for j in range(len(enemy.shotsList)-1,0,-1):
+                keeping = enemy.shotsList[j].move(dt)
+                if not keeping:
+                    del enemy.shotsList[j]
 
         
     #MOVEMENT
@@ -197,14 +204,14 @@ while running:
                 for a in range (len(enemiesOnScreen[i].shotsList)):
                     collision = EnemyBullet.isCollision(enemiesOnScreen[i].shotsList[a],thisPlayer.position,80)
                     elapsed = time.time() - thisPlayer.lastHitTime
-                    if collision and elapsed >1.5 and thisPlayer.shield == False:
+                    if collision and elapsed >1 and thisPlayer.shield == False:
                         enemiesOnScreen[i].shotsList[a].position.y = screen.get_height()+40
                         thisPlayer.position.x -= screen.get_width()/400
                         thisPlayer.lastHitTime = time.time()
                         thisPlayer.lives -= 1
                         print(thisPlayer.lives)
                         break
-                    elif collision and elapsed > 1.5 and thisPlayer.shield:
+                    elif collision and elapsed > 1 and thisPlayer.shield:
                         enemiesOnScreen[i].shotsList[a].position.y = screen.get_height()+40
                         thisPlayer.shield = False
                         thisPlayer.position.x -= screen.get_width()/400
@@ -219,27 +226,27 @@ while running:
             col = thisPlayer.Collision(enemiesOnScreen[i].position,80)
             elapsed = time.time() - thisPlayer.lastHitTime
             if enemiesOnScreen[i].enemyType == 0:
-                if col and elapsed > 1.5 and thisPlayer.shield == False:
+                if col and elapsed > 1 and thisPlayer.shield == False:
                     thisPlayer.lives -= 1
                     thisPlayer.position.x -= 50
                     thisPlayer.lastHitTime = time.time()
                     print("hp : ", thisPlayer.lives)
                     break
-                elif col and elapsed > 1.5 and thisPlayer.shield == True:
+                elif col and elapsed > 1 and thisPlayer.shield == True:
                     thisPlayer.shield = False
                     thisPlayer.position.x -= 50
                     thisPlayer.lastHitTime = time.time()
                     print("hp : ", thisPlayer.lives)
                     break
             elif enemiesOnScreen[i].enemyType == 1:
-                if col and elapsed > 1.5 and thisPlayer.shield == False:
+                if col and elapsed > 1 and thisPlayer.shield == False:
                     enemiesOnScreen[i].hp -= 1
                     thisPlayer.lives -= 1
                     thisPlayer.position.x -= 50
                     thisPlayer.lastHitTime = time.time()
                     print("hp : ", thisPlayer.lives)
                     break
-                elif col and elapsed > 1.5 and thisPlayer.shield == True:
+                elif col and elapsed > 1 and thisPlayer.shield == True:
                     enemiesOnScreen[i].hp -= 1
                     thisPlayer.shield = False
                     thisPlayer.position.x -= 50
