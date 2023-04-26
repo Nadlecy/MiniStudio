@@ -1,5 +1,6 @@
 import pygame
 from fade import FadingSurf
+from player import Player
 
 from pygame.mouse import get_pos as mouse_pos
 from pygame.mouse import get_pressed as mouse_buttons
@@ -124,4 +125,6 @@ class Menu:
 class ATH:
     def __init__(self):
         pass
+
+    def lifebar(self, lives, sprite):
 
