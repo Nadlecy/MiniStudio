@@ -89,6 +89,9 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
+
+
+            #boosts
             if event.key == pygame.K_o:
                 if thisPlayer.inventoryBoost["ASPBoost"]> 0:
                     thisPlayer.inventoryBoost["ASPBoost"] -= 1
@@ -103,6 +106,9 @@ while running:
                     if thisPlayer.lives < 3:
                         thisPlayer.powerUps.append(Heal(thisPlayer,1))
                         print(thisPlayer.lives)
+
+
+            #spawn enemies
             elif event.key == pygame.K_1:
                 enemiesOnScreen.append(Enemy(screen,3).spawn())
             elif event.key == pygame.K_2:
@@ -113,8 +119,12 @@ while running:
                 enemiesOnScreen.append(Enemy(screen,5, "enemy_anim2", enemyType = 2).spawn())
             elif event.key == pygame.K_4:
                 enemiesOnScreen.append(Enemy(screen,2, "enemy_anim4", enemyType = 3).spawn())
-
+            elif event.key == pygame.K_5:
+                enemiesOnScreen.append(Enemy(screen,2, "boss_idle", enemyType = 4, animationType = "boss_idle").spawn())
     
+
+    #Boosts labels
+    ASPBoostLabel = volumeFont.render("ASPBoost = " + str(thisPlayer.shotSpeed), False, (255,255,255))
 
     # draw scrolling background
     for i in range(0, tiles):
@@ -309,6 +319,7 @@ while running:
 
 
     screen.blit(volumeLabel, (30, 70))
+    screen.blit(ASPBoostLabel, (30, 1000))
     pygame.display.update()
     # flip() the display to put your work on screen
     pygame.display.flip()
