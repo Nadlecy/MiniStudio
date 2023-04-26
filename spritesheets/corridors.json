@@ -1,5 +1,5 @@
 { "frames": {
-   "export_couloirs 0.aseprite": {
+   "corridors 0.aseprite": {
     "frame": { "x": 0, "y": 0, "w": 256, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -7,7 +7,7 @@
     "sourceSize": { "w": 256, "h": 128 },
     "duration": 100
    },
-   "export_couloirs 1.aseprite": {
+   "corridors 1.aseprite": {
     "frame": { "x": 0, "y": 128, "w": 256, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -15,7 +15,7 @@
     "sourceSize": { "w": 256, "h": 128 },
     "duration": 100
    },
-   "export_couloirs 2.aseprite": {
+   "corridors 2.aseprite": {
     "frame": { "x": 0, "y": 256, "w": 256, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -23,7 +23,7 @@
     "sourceSize": { "w": 256, "h": 128 },
     "duration": 100
    },
-   "export_couloirs 3.aseprite": {
+   "corridors 3.aseprite": {
     "frame": { "x": 0, "y": 384, "w": 256, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -31,7 +31,7 @@
     "sourceSize": { "w": 256, "h": 128 },
     "duration": 100
    },
-   "export_couloirs 4.aseprite": {
+   "corridors 4.aseprite": {
     "frame": { "x": 0, "y": 512, "w": 256, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -39,7 +39,7 @@
     "sourceSize": { "w": 256, "h": 128 },
     "duration": 100
    },
-   "export_couloirs 5.aseprite": {
+   "corridors 5.aseprite": {
     "frame": { "x": 0, "y": 640, "w": 256, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -47,7 +47,7 @@
     "sourceSize": { "w": 256, "h": 128 },
     "duration": 100
    },
-   "export_couloirs 6.aseprite": {
+   "corridors 6.aseprite": {
     "frame": { "x": 0, "y": 768, "w": 256, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -55,7 +55,7 @@
     "sourceSize": { "w": 256, "h": 128 },
     "duration": 100
    },
-   "export_couloirs 7.aseprite": {
+   "corridors 7.aseprite": {
     "frame": { "x": 0, "y": 896, "w": 256, "h": 128 },
     "rotated": false,
     "trimmed": false,

@@ -6,7 +6,8 @@ from enemies import Enemy, EnemyBullet
 from menu import Menu, Button
 import buttons
 from powerUp import *
-from map import Level1
+from map import level1
+from spritesheet import load_backgrounds
 
 # pygame setup
 pygame.init()
@@ -59,6 +60,13 @@ dt = 0
 #preparing enemy storage list
 enemiesOnScreen = []
 
+# Generating Backgrounds for the level
+backgrounds = []
+for i in range(4):
+    if i == 0:
+        backgrounds.append(load_backgrounds("corridors_boss","corridors"))
+    else:
+        backgrounds.append(load_backgrounds("corridors_" + str(i),"corridors"))
 
 
 while running:
@@ -134,7 +142,7 @@ while running:
     if abs(scroll) > bg_width:
         scroll = 0
     #map management
-    Level1.mapProceed(thisPlayer)
+    level1.mapProceed(thisPlayer)
 
 
     # music
