@@ -45,12 +45,16 @@ class Player ():
             self.currentShotCoolDown = 0 + self.shotCoolDown
 
 
-    def Collision (self,Object:pygame.Vector2,size):
+    def Collision (self,Object:pygame.Vector2,size,playerSize):
         offset = pygame.Vector2(size/2,size/2)
+        player_offset = pygame.Vector2(playerSize/2,playerSize/2)
         obj_vect = Object + offset
-        player_vect = self.position + offset
+        player_vect = self.position + player_offset
         distance = (obj_vect-player_vect).magnitude()
-        if distance < size:
+        return distance < size
+        
+    def die(self):
+        if self.lives <= 0:
             return True
         else:
             return False
@@ -74,14 +78,10 @@ class PlayerBullet ():
         else:
             return False
         
-    def isCollision (self,Object:pygame.Vector2,size):
+    def isCollision (self,Object:pygame.Vector2,size,bulletsize):
         offset = pygame.Vector2(size/2,size/2)
-        vect = Object + pygame.Vector2(size/2,size/2)
-        bullet_vect = self.position + offset
+        bullet_offset = pygame.Vector2(bulletsize/2,bulletsize/2)
+        vect = Object + offset
+        bullet_vect = self.position + bullet_offset
         distance = (vect-bullet_vect).magnitude()
-        if distance < size/2:
-            return True
-        else:
-            return False
-
-
+        return distance < size/2

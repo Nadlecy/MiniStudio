@@ -65,7 +65,7 @@
    }
  },
  "meta": {
-  "app": "https://www.aseprite.org/",
+  "app": "https://www.png.org/",
   "version": "1.2.40-x64",
   "image": "couloirs_bleu.png",
   "format": "RGBA8888",

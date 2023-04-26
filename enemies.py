@@ -4,8 +4,9 @@ from animation import animation_init, animate_loop, animate_one
 
 #making the Enemy class for everything that revolves around basic adversaries
 class Enemy():
-    def __init__(self, currentSurface, hp, currentVisuals = "enemy_anim1", enemyType:int = 0, speed:int = 800, position:pygame.Vector2 = (0,0), isOnScreen:bool = False):
+    def __init__(self, currentSurface, hp, currentVisuals = "enemy_anim1", enemyType:int = 0, animationType = "enemy", speed:int = 800, position:pygame.Vector2 = (0,0), isOnScreen:bool = False):
         self.currentSurface = currentSurface
+        self.animationType = animationType
         self.currentVisuals = currentVisuals # which spritesheet will be used to animate the player
         self.hp = hp
         self.enemyType = enemyType
@@ -24,7 +25,7 @@ class Enemy():
 
         # animation
         
-        animation_init(self, spritesheet_name = self.currentVisuals, animationType = "enemy")
+        animation_init(self, spritesheet_name = self.currentVisuals, animationType = self.animationType)
         
     
 
@@ -36,8 +37,14 @@ class Enemy():
 
     # generating the enemy and starting its script
     def spawn(self):
+        if self.enemyType == 0 or 1 or 2 or 3:
+            if self.position == pygame.Vector2(0,0):
+                self.position = pygame.Vector2(self.currentSurface.get_width() , random.randint ( (self.currentSurface.get_height()/9)*2 , (self.currentSurface.get_height()/9)*8 ))
+        if self.enemyType == 4:
+            self.position = pygame.Vector2(self.currentSurface.get_width() , self.currentSurface.get_height()/6)
         if self.position == pygame.Vector2(0,0):
             self.position = pygame.Vector2(self.currentSurface.get_width() , random.randint ( (self.currentSurface.get_height()/9) , (self.currentSurface.get_height()/9)*7 ))
+
 
         # maybe delete that next line and do something smarter
         return self
@@ -80,9 +87,13 @@ class Enemy():
                             self.up = True
                     elif self.position.y + 80 < (self.currentSurface.get_height() - self.currentSurface.get_height()/9) and self.up == True:
                         self.position.y += round((self.speed - 500) * dt)
-                        if self.position.y + 80 > self.currentSurface.get_height() - self.currentSurface.get_height()/9:
+                        if self.position.y + 85 > self.currentSurface.get_height() - self.currentSurface.get_height()/9:
                             self.up = False
-
+            case 4:
+                self.shoot()
+                animate_loop(self, rescale_size = (self.currentSurface.get_width()/3, self.currentSurface.get_height()/1.5))
+                if self.position.x > self.currentSurface.get_width()-self.currentSurface.get_width()/3:
+                    self.position.x -= (self.speed - 350) * dt
 
 
 
@@ -134,10 +145,10 @@ class EnemyBullet ():
         else :
             return False
         
-    def isCollision (self,Object:pygame.Vector2,size):
-        vect = Object + pygame.Vector2(size/2,size/2)
-        distance = (vect-self.position).magnitude()
-        if distance < size/2:
-            return True
-        else:
-            return False
+    def isCollision (self,Object:pygame.Vector2,size,bulletsize):
+        offset = pygame.Vector2(size/2,size/2)
+        bullet_offset = pygame.Vector2(bulletsize/2,bulletsize/2)
+        vect = Object + offset
+        bullet_vect = self.position + bullet_offset
+        distance = (vect-bullet_vect).magnitude()
+        return distance < size/2
