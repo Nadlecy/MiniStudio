@@ -388,6 +388,7 @@ while running:
     ath.displayLighting()
     ath.displayLifebar()
     ath.displayGadgetbar()
+    ath.displayScore()
 
 #    screen.blit(volumeLabel, (30, 70))
     pygame.display.update()

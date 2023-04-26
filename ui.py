@@ -171,8 +171,14 @@ class ATH:
         self.gadget_surf.blit(shield_icon, (104*resizing_width,16*resizing_height))
         self.gadget_surf.blit(gun_icon, (152*resizing_width,16*resizing_height))
         self.surf.blit(self.gadget_surf, (0,self.height-(75*resizing_height)))
+        
+    def displayScore(self):
+        scoreHolder = pygame.transform.scale(load("image/ath/score/score_death.png"),(48*self.width/550,48*self.width/550))
+        self.surf.blit(scoreHolder,(self.width-48*self.width/550,0))
 
     def displayLighting(self):
         lighting = pygame.transform.scale(load("image/ath/lueur_all.png"),(self.width, self.height))
         self.surf.blit(lighting,(0,0))
+    
+  
         
