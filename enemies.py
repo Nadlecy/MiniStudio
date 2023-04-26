@@ -39,7 +39,7 @@ class Enemy():
     def spawn(self):
         if self.enemyType == 0 or 1 or 2 or 3:
             if self.position == pygame.Vector2(0,0):
-                self.position = pygame.Vector2(self.currentSurface.get_width() , random.randint ( (self.currentSurface.get_height()/9)*2 , (self.currentSurface.get_height()/9)*8 ))
+                self.position = pygame.Vector2(self.currentSurface.get_width() , random.randint ( (self.currentSurface.get_height()/9)*2 , (self.currentSurface.get_height()/9)*7 ))
         if self.enemyType == 4:
             self.position = pygame.Vector2(self.currentSurface.get_width() , self.currentSurface.get_height()/6)
         if self.position == pygame.Vector2(0,0):
@@ -64,7 +64,7 @@ class Enemy():
         match self.enemyType:
             #change movement values to take in account the framerate
             case 0:
-                self.position.x -= (self.currentSurface.get_width()/6) * dt 
+                self.position.x -= (self.currentSurface.get_width()/8) * dt 
                 self.shoot()
                 animate_loop(self, rescale_size = (self.currentSurface.get_width()/16, self.currentSurface.get_height()/9))
             case 1:

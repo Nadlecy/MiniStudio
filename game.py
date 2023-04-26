@@ -8,6 +8,38 @@ import buttons
 from powerUp import *
 from map import loadLevel1
 
+
+class gameState ():
+    def __init__(self, Map, currentScrollDirection = "Right"):
+        self.Map = Map
+        self.currentScrollDirection = currentScrollDirection
+
+class TriggerFunction () :
+    def __init__(self,TimeTrigger,function,param):
+        self.function = function
+        self.TimeTrigger = TimeTrigger
+        self.clock = 0
+        self.param = param
+
+    def UpdateClock(self,Dt) :
+        self.clock += Dt
+
+    def TriggerCheck (self,Dt) :
+        self.UpdateClock(Dt)
+        if self.TimeTrigger < self.clock:
+            self.function(self.param)
+            self.clock = 0
+    
+
+def spawn_ennemi_1 (enemiesOnScreen):
+    enemiesOnScreen.append(Enemy(screen,3).spawn())
+def spawn_ennemi_2 (enemiesOnScreen):
+    enemiesOnScreen.append(Enemy(screen,1, "enemy_anim3", enemyType = 1).spawn())
+def spawn_ennemi_3 (enemiesOnScreen):
+    enemiesOnScreen.append(Enemy(screen,5, "enemy_anim2", enemyType = 2).spawn())
+def spawn_ennemi_4 (enemiesOnScreen):
+    enemiesOnScreen.append(Enemy(screen,2, "enemy_anim4", enemyType = 3).spawn())
+
 # pygame setup
 pygame.init()
 
@@ -44,7 +76,6 @@ level1 = loadLevel1(screen)
 #menus init
 menu = Menu()
 ath = ATH(thisPlayer)
-
 #Text through GUI
 volumeFont = pygame.font.SysFont("Times New Roman", 18, True)
 
@@ -56,13 +87,20 @@ dt = 0
 
 #preparing enemy storage list
 enemiesOnScreen = []
+spawn_penguin = TriggerFunction(10,spawn_ennemi_1,enemiesOnScreen)
+spawn_hirondelle =TriggerFunction(7,spawn_ennemi_2,enemiesOnScreen)
+spawn_poule = TriggerFunction(15,spawn_ennemi_3,enemiesOnScreen)
+spawn_pigeon = TriggerFunction(8,spawn_ennemi_4,enemiesOnScreen)
 
         
 while running:
     # limits FPS to 60
     # dt is delta time in seconds since last frame, used for framerate-independent physics.
-    dt = clock.tick(60) / 1000
-
+    dt = clock.tick(60) / 1000  
+    #spawn_penguin.TriggerCheck(dt)
+    #spawn_hirondelle.TriggerCheck(dt)
+    #spawn_poule.TriggerCheck(dt)
+    #spawn_pigeon.TriggerCheck(dt)
     #MENU
     if menu:
         if menu_splash_ongoing:
@@ -247,29 +285,29 @@ while running:
             else:
                 col = thisPlayer.Collision(enemy.position,screen.get_width()/16,screen.get_width()/16)
             elapsed = time.time() - thisPlayer.lastHitTime
-            if enemiesOnScreen[i].enemyType == 0 or 2 or 3 or 4:
+            if enemiesOnScreen[i].enemyType == 1:
                 if col and elapsed > 1 and thisPlayer.shield == False:
+                    enemiesOnScreen[i].hp -= 1
                     thisPlayer.lives -= 1
                     thisPlayer.position.x -= 50
                     thisPlayer.lastHitTime = time.time()
-                    print("hp : ", thisPlayer.lives)
+                    print(enemiesOnScreen[i])
                     break
                 elif col and elapsed > 1 and thisPlayer.shield == True:
+                    enemiesOnScreen[i].hp -= 1
                     thisPlayer.shield = False
                     thisPlayer.position.x -= 50
                     thisPlayer.lastHitTime = time.time()
                     print("hp : ", thisPlayer.lives)
                     break
-            elif enemiesOnScreen[i].enemyType == 1:
+            else:
                 if col and elapsed > 1 and thisPlayer.shield == False:
-                    enemiesOnScreen[i].hp -= 1
                     thisPlayer.lives -= 1
                     thisPlayer.position.x -= 50
                     thisPlayer.lastHitTime = time.time()
                     print("hp : ", thisPlayer.lives)
                     break
                 elif col and elapsed > 1 and thisPlayer.shield == True:
-                    enemiesOnScreen[i].hp -= 1
                     thisPlayer.shield = False
                     thisPlayer.position.x -= 50
                     thisPlayer.lastHitTime = time.time()
