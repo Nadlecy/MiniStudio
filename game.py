@@ -120,13 +120,13 @@ while running:
 
             #spawn enemies
             elif event.key == pygame.K_1:
-                enemiesOnScreen.append(Enemy(screen,2).spawn())
+                enemiesOnScreen.append(Enemy(screen,3).spawn())
             elif event.key == pygame.K_2:
                 enemiesOnScreen.append(Enemy(screen,1, "enemy_anim3", enemyType = 1).spawn())
             elif event.key == pygame.K_ESCAPE:
                 menu.menu_pause()
             elif event.key == pygame.K_3:
-                enemiesOnScreen.append(Enemy(screen,3, "enemy_anim2", enemyType = 2).spawn())
+                enemiesOnScreen.append(Enemy(screen,5, "enemy_anim2", enemyType = 2).spawn())
             elif event.key == pygame.K_4:
                 enemiesOnScreen.append(Enemy(screen,2, "enemy_anim4", enemyType = 3).spawn())
             elif event.key == pygame.K_5:
@@ -214,36 +214,54 @@ while running:
         
     #Collision    
     for i in range (len(enemiesOnScreen)):
+            enemy = enemiesOnScreen[i]
             if thisPlayer.shotsList:
-                for a in range (len(thisPlayer.shotsList)):
-                    collision = PlayerBullet.isCollision(thisPlayer.shotsList[a],enemiesOnScreen[i].position,80)
+                for a in range (len(thisPlayer.shotsList)):  
+                    if enemy.enemyType == 4:
+                        collision = PlayerBullet.isCollision(thisPlayer.shotsList[a],enemy.position,screen.get_width()/3,screen.get_width()/16)
+                    else:
+                        collision = PlayerBullet.isCollision(thisPlayer.shotsList[a],enemy.position,screen.get_width()/16,screen.get_width()/16)
+                    
                     if collision :
                         thisPlayer.shotsList[a].position.y = screen.get_height()+40
-                        enemiesOnScreen[i].hp -= 1
+                        enemy.hp -= 1
+                        print(enemy.hp)    
+
     for i in range (len(enemiesOnScreen)):
-            if enemiesOnScreen[i].shotsList:
-                for a in range (len(enemiesOnScreen[i].shotsList)):
-                    collision = EnemyBullet.isCollision(enemiesOnScreen[i].shotsList[a],thisPlayer.position,80)
+            enemy = enemiesOnScreen[i]
+            if enemy.shotsList:
+                for a in range (len(enemy.shotsList)):
+                    if enemy.enemyType == 4:
+                        collision = EnemyBullet.isCollision(enemy.shotsList[a],thisPlayer.position,screen.get_width()/1.5,screen.get_width()/16)
+                    else:
+                        collision = EnemyBullet.isCollision(enemy.shotsList[a],thisPlayer.position,screen.get_width()/16,screen.get_width()/16)
                     elapsed = time.time() - thisPlayer.lastHitTime
                     if collision and elapsed >1 and thisPlayer.shield == False:
                         enemiesOnScreen[i].shotsList[a].position.y = screen.get_height()+40
                         thisPlayer.position.x -= screen.get_width()/400
                         thisPlayer.lastHitTime = time.time()
                         thisPlayer.lives -= 1
+                        print(thisPlayer.lives)
                         break
                     elif collision and elapsed > 1 and thisPlayer.shield:
                         enemiesOnScreen[i].shotsList[a].position.y = screen.get_height()+40
                         thisPlayer.shield = False
                         thisPlayer.position.x -= screen.get_width()/400
                         thisPlayer.lastHitTime = time.time()
+                        print("hp : ", thisPlayer.lives)
+                        print(thisPlayer.shield)
                         break
 
 
     for i in range(len(enemiesOnScreen)):
+        enemy = enemiesOnScreen[i]
         if thisPlayer:
-            col = thisPlayer.Collision(enemiesOnScreen[i].position,80)
+            if enemy.enemyType == 4:
+                col = thisPlayer.Collision(enemy.position,screen.get_width()/3,screen.get_width()/16)
+            else:
+                col = thisPlayer.Collision(enemy.position,screen.get_width()/16,screen.get_width()/16)
             elapsed = time.time() - thisPlayer.lastHitTime
-            if enemiesOnScreen[i].enemyType == 0:
+            if enemiesOnScreen[i].enemyType == 0 or 2 or 3 or 4:
                 if col and elapsed > 1 and thisPlayer.shield == False:
                     thisPlayer.lives -= 1
                     thisPlayer.position.x -= 50
