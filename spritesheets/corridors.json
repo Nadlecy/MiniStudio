@@ -1,0 +1,83 @@
+{ "frames": {
+   "corridors 0.png": {
+    "frame": { "x": 0, "y": 0, "w": 256, "h": 128 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 128 },
+    "sourceSize": { "w": 256, "h": 128 },
+    "duration": 100
+   },
+   "corridors 1.png": {
+    "frame": { "x": 0, "y": 128, "w": 256, "h": 128 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 128 },
+    "sourceSize": { "w": 256, "h": 128 },
+    "duration": 100
+   },
+   "corridors 2.png": {
+    "frame": { "x": 0, "y": 256, "w": 256, "h": 128 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 128 },
+    "sourceSize": { "w": 256, "h": 128 },
+    "duration": 100
+   },
+   "corridors 3.png": {
+    "frame": { "x": 0, "y": 384, "w": 256, "h": 128 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 128 },
+    "sourceSize": { "w": 256, "h": 128 },
+    "duration": 100
+   },
+   "corridors 4.png": {
+    "frame": { "x": 0, "y": 512, "w": 256, "h": 128 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 128 },
+    "sourceSize": { "w": 256, "h": 128 },
+    "duration": 100
+   },
+   "corridors 5.png": {
+    "frame": { "x": 0, "y": 640, "w": 256, "h": 128 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 128 },
+    "sourceSize": { "w": 256, "h": 128 },
+    "duration": 100
+   },
+   "corridors 6.png": {
+    "frame": { "x": 0, "y": 768, "w": 256, "h": 128 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 128 },
+    "sourceSize": { "w": 256, "h": 128 },
+    "duration": 100
+   },
+   "corridors 7.png": {
+    "frame": { "x": 0, "y": 896, "w": 256, "h": 128 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 128 },
+    "sourceSize": { "w": 256, "h": 128 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.png.org/",
+  "version": "1.2.40-x64",
+  "image": "couloirs_bleu.png",
+  "format": "RGBA8888",
+  "size": { "w": 256, "h": 1024 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "BG_classique", "opacity": 255, "blendMode": "normal" },
+   { "name": "Bleu", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
