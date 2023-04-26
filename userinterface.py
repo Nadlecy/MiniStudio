@@ -46,7 +46,7 @@ class Menu:
         self.optionsButton.bind(self.handleOptions)
         self.quitButton = Button((64*self.width/600, 32*self.height/300),(self.width/160,self.height/1.12),'image/quit.png')
         self.quitButton.bind(self.handleQuit)
-        self.backButton = Button((64*self.width/600, 32*self.height/300),(self.width/160,self.height/1.12),'image/back.png')
+        self.backButton = Button((64*self.width/600, 32*self.height/300),(self.width/160,self.height/1.12),'image/quit.png')
         self.backButton.bind(self.handleBack)
 
         # 0:no update,  1:continue, 2:quit 
@@ -104,6 +104,7 @@ class Menu:
         pass
 
     def handleOptions(self):
+        self
         self.surf.blit(self.splash, (0, 0))
 
     def handleQuit(self):
@@ -118,3 +119,13 @@ class Menu:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     pass
+
+class IngameMenu:
+    def __init__(self):
+        pass
+
+
+class ATH:
+    def __init__(self):
+        pass
+
