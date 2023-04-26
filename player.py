@@ -22,7 +22,7 @@ class Player ():
         self.inventoryBoost = {
             "ASPBoost" : 1,
             "Shield" : 0,
-            "Grenade": 0,
+            "Grenade" : 0,
             "Laser" : 0,
             "Heal" : 0
         }
