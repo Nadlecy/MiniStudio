@@ -97,10 +97,10 @@ while running:
     # limits FPS to 60
     # dt is delta time in seconds since last frame, used for framerate-independent physics.
     dt = clock.tick(60) / 1000  
-    #spawn_penguin.TriggerCheck(dt)
-    #spawn_hirondelle.TriggerCheck(dt)
-    #spawn_poule.TriggerCheck(dt)
-    #spawn_pigeon.TriggerCheck(dt)
+    spawn_penguin.TriggerCheck(dt)
+    spawn_hirondelle.TriggerCheck(dt)
+    spawn_poule.TriggerCheck(dt)
+    spawn_pigeon.TriggerCheck(dt)
     #MENU
     if menu:
         if menu_splash_ongoing:
