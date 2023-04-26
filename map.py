@@ -52,7 +52,7 @@ class Map():
         for i in self.currentSections:
             i.loadGrid(i.background)
 
-def loadLevel1(screen):
+def loadLevel1():
     # Generating Backgrounds for the levels
     backgrounds = []
     for i in range(4):
