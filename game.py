@@ -61,10 +61,11 @@ last_btn = buttons.Button(1140, 30, last_btn_img, 2)
 
 
 #Load Music
-music_volume = 3
-music_volume_display = 3
-pygame.mixer.music.load("music/birds_attacks_intro.ogg")
-pygame.mixer.music.play()
+music_volume = 0.5
+music_volume_display = 5
+pygame.mixer.music.load("music/ugly_travel.ogg")
+pygame.mixer.music.play(-1)
+music_order_check = 0
 
 
 #creating the player character
@@ -162,6 +163,8 @@ while running:
                 enemiesOnScreen.append(Enemy(screen,2, "enemy_anim4", enemyType = 3).spawn())
             elif event.key == pygame.K_5:
                 enemiesOnScreen.append(Enemy(screen,2, "boss_idle", enemyType = 4, animationType = "boss_idle").spawn())
+                if music_order_check != 2:
+                    music_order_check = 2
     
 
     #Boosts labels
@@ -172,13 +175,32 @@ while running:
     level1.mapProceed(thisPlayer)
 
     # music
+    if music_order_check == 0:
+        pygame.mixer.music.load("music/birds_attacks_intro.ogg")
+        pygame.mixer.music.play()
+        music_order_check = 1
+
     pygame.mixer.music.set_volume(music_volume)
-    if (pygame.mixer.music.get_busy() == False):
+    if (pygame.mixer.music.get_busy() == False) and music_order_check == 1:
         pygame.mixer.music.load("music/birds_attacks.ogg")
         pygame.mixer.music.play(-1)
 
+    if music_order_check == 2:
+        pygame.mixer.music.load("music/No_Boss_Music.ogg")
+        pygame.mixer.music.play(-1)
+        music_order_check = 3
+
     
-    # enemies act
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        # enemies act
     for i in enemiesOnScreen:
         i.ai(thisPlayer,dt)
 
@@ -196,32 +218,52 @@ while running:
             for i in toDelete:
                 del thisPlayer.shotsList[i]
 
+
+
     for i in range(len(enemiesOnScreen)):
         enemy = enemiesOnScreen[i]
         enemy.currentShotCoolDown -= 1
         if not enemy.shotsList: continue
-        if enemy.enemyType == 2:
+
+
+        #Penguin
+        if enemy.enemyType == 0:
+            for j in range(len(enemy.shotsList)-1,0,-1):
+                keeping = enemy.shotsList[j].move_type1(dt)
+                if not keeping:
+                    del enemy.shotsList[j]
+
+ 
+        #Chicken
+        elif enemy.enemyType == 2:
             for j in range(len(enemy.shotsList)-1, 0, -1):
                 shot = enemy.shotsList[j]
                 keeping = True
                 if not shot.broken:
-                    keeping = shot.move_bis(dt, thisPlayer, enemy)
+                    keeping = shot.move_type2_state1(dt, thisPlayer, enemy)
                 else:
-                    keeping = shot.move_test(dt)
+                    keeping = shot.move_type2_state2(dt)
                 if not keeping:
                     del enemy.shotsList[j]
-        elif enemy.enemyType == 0:
-            for j in range(len(enemy.shotsList)-1,0,-1):
-                keeping = enemy.shotsList[j].move(dt)
-                if not keeping:
-                    del enemy.shotsList[j]
+
+
+        #Pigeon
         elif enemy.enemyType == 3:
             for j in range(len(enemy.shotsList)-1,0,-1):
-                keeping = enemy.shotsList[j].move(dt)
+                keeping = enemy.shotsList[j].move_type1(dt)
+                if not keeping:
+                    del enemy.shotsList[j]
+
+        #Boss
+        elif enemy.enemyType == 3:
+            for j in range(len(enemy.shotsList)-1,0,-1):
+                keeping = enemy.shotsList[j].move_type1(dt)
                 if not keeping:
                     del enemy.shotsList[j]
 
         
+
+
     #MOVEMENT
     keys = pygame.key.get_pressed()
     if (keys[pygame.K_z] or keys[pygame.K_UP]) and thisPlayer.position.y > screen.get_height()/9:
@@ -235,6 +277,8 @@ while running:
     if keys[pygame.K_SPACE]:
         thisPlayer.shoot()
         
+        
+
         
     #Collision    
     for i in range (len(enemiesOnScreen)):
@@ -275,6 +319,8 @@ while running:
                         print("hp : ", thisPlayer.lives)
                         print(thisPlayer.shield)
                         break
+
+
 
 
     for i in range(len(enemiesOnScreen)):
@@ -328,6 +374,10 @@ while running:
         if power.isOver():
             del thisPlayer.powerUps[i]
             print(len(thisPlayer.powerUps))
+
+
+
+
 
     #BUTTONS
 

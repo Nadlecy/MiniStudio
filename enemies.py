@@ -49,12 +49,17 @@ class Enemy():
         # maybe delete that next line and do something smarter
         return self
     
-    def shoot (self):
+    def shoot_type1 (self):
         if self.currentShotCoolDown < 1:
             self.shotsList.append(EnemyBullet(self.currentSurface, self.damage, self.shotSpeed,0,False, pygame.Vector2(self.position.x-self.currentSurface.get_width()/16, self.position.y+self.currentSurface.get_height()/72)))
             self.currentShotCoolDown = 0 + self.shotCooldown
     
-    def shoot_bis(self):
+    def shoot_type2(self):
+        if self.currentShotCoolDown < 1:
+            self.shotsList.append(EnemyBullet(self.currentSurface, self.damage, self.speed,0,False,pygame.Vector2(self.position.x-self.currentSurface.get_width()/16, self.position.y+self.currentSurface.get_height()/72)))
+            self.currentShotCoolDown = 0 + self.shotCooldown
+
+    def shoot_boss1_type1(self):
         if self.currentShotCoolDown < 1:
             self.shotsList.append(EnemyBullet(self.currentSurface, self.damage, self.speed,0,False,pygame.Vector2(self.position.x-self.currentSurface.get_width()/16, self.position.y+self.currentSurface.get_height()/72)))
             self.currentShotCoolDown = 0 + self.shotCooldown
@@ -63,21 +68,29 @@ class Enemy():
     def ai(self,player,dt):
         match self.enemyType:
             #change movement values to take in account the framerate
+
+            #penguin
             case 0:
-                self.position.x -= (self.currentSurface.get_width()/8) * dt 
-                self.shoot()
+                self.position.x -= (self.currentSurface.get_width()/6) * dt 
+                self.shoot_type1()
                 animate_loop(self, rescale_size = (self.currentSurface.get_width()/16, self.currentSurface.get_height()/9))
+
+            #swallow
             case 1:
                 dir = (self.position - player.position).normalize()
                 self.position -= dir * self.currentSurface.get_width()/3 * dt
                 animate_loop(self, rescale_size = (self.currentSurface.get_width()/16, self.currentSurface.get_height()/9))
+
+            #chicken
             case 2:
                 self.position.x -= (self.speed - 700) * dt
-                self.shoot_bis()
+                self.shoot_type2()
                 animate_loop(self,rescale_size=(self.currentSurface.get_width()/16,self.currentSurface.get_height()/9))
+
+            #pigeon
             case 3:
                 animate_loop(self,rescale_size=(self.currentSurface.get_width()/16,self.currentSurface.get_height()/9))
-                self.shoot()
+                self.shoot_type1()
                 if self.position.x > self.currentSurface.get_width()-self.currentSurface.get_width()/16:
                     self.position.x -= (self.speed - 700) * dt
                 else:
@@ -89,8 +102,9 @@ class Enemy():
                         self.position.y += round((self.speed - 500) * dt)
                         if self.position.y + 85 > self.currentSurface.get_height() - self.currentSurface.get_height()/9:
                             self.up = False
+            #boss 1
             case 4:
-                self.shoot()
+                self.shoot_boss1_type1()
                 animate_loop(self, rescale_size = (self.currentSurface.get_width()/3, self.currentSurface.get_height()/1.5))
                 if self.position.x > self.currentSurface.get_width()-self.currentSurface.get_width()/3:
                     self.position.x -= (self.speed - 350) * dt
@@ -114,7 +128,7 @@ class EnemyBullet ():
         self.broken = broken
 
     #making the visible bullets move every frame
-    def move(self, dt):
+    def move_type1(self, dt):
         if 40 < self.position.x:
             self.currentSurface.blit(self.bullet_sprite, self.position)
             self.position.x -= self.currentSurface.get_width()/5 * dt * self.spd
@@ -122,7 +136,7 @@ class EnemyBullet ():
         else:
             return False
     
-    def move_bis(self, dt,player,enemy):
+    def move_type2_state1(self, dt,player,enemy):
         if not self.broken and self.position.x <= player.position.x + 150 and 40 < self.position.x:
             enemy.shotsList.append(EnemyBullet(self.currentSurface, self.dmg, self.spd,1,True,pygame.Vector2(self.position.x-self.currentSurface.get_width()/16, self.position.y+self.currentSurface.get_height()/72)))
             enemy.shotsList.append(EnemyBullet(self.currentSurface, self.dmg, self.spd,0,True,pygame.Vector2(self.position.x-self.currentSurface.get_width()/16, self.position.y+self.currentSurface.get_height()/72)))
@@ -133,7 +147,7 @@ class EnemyBullet ():
         else:
             return False
         
-    def move_test(self, dt):
+    def move_type2_state2(self, dt):
         if 40 < self.position.x and self.broken and self.rotation == 1:
             self.currentSurface.blit(pygame.transform.scale(pygame.image.load('image/egg_top.png'),(self.currentSurface.get_width()/64, self.currentSurface.get_height()/32)), self.position)
             self.position.y -= self.currentSurface.get_height()/7 * dt
