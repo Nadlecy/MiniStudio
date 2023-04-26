@@ -63,14 +63,38 @@ def loadLevel1(screen):
     backgrounds.append(load_backgrounds("choice","choice"))
     
     height= pygame.display.get_surface().get_height()
-    box = GridObjects("image/testbox.png")
-    bay1 = GridObjects("image/bay1.png", [4, 1])
-    bay2 = GridObjects("image/bay2.png", [4, 1])
-    secondcircle2= MapSection(2, pygame.transform.scale(backgrounds[2][4],(height * 2, height)) , None, gridItems=[[box, 2, 1],[box, 3, 1],[box, 4, 1]])
-    secondcircle1= MapSection(2, pygame.transform.scale(backgrounds[2][5],(height * 2, height)), secondcircle2, gridItems=[[box, 6, 1]])
-    testmap1 = MapSection(1, pygame.transform.scale(backgrounds[1][4],(height * 2, height)), None, gridItems=[[box, 1, 2]])
-    intersection1 = MapSection(1, pygame.transform.scale(backgrounds[4][0],(height * 2, height)), testmap1, secondarySection= secondcircle1)
-    testmap2 = MapSection(1, pygame.transform.scale(backgrounds[1][4],(height * 2, height)), intersection1, gridItems=[[box, 1, 2],[box, 4, 2]])
-    testmap1.nextSection = testmap2
-    secondcircle2.nextSection = intersection1
-    return Map([testmap1])
+
+    #setting the rooms
+    #boss bay, this one loops on itself indefinitely
+    bossCircle6= MapSection(0, pygame.transform.scale(backgrounds[0][5],(height * 2, height)) , None)
+    bossCircle5= MapSection(0, pygame.transform.scale(backgrounds[0][7],(height * 2, height)) , bossCircle6)
+    bossCircle4= MapSection(0, pygame.transform.scale(backgrounds[0][6],(height * 2, height)) , bossCircle5)
+    bossCircle3= MapSection(0, pygame.transform.scale(backgrounds[0][1],(height * 2, height)) , bossCircle4)
+    bossCircle2= MapSection(0, pygame.transform.scale(backgrounds[0][0],(height * 2, height)) , bossCircle3)
+    bossCircle1= MapSection(0, pygame.transform.scale(backgrounds[0][2],(height * 2, height)) , bossCircle2)
+    bossCircle6.nextSection = bossCircle1
+
+    #fourth bay
+
+    #third bay
+
+    #second bay
+    secondCircle2= MapSection(2, pygame.transform.scale(backgrounds[2][0],(height * 2, height)) , None)
+    secondCircle1= MapSection(2, pygame.transform.scale(backgrounds[2][2],(height * 2, height)), secondCircle2)
+
+    #first bay
+    firstCircle4 = MapSection(1, pygame.transform.scale(backgrounds[1][7],(height * 2, height)), None)
+    firstCircle3 = MapSection(1, pygame.transform.scale(backgrounds[0][7],(height * 2, height)), firstCircle4)
+    firstCircle2 = MapSection(1, pygame.transform.scale(backgrounds[1][3],(height * 2, height)), None)
+    firstCircle1 = MapSection(1, pygame.transform.scale(backgrounds[1][4],(height * 2, height)), firstCircle2)
+    
+    #intersections/path choices
+    intersection21 = MapSection(1, pygame.transform.scale(backgrounds[4][0],(height * 2, height)), firstCircle3, secondarySection= secondCircle1)
+    intersectionB = MapSection(1, pygame.transform.scale(backgrounds[4][3],(height * 2, height)), firstCircle1, secondarySection= bossCircle1)
+    
+    #finishing loops
+    firstCircle2.nextSection = intersection21
+    firstCircle4.nextSection = intersectionB
+    secondCircle2.nextSection = intersection21
+    
+    return Map([firstCircle1])
