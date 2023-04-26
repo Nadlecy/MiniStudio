@@ -4,6 +4,7 @@ from player import Player
 
 from pygame.mouse import get_pos as mouse_pos
 from pygame.mouse import get_pressed as mouse_buttons
+from pygame.image import load
 
 class Button:
   def __init__(self, size, pos, sprite_path):
@@ -37,17 +38,19 @@ class Menu:
         self.msg =  pygame.transform.scale(pygame.image.load('image/press_start.png'), (self.width/2.5, self.height/20))
         self.fadingText = FadingSurf(self.msg, 0.5)
 
-        self.newGameButton = Button((160*self.width/550, 32*self.height/300),(self.width/4.75,self.height/1.75),'image/new_game_min.png')
+        largeButtonSize = (160*self.width/550, 32*self.height/300)
+        smallButtonSize = (64*self.width/600, 32*self.height/300)
+        self.newGameButton = Button(largeButtonSize,(self.width/4.75,self.height/1.75),'image/new_game_min.png')
+        self.resumeButton = Button(largeButtonSize,(self.width/1.999,self.height/1.75),'image/resume_min.png')
+        self.howToPlayButton = Button(largeButtonSize,(self.width/4.75,self.height/1.4),'image/how_to_min.png')
+        self.optionsButton = Button(largeButtonSize,(self.width/1.999,self.height/1.4),'image/options_min.png')
+        self.quitButton = Button(smallButtonSize,(self.width/160,self.height/1.12),'image/quit.png')
+        self.backButton = Button(smallButtonSize,(self.width/160,self.height/1.12),'image/quit.png')
         self.newGameButton.bind(self.handleNewGame)
-        self.resumeButton = Button((160*self.width/550, 32*self.height/300),(self.width/1.999,self.height/1.75),'image/resume_min.png')
         self.resumeButton.bind(self.handleResume)
-        self.howToPlayButton = Button((160*self.width/550, 32*self.height/300),(self.width/4.75,self.height/1.4),'image/how_to_min.png')
         self.howToPlayButton.bind(self.handleHowToPlay)
-        self.optionsButton = Button((160*self.width/550, 32*self.height/300),(self.width/1.999,self.height/1.4),'image/options_min.png')
         self.optionsButton.bind(self.handleOptions)
-        self.quitButton = Button((64*self.width/600, 32*self.height/300),(self.width/160,self.height/1.12),'image/quit.png')
         self.quitButton.bind(self.handleQuit)
-        self.backButton = Button((64*self.width/600, 32*self.height/300),(self.width/160,self.height/1.12),'image/quit.png')
         self.backButton.bind(self.handleBack)
 
         # 0:no update,  1:continue, 2:quit 
@@ -105,7 +108,6 @@ class Menu:
         pass
 
     def handleOptions(self):
-        self
         self.surf.blit(self.splash, (0, 0))
 
     def handleQuit(self):
@@ -123,8 +125,15 @@ class Menu:
 
 
 class ATH:
-    def __init__(self):
-        pass
+    img_array = {3:"three_lives.png", 2:"two_lives.png", 1:"one_life.png", 0:"zero_lives.png"}
 
-    def lifebar(self, lives, sprite):
+    def __init__(self, player):
+        self.surf = pygame.display.get_surface()
+        self.player = player
 
+    def displayLifebar(self):
+        
+        lifebar_surf = pygame.transform.scale(load("image/"+self.img_array[self.player.lives]),(160,44))
+        self.surf.blit(lifebar_surf, (0,0))
+
+        pygame.display.update()

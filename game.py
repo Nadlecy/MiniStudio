@@ -3,7 +3,7 @@ import pygame
 import math
 from player import Player,PlayerBullet
 from enemies import Enemy, EnemyBullet
-from userinterface import Menu, IngameMenu, ATH
+from ui import Menu, ATH
 import buttons
 from powerUp import *
 from map import level1
@@ -14,11 +14,6 @@ pygame.init()
 #creating a screen
 screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 clock = pygame.time.Clock()
-
-#menus init
-menu = Menu()
-ingameMenu = IngameMenu()
-ath = ATH()
 
 #load button images
 plus_btn_img = pygame.image.load('image/plus_btn.png')
@@ -42,6 +37,9 @@ pygame.mixer.music.play()
 skin = 1
 thisPlayer=Player(currentSurface=screen, currentVisuals= "player_anim" + str(skin), position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
 
+#menus init
+menu = Menu()
+ath = ATH(thisPlayer)
 
 #Text through GUI
 volumeFont = pygame.font.SysFont("Times New Roman", 18, True)
@@ -75,7 +73,6 @@ while running:
     # dt is delta time in seconds since last frame, used for framerate-independent physics.
     dt = clock.tick(60) / 1000
 
-
     #MENU
     if menu:
         if menu_splash_ongoing:
@@ -92,8 +89,11 @@ while running:
             elif menu.home_status == 2:
                 running = False
             continue
-        
 
+    #ATH
+    ath.displayLifebar()
+    
+        
     # poll for events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -128,8 +128,6 @@ while running:
                 enemiesOnScreen.append(Enemy(screen,2).spawn())
             elif event.key == pygame.K_2:
                 enemiesOnScreen.append(Enemy(screen,1, "enemy_anim3", enemyType = 1).spawn())
-            elif event.key == pygame.K_ESCAPE:
-                menu.menu_pause()
             elif event.key == pygame.K_3:
                 enemiesOnScreen.append(Enemy(screen,3, "enemy_anim2", enemyType = 2).spawn())
             elif event.key == pygame.K_4:
@@ -327,8 +325,7 @@ while running:
 
     #ANIMATION READER
     thisPlayer.playerAnimate()
-
-
+    ath.displayLifebar()
 
     screen.blit(volumeLabel, (30, 70))
     screen.blit(ASPBoostLabel, (30, 1000))
