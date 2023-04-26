@@ -36,15 +36,15 @@ class Menu:
         self.msg =  pygame.transform.scale(pygame.image.load('image/press_start.png'), (self.width/2.5, self.height/20))
         self.fadingText = FadingSurf(self.msg, 0.5)
 
-        self.newGameButton = Button((640, 128),(325,650),'image/new_game_min.png')
+        self.newGameButton = Button((160*self.width/550, 32*self.height/300),(self.width/4.75,self.height/1.75),'image/new_game_min.png')
         self.newGameButton.bind(self.handleNewGame)
-        self.resumeButton = Button((640, 128),(965,650),'image/resume_min.png')
+        self.resumeButton = Button((160*self.width/550, 32*self.height/300),(self.width/1.999,self.height/1.75),'image/resume_min.png')
         self.resumeButton.bind(self.handleResume)
-        self.howToPlayButton = Button((640, 128),(325,800),'image/how_to_min.png')
+        self.howToPlayButton = Button((160*self.width/550, 32*self.height/300),(self.width/4.75,self.height/1.4),'image/how_to_min.png')
         self.howToPlayButton.bind(self.handleHowToPlay)
-        self.optionsButton = Button((640, 128),(965,800),'image/options_min.png')
+        self.optionsButton = Button((160*self.width/550, 32*self.height/300),(self.width/1.999,self.height/1.4),'image/options_min.png')
         self.optionsButton.bind(self.handleOptions)
-        self.quitButton = Button((192, 96),(15,979),'image/quit.png')
+        self.quitButton = Button((64*self.width/600, 32*self.height/300),(self.width/160,self.height/1.12),'image/quit.png')
         self.quitButton.bind(self.handleQuit)
 
         # 0:no update,  1:continue, 2:quit 
@@ -91,9 +91,7 @@ class Menu:
                 self.home_status = 2
 
     def handleNewGame(self):
-        print("new game")
-        # Handles its shit
-        pass
+        self.home_status = 1
 
     def handleResume(self):
         print("Resuming")
