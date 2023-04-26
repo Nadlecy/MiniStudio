@@ -27,7 +27,6 @@ class MapSection():
         display = pygame.display.get_surface()
         display_width = display.get_width()
         display_height = display.get_height()
-        display.blit(self.behindBackground, (0,0))
         display.blit(background,(display_height*2 - self.pixelsAdvanced,0))
         for objectData in self.gridItems :
             display.blit((pygame.transform.scale(objectData[0].image, (objectData[0].sizeOnGrid[0] * display_width/16, objectData[0].sizeOnGrid[1]  * display_height/9))), (objectData[1] * display_width/16 + (display_height*2 - self.pixelsAdvanced), objectData[2] * display_height/9))
@@ -49,6 +48,7 @@ class Map():
             else:
                 self.currentSections.append(self.currentSections[0].nextSection)
                 print("forwards")
+        pygame.display.get_surface().blit(self.currentSections[0].behindBackground, (0,0))
         for i in self.currentSections:
             i.loadGrid(i.background)
 
@@ -60,6 +60,7 @@ def loadLevel1(screen):
             backgrounds.append(load_backgrounds("corridors_boss","corridors"))
         else:
             backgrounds.append(load_backgrounds("corridors_" + str(i),"corridors"))
+    backgrounds.append(load_backgrounds("choice","choice"))
     
     height= pygame.display.get_surface().get_height()
     box = GridObjects("image/testbox.png")
@@ -68,7 +69,7 @@ def loadLevel1(screen):
     secondcircle2= MapSection(2, pygame.transform.scale(backgrounds[2][4],(height * 2, height)) , None, gridItems=[[box, 2, 1],[box, 3, 1],[box, 4, 1]])
     secondcircle1= MapSection(2, pygame.transform.scale(backgrounds[2][5],(height * 2, height)), secondcircle2, gridItems=[[box, 6, 1]])
     testmap1 = MapSection(1, pygame.transform.scale(backgrounds[1][4],(height * 2, height)), None, gridItems=[[box, 1, 2]])
-    intersection1 = MapSection(1, pygame.transform.scale(backgrounds[1][3],(height * 2, height)), testmap1, secondarySection= secondcircle1, gridItems=[[box, 2, 2],[bay1, 2, 6],[bay2, 2, 2]])
+    intersection1 = MapSection(1, pygame.transform.scale(backgrounds[4][0],(height * 2, height)), testmap1, secondarySection= secondcircle1)
     testmap2 = MapSection(1, pygame.transform.scale(backgrounds[1][4],(height * 2, height)), intersection1, gridItems=[[box, 1, 2],[box, 4, 2]])
     testmap1.nextSection = testmap2
     secondcircle2.nextSection = intersection1
