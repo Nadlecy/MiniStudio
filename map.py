@@ -1,4 +1,5 @@
 import pygame
+from spritesheet import Spritesheet
     
 class GridObjects():
     def __init__(self, visualPath, sizeOnGrid = [1, 1]):
@@ -47,6 +48,9 @@ class Map():
                 print("forwards")
         for i in self.currentSections:
             i.loadGrid()
+
+
+#USE THE ANIMATION THING TO SPLIT THE SPRITSHEETS
 
 # Level design
 box = GridObjects("image/testbox.png")
