@@ -118,13 +118,13 @@ while running:
 
             #spawn enemies
             elif event.key == pygame.K_1:
-                enemiesOnScreen.append(Enemy(screen,3).spawn())
+                enemiesOnScreen.append(Enemy(screen,2).spawn())
             elif event.key == pygame.K_2:
                 enemiesOnScreen.append(Enemy(screen,1, "enemy_anim3", enemyType = 1).spawn())
             elif event.key == pygame.K_ESCAPE:
                 menu.menu_pause()
             elif event.key == pygame.K_3:
-                enemiesOnScreen.append(Enemy(screen,5, "enemy_anim2", enemyType = 2).spawn())
+                enemiesOnScreen.append(Enemy(screen,3, "enemy_anim2", enemyType = 2).spawn())
             elif event.key == pygame.K_4:
                 enemiesOnScreen.append(Enemy(screen,2, "enemy_anim4", enemyType = 3).spawn())
             elif event.key == pygame.K_5:

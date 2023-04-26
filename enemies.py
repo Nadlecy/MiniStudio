@@ -90,10 +90,10 @@ class Enemy():
                         if self.position.y + 80 > self.currentSurface.get_height() - self.currentSurface.get_height()/9:
                             self.up = False
             case 4:
-                self.position.x -= (self.currentSurface.get_width()/6) * dt 
                 self.shoot()
                 animate_loop(self, rescale_size = (self.currentSurface.get_width()/3, self.currentSurface.get_height()/1.5))
-
+                if self.position.x > self.currentSurface.get_width()-self.currentSurface.get_width()/3:
+                    self.position.x -= (self.speed - 350) * dt
 
 
 
