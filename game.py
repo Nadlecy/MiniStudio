@@ -199,13 +199,13 @@ while running:
     #MOVEMENT
     keys = pygame.key.get_pressed()
     if (keys[pygame.K_z] or keys[pygame.K_UP]) and thisPlayer.position.y > screen.get_height()/9:
-        thisPlayer.position.y -= 400 * dt
+        thisPlayer.position.y -= thisPlayer.speed * dt
     if (keys[pygame.K_s] or keys[pygame.K_DOWN]) and thisPlayer.position.y < screen.get_height() - (screen.get_height()/9)*2:
-        thisPlayer.position.y += 400 * dt
+        thisPlayer.position.y += thisPlayer.speed * dt
     if (keys[pygame.K_q] or keys[pygame.K_LEFT]) and thisPlayer.position.x > 0:
-        thisPlayer.position.x -= 400 * dt
+        thisPlayer.position.x -= thisPlayer.speed * dt
     if (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and thisPlayer.position.x < screen.get_width() - (screen.get_width()/16):
-        thisPlayer.position.x += 400 * dt
+        thisPlayer.position.x += thisPlayer.speed * dt
     if keys[pygame.K_SPACE]:
         thisPlayer.shoot()
         
@@ -228,15 +228,12 @@ while running:
                         thisPlayer.position.x -= screen.get_width()/400
                         thisPlayer.lastHitTime = time.time()
                         thisPlayer.lives -= 1
-                        print(thisPlayer.lives)
                         break
                     elif collision and elapsed > 1 and thisPlayer.shield:
                         enemiesOnScreen[i].shotsList[a].position.y = screen.get_height()+40
                         thisPlayer.shield = False
                         thisPlayer.position.x -= screen.get_width()/400
                         thisPlayer.lastHitTime = time.time()
-                        print("hp : ", thisPlayer.lives)
-                        print(thisPlayer.shield)
                         break
 
 

@@ -87,7 +87,7 @@ class Enemy():
                             self.up = True
                     elif self.position.y + 80 < (self.currentSurface.get_height() - self.currentSurface.get_height()/9) and self.up == True:
                         self.position.y += round((self.speed - 500) * dt)
-                        if self.position.y + 80 > self.currentSurface.get_height() - self.currentSurface.get_height()/9:
+                        if self.position.y + 85 > self.currentSurface.get_height() - self.currentSurface.get_height()/9:
                             self.up = False
             case 4:
                 self.shoot()
