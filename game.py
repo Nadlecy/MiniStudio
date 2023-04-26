@@ -70,7 +70,7 @@ skin = 1
 thisPlayer=Player(currentSurface=screen, currentVisuals= "player_anim" + str(skin), position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
 
 # creating the first level
-level1 = loadLevel1(screen)
+level1 = loadLevel1()
 #menus init
 menu = Menu()
 ath = ATH(thisPlayer)
