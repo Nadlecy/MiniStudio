@@ -130,9 +130,9 @@ class Menu:
 
 class ATH:
     img_life_array = {3:"three_lives.png", 2:"two_lives.png", 1:"one_life.png", 0:"zero_lives.png"}
-    img_nade_array = {3:"three_health.png", 2:"two_health.png", 1:"one_health.png", 0:"zero_nade.png"}
-    img_health_array = {3:"three_health.png", 2:"two_health.png", 1:"one_health.png", 0:"zero_health.png"}
-    img_shiel_array = {1:"one_shield.png", 0:"zero_shield.png"}
+    img_nade_array = {3:"three_nade.png", 2:"two_nade.png", 1:"one_nade.png", 0:"zero_nade.png"}
+    img_heal_array = {3:"three_heal.png", 2:"two_heal.png", 1:"one_heal.png", 0:"zero_heal.png"}
+    img_shield_array = {1:"one_shield.png", 0:"zero_shield.png"}
     img_gun_array = {1:"one_gun.png", 0:"zero_gun.png"}
 
     def __init__(self, player):
@@ -149,29 +149,28 @@ class ATH:
 
 
     def displayGadgetbar(self):
-        self.gadget_surf = pygame.Surface((192,48), pygame.SRCALPHA)
-        gadget_slot_one = pygame.transform.scale(load("image/ath/gadget/boost1_overlay.png"),(48,16))
-        gadget_slot_two = pygame.transform.scale(load("image/ath/gadget/boost2_overlay.png"),(48,16))
-        gadget_slot_three = pygame.transform.scale(load("image/ath/gadget/boost3_overlay.png"),(48,16))
-        gadget_slot_four = pygame.transform.scale(load("image/ath/gadget/boost4_overlay.png"),(48,16))
-        """
-        health_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_nade_array[self.player]),(32,32))
-        nade_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_nade_array[self.player]),(32,32))
-        shield_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_nade_array[self.player]),(32,32))
-        gun_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_nade_array[self.player]),(32,32))
-        """
-        self.gadget_surf.blit(gadget_slot_one,(0,0))
-        self.gadget_surf.blit(gadget_slot_two,(48,0))
-        self.gadget_surf.blit(gadget_slot_three,(96,0))
-        self.gadget_surf.blit(gadget_slot_four,(144,0))
-        """
-        self.gadget_surf.blit(health_icon, (0,16))
-        self.gadget_surf.blit(nade_icon, (48,16))
-        self.gadget_surf.blit(shield_icon, (96,16))
-        self.gadget_surf.blit(gun_icon, (144,16))
-        """
-        self.surf.blit(self.gadget_surf, (0,self.height-192))
+        resizing_width = self.width/600
+        resizing_height = self.height/600
+        self.gadget_surf = pygame.Surface((192*resizing_width,48*resizing_width), pygame.SRCALPHA)
+        gadget_slot_one = pygame.transform.scale(load("image/ath/gadget/boost1_overlay.png"),(48*resizing_width,16*resizing_width))
+        gadget_slot_two = pygame.transform.scale(load("image/ath/gadget/boost2_overlay.png"),(48*resizing_width,16*resizing_width))
+        gadget_slot_three = pygame.transform.scale(load("image/ath/gadget/boost3_overlay.png"),(48*resizing_width,16*resizing_width))
+        gadget_slot_four = pygame.transform.scale(load("image/ath/gadget/boost4_overlay.png"),(48*resizing_width,16*resizing_width))
+        heal_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_nade_array[self.player.inventoryBoost["Heal"]]),(32*resizing_width,32*resizing_width))
+        nade_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_heal_array[self.player.inventoryBoost["Grenade"]]),(32*resizing_width,32*resizing_width))
+        shield_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_shield_array[self.player.inventoryBoost["Shield"]]),(32*resizing_width,32*resizing_width))
+        gun_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_gun_array[self.player.inventoryBoost["ASPBoost"]]),(32*resizing_width,32*resizing_width))
 
+
+        self.gadget_surf.blit(gadget_slot_one, (0,0))
+        self.gadget_surf.blit(gadget_slot_two, (48*resizing_width,0))
+        self.gadget_surf.blit(gadget_slot_three, (96*resizing_width,0))
+        self.gadget_surf.blit(gadget_slot_four, (144*resizing_width,0))
+        self.gadget_surf.blit(heal_icon, (8*resizing_width,16*resizing_height))
+        self.gadget_surf.blit(nade_icon, (56*resizing_width,16*resizing_height))
+        self.gadget_surf.blit(shield_icon, (104*resizing_width,16*resizing_height))
+        self.gadget_surf.blit(gun_icon, (152*resizing_width,16*resizing_height))
+        self.surf.blit(self.gadget_surf, (0,self.height-(75*resizing_height)))
 
     def displayLighting(self):
         lighting = pygame.transform.scale(load("image/ath/lueur_all.png"),(self.width, self.height))
