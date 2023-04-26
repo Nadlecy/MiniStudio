@@ -1,4 +1,5 @@
 import time
+
 class PowerUp:
     def __init__(self, duration:float,player):
         self.duration = duration
@@ -73,7 +74,3 @@ class Laser(PowerUp):
     def clean(self):
         super().clean()
         self.player.laser = False
-
-
-
-

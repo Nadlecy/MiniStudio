@@ -33,19 +33,19 @@ class Menu:
         self.surf = pygame.display.get_surface()
         self.width = self.surf.get_width()
         self.height = self.surf.get_height()
-        self.splash = pygame.transform.scale(pygame.image.load('image/menu_bg_space.png'), (self.width,self.height))
-        self.logo = pygame.transform.scale(pygame.image.load('image/menu_logo.png'), (self.width/2.5, self.height/2.5))
-        self.msg =  pygame.transform.scale(pygame.image.load('image/press_start.png'), (self.width/2.5, self.height/20))
+        self.splash = pygame.transform.scale(pygame.image.load('image/menu/menu_bg_space.png'), (self.width,self.height))
+        self.logo = pygame.transform.scale(pygame.image.load('image/menu/menu_logo.png'), (self.width/2.5, self.height/2.5))
+        self.msg =  pygame.transform.scale(pygame.image.load('image/menu/press_start.png'), (self.width/2.5, self.height/20))
         self.fadingText = FadingSurf(self.msg, 0.5)
 
         largeButtonSize = (160*self.width/550, 32*self.height/300)
         smallButtonSize = (64*self.width/600, 32*self.height/300)
-        self.newGameButton = Button(largeButtonSize,(self.width/4.75,self.height/1.75),'image/new_game_min.png')
-        self.resumeButton = Button(largeButtonSize,(self.width/1.999,self.height/1.75),'image/resume_min.png')
-        self.howToPlayButton = Button(largeButtonSize,(self.width/4.75,self.height/1.4),'image/how_to_min.png')
-        self.optionsButton = Button(largeButtonSize,(self.width/1.999,self.height/1.4),'image/options_min.png')
-        self.quitButton = Button(smallButtonSize,(self.width/160,self.height/1.12),'image/quit.png')
-        self.backButton = Button(smallButtonSize,(self.width/160,self.height/1.12),'image/quit.png')
+        self.newGameButton = Button(largeButtonSize,(self.width/4.75,self.height/1.75),'image/menu/new_game_min.png')
+        self.resumeButton = Button(largeButtonSize,(self.width/1.999,self.height/1.75),'image/menu/resume_min.png')
+        self.howToPlayButton = Button(largeButtonSize,(self.width/4.75,self.height/1.4),'image/menu/how_to_min.png')
+        self.optionsButton = Button(largeButtonSize,(self.width/1.999,self.height/1.4),'image/menu/options_min.png')
+        self.quitButton = Button(smallButtonSize,(self.width/160,self.height/1.12),'image/menu/quit.png')
+        self.backButton = Button(smallButtonSize,(self.width/160,self.height/1.12),'image/menu/quit.png')
         self.newGameButton.bind(self.handleNewGame)
         self.resumeButton.bind(self.handleResume)
         self.howToPlayButton.bind(self.handleHowToPlay)
@@ -129,7 +129,8 @@ class Menu:
 
 
 class ATH:
-    img_array = {3:"three_lives.png", 2:"two_lives.png", 1:"one_life.png", 0:"zero_lives.png"}
+    img_life_array = {3:"three_lives.png", 2:"two_lives.png", 1:"one_life.png", 0:"zero_lives.png"}
+    img_gadget_array = {3:"three_nade.png" "three_health.png", 2:"two_nade.png" "two_health.png", 1:"one_nade.png" "one_health.png" "one_shield.png" "one_gun.png", 0:"zero_nade.png" "zero_health.png" "zero_shield.png" "zero_gun.png"}
 
     def __init__(self, player):
         self.surf = pygame.display.get_surface()
@@ -137,7 +138,16 @@ class ATH:
 
     def displayLifebar(self):
         
-        lifebar_surf = pygame.transform.scale(load("image/"+self.img_array[self.player.lives]),(160,44))
+        lifebar_surf = pygame.transform.scale(load("image/ath/lifebar/"+self.img_life_array[self.player.lives]),(160,44))
         self.surf.blit(lifebar_surf, (0,0))
+
+        pygame.display.update()
+
+    def displayGadgetbar(self):
+        
+        self.gadget_surf = pygame.Surface((192,48))
+        gadget_slot_one = pygame.transform.scale(load("image/ath/gadget/boost1_overlay.png"),(48,16))
+        self.surf.blit(self.gadget_surf, (0,self.surf.get_height()-192))
+        self.gadget_surf.blit(gadget_slot_one,(0,0))
 
         pygame.display.update()
