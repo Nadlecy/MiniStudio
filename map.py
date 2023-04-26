@@ -1,35 +1,25 @@
 import pygame
 from spritesheet import load_backgrounds
-    
-class GridObjects():
-    def __init__(self, visualPath, sizeOnGrid = [1, 1]):
-        self.sizeOnGrid = sizeOnGrid
-        self.image = pygame.image.load(visualPath)
-        #, (self.size[0] * (pygame.display.get_surface().get_width() / 9),self.size[1]  * (pygame.display.get_surface().get_height() / 9))) 
 
 #one grid is 7x16
 #each grid contains a list of all the objects it will load, along with their positions: [Gridobject, positionX, positionY]
 #each grid knows which grid comes next
 #some grids have a secondary grid, that's where the player may split paths
 class MapSection():
-    def __init__(self, bayNumber, background, nextSection, secondarySection = None, gridItems = [], pixelsAdvanced = 0):
+    def __init__(self, bayNumber, background, nextSection, secondarySection = None, pixelsAdvanced = 0):
         #self.background = pygame.image.load()
         self.bayNumber = bayNumber
         self.background = background
         self.nextSection = nextSection
         self.secondarySection = secondarySection
-        self.gridItems = gridItems
         self.pixelsAdvanced = pixelsAdvanced
         self.behindBackground = pygame.transform.scale(pygame.image.load("image/bg_space_in_game.png"),(pygame.display.get_surface().get_height()*2,pygame.display.get_surface().get_height()))
     
     # shows elements in the grid 
     def loadGrid(self, background):
         display = pygame.display.get_surface()
-        display_width = display.get_width()
         display_height = display.get_height()
         display.blit(background,(display_height*2 - self.pixelsAdvanced,0))
-        for objectData in self.gridItems :
-            display.blit((pygame.transform.scale(objectData[0].image, (objectData[0].sizeOnGrid[0] * display_width/16, objectData[0].sizeOnGrid[1]  * display_height/9))), (objectData[1] * display_width/16 + (display_height*2 - self.pixelsAdvanced), objectData[2] * display_height/9))
         self.pixelsAdvanced += (display_height*2/240)
 
 class Map():
@@ -44,18 +34,17 @@ class Map():
         if self.currentSections[0].pixelsAdvanced >= pygame.display.get_surface().get_height()*2 and len(self.currentSections) == 1:
             if self.currentSections[0].secondarySection != None and (player.position.y < (pygame.display.get_surface().get_height() / 2 + pygame.display.get_surface().get_height()/18)):
                 self.currentSections.append(self.currentSections[0].secondarySection)
-                print("up'd")
             else:
                 self.currentSections.append(self.currentSections[0].nextSection)
-                print("forwards")
+
         pygame.display.get_surface().blit(self.currentSections[0].behindBackground, (0,0))
         for i in self.currentSections:
             i.loadGrid(i.background)
 
-def loadLevel1(screen):
+def loadLevel1():
     # Generating Backgrounds for the levels
     backgrounds = []
-    for i in range(4):
+    for i in range(5):
         if i == 0:
             backgrounds.append(load_backgrounds("corridors_boss","corridors"))
         else:
@@ -75,26 +64,49 @@ def loadLevel1(screen):
     bossCircle6.nextSection = bossCircle1
 
     #fourth bay
+    fourthCircle2= MapSection(3, pygame.transform.scale(backgrounds[4][6],(height * 2, height)), None) # connect to intersection41
+    fourthCircle1= MapSection(3, pygame.transform.scale(backgrounds[4][5],(height * 2, height)), fourthCircle2)
+    fourthCircle11= MapSection(3, pygame.transform.scale(backgrounds[4][6],(height * 2, height)), fourthCircle1)
 
     #third bay
+    thirdCircle3= MapSection(3, pygame.transform.scale(backgrounds[3][1],(height * 2, height)), None) # connect to intersection32
+    thirdCircle2= MapSection(3, pygame.transform.scale(backgrounds[3][0],(height * 2, height)), thirdCircle3)
+    thirdCircle1= MapSection(3, pygame.transform.scale(backgrounds[3][2],(height * 2, height)), thirdCircle2)
 
     #second bay
-    secondCircle2= MapSection(2, pygame.transform.scale(backgrounds[2][0],(height * 2, height)) , None)
-    secondCircle1= MapSection(2, pygame.transform.scale(backgrounds[2][2],(height * 2, height)), secondCircle2)
+    secondCircle5= MapSection(2, pygame.transform.scale(backgrounds[2][5],(height * 2, height)) , None) # connect to intersection21
+    secondCircle4= MapSection(2, pygame.transform.scale(backgrounds[2][6],(height * 2, height)) , secondCircle5)
+    secondCircle3= MapSection(2, pygame.transform.scale(backgrounds[2][4],(height * 2, height)) , None) # connect to intersection32
+    secondCircle2= MapSection(2, pygame.transform.scale(backgrounds[2][7],(height * 2, height)) , secondCircle3)
+    secondCircle1= MapSection(2, pygame.transform.scale(backgrounds[2][3],(height * 2, height)), secondCircle2)
 
     #first bay
-    firstCircle4 = MapSection(1, pygame.transform.scale(backgrounds[1][7],(height * 2, height)), None)
-    firstCircle3 = MapSection(1, pygame.transform.scale(backgrounds[0][7],(height * 2, height)), firstCircle4)
-    firstCircle2 = MapSection(1, pygame.transform.scale(backgrounds[1][3],(height * 2, height)), None)
-    firstCircle1 = MapSection(1, pygame.transform.scale(backgrounds[1][4],(height * 2, height)), firstCircle2)
+    firstCircle6 = MapSection(1, pygame.transform.scale(backgrounds[1][4],(height * 2, height)), None) #connect to intersection41
+    firstCircle5 = MapSection(1, pygame.transform.scale(backgrounds[1][5],(height * 2, height)), firstCircle6) 
+    firstCircle4 = MapSection(1, pygame.transform.scale(backgrounds[1][7],(height * 2, height)), None) #connect to intersectionB
+    firstCircle33 = MapSection(1, pygame.transform.scale(backgrounds[0][4],(height * 2, height)), firstCircle4)
+    firstCircle3 = MapSection(1, pygame.transform.scale(backgrounds[0][7],(height * 2, height)), firstCircle33)
+    firstCircle2 = MapSection(1, pygame.transform.scale(backgrounds[1][3],(height * 2, height)), None) #connect to intersection21
+    firstCircle11 = MapSection(1, pygame.transform.scale(backgrounds[1][6],(height * 2, height)), firstCircle2)
+    firstCircle1 = MapSection(1, pygame.transform.scale(backgrounds[1][4],(height * 2, height)), firstCircle11)
+
+    #starting room
+    startRoom= MapSection(1, pygame.transform.scale(backgrounds[1][3],(height * 2, height)), firstCircle1, pixelsAdvanced= pygame.display.get_surface().get_height()*2)
     
     #intersections/path choices
-    intersection21 = MapSection(1, pygame.transform.scale(backgrounds[4][0],(height * 2, height)), firstCircle3, secondarySection= secondCircle1)
-    intersectionB = MapSection(1, pygame.transform.scale(backgrounds[4][3],(height * 2, height)), firstCircle1, secondarySection= bossCircle1)
-    
-    #finishing loops
+    intersection21 = MapSection(1, pygame.transform.scale(backgrounds[5][0],(height * 2, height)), firstCircle3, secondarySection= secondCircle1)
     firstCircle2.nextSection = intersection21
+    secondCircle5.nextSection = intersection21
+
+    intersection32 = MapSection(2, pygame.transform.scale(backgrounds[5][1],(height * 2, height)), secondCircle4, secondarySection= thirdCircle1)
+    secondCircle3.nextSection = intersection32
+    thirdCircle3.nextSection = intersection32
+
+    intersection41 = MapSection(2, pygame.transform.scale(backgrounds[5][2],(height * 2, height)), firstCircle1, secondarySection= fourthCircle11)
+    firstCircle6.nextSection = intersection41
+    fourthCircle2.nextSection = intersection41
+
+    intersectionB = MapSection(1, pygame.transform.scale(backgrounds[5][3],(height * 2, height)), firstCircle5, secondarySection= bossCircle1)
     firstCircle4.nextSection = intersectionB
-    secondCircle2.nextSection = intersection21
     
-    return Map([firstCircle1])
+    return Map([startRoom])
