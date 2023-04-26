@@ -80,12 +80,14 @@ def loadLevel1():
     secondCircle1= MapSection(2, pygame.transform.scale(backgrounds[2][3],(height * 2, height)), secondCircle2)
 
     #first bay
-    firstCircle6 = MapSection(1, pygame.transform.scale(backgrounds[1][7],(height * 2, height)), None) #connect to intersection41
-    firstCircle5 = MapSection(1, pygame.transform.scale(backgrounds[1][7],(height * 2, height)), firstCircle6) 
+    firstCircle6 = MapSection(1, pygame.transform.scale(backgrounds[1][4],(height * 2, height)), None) #connect to intersection41
+    firstCircle5 = MapSection(1, pygame.transform.scale(backgrounds[1][5],(height * 2, height)), firstCircle6) 
     firstCircle4 = MapSection(1, pygame.transform.scale(backgrounds[1][7],(height * 2, height)), None) #connect to intersectionB
-    firstCircle3 = MapSection(1, pygame.transform.scale(backgrounds[0][7],(height * 2, height)), firstCircle4)
+    firstCircle33 = MapSection(1, pygame.transform.scale(backgrounds[0][4],(height * 2, height)), firstCircle4)
+    firstCircle3 = MapSection(1, pygame.transform.scale(backgrounds[0][7],(height * 2, height)), firstCircle33)
     firstCircle2 = MapSection(1, pygame.transform.scale(backgrounds[1][3],(height * 2, height)), None) #connect to intersection21
-    firstCircle1 = MapSection(1, pygame.transform.scale(backgrounds[1][4],(height * 2, height)), firstCircle2)
+    firstCircle11 = MapSection(1, pygame.transform.scale(backgrounds[1][6],(height * 2, height)), firstCircle2)
+    firstCircle1 = MapSection(1, pygame.transform.scale(backgrounds[1][4],(height * 2, height)), firstCircle11)
 
     #starting room
     startRoom= MapSection(1, pygame.transform.scale(backgrounds[1][3],(height * 2, height)), firstCircle1, pixelsAdvanced= pygame.display.get_surface().get_height()*2)
