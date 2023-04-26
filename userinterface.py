@@ -1,5 +1,6 @@
 import pygame
 from fade import FadingSurf
+from player import Player
 
 from pygame.mouse import get_pos as mouse_pos
 from pygame.mouse import get_pressed as mouse_buttons
@@ -46,6 +47,8 @@ class Menu:
         self.optionsButton.bind(self.handleOptions)
         self.quitButton = Button((64*self.width/600, 32*self.height/300),(self.width/160,self.height/1.12),'image/quit.png')
         self.quitButton.bind(self.handleQuit)
+        self.backButton = Button((64*self.width/600, 32*self.height/300),(self.width/160,self.height/1.12),'image/quit.png')
+        self.backButton.bind(self.handleBack)
 
         # 0:no update,  1:continue, 2:quit 
         self.splash_status = 0
@@ -85,10 +88,8 @@ class Menu:
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    self.home_status = 1
-            elif event.type == pygame.QUIT:
-                self.home_status = 2
+                if event.type == pygame.QUIT:
+                    self.home_status = 2
 
     def handleNewGame(self):
         self.home_status = 1
@@ -104,10 +105,14 @@ class Menu:
         pass
 
     def handleOptions(self):
+        self
         self.surf.blit(self.splash, (0, 0))
 
     def handleQuit(self):
         pygame.quit()
+
+    def handleBack(self):
+        self.home_status = 1
 
     def menu_pause(self):
         pass
@@ -115,3 +120,11 @@ class Menu:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     pass
+
+
+class ATH:
+    def __init__(self):
+        pass
+
+    def lifebar(self, lives, sprite):
+

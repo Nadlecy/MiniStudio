@@ -3,7 +3,7 @@ import pygame
 import math
 from player import Player,PlayerBullet
 from enemies import Enemy, EnemyBullet
-from menu import Menu, Button
+from userinterface import Menu, IngameMenu, ATH
 import buttons
 from powerUp import *
 from map import level1
@@ -15,9 +15,10 @@ pygame.init()
 screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 clock = pygame.time.Clock()
 
-#menu init
+#menus init
 menu = Menu()
-
+ingameMenu = IngameMenu()
+ath = ATH()
 
 #load button images
 plus_btn_img = pygame.image.load('image/plus_btn.png')
@@ -94,11 +95,15 @@ while running:
         
 
     # poll for events
-    # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
+            
+            #Pause menu
+            if event.key == pygame.K_ESCAPE:
+                print("caca")
+                menu.menu_pause()
 
 
             #boosts
