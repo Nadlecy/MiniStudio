@@ -190,16 +190,6 @@ while running:
         pygame.mixer.music.play(-1)
         music_order_check = 3
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
         # enemies act
     for i in enemiesOnScreen:
         i.ai(thisPlayer,dt)
