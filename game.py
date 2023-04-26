@@ -82,6 +82,7 @@ while running:
 
     #ATH
     ath.displayLifebar()
+    ath.displayGadgetbar()
     
         
     # poll for events
@@ -292,7 +293,7 @@ while running:
             print(len(thisPlayer.powerUps))
 
     #BUTTONS
-
+    '''
         #VOLUME
 
         #UP
@@ -310,6 +311,7 @@ while running:
     
 
     volumeLabel = volumeFont.render("Music = " + str(music_volume_display), False, (0,0,0))
+    '''
     
     #SKINS
     if next_btn.draw(screen):
@@ -329,7 +331,7 @@ while running:
     thisPlayer.playerAnimate()
     ath.displayLifebar()
 
-    screen.blit(volumeLabel, (30, 70))
+#    screen.blit(volumeLabel, (30, 70))
     screen.blit(ASPBoostLabel, (30, 1000))
     pygame.display.update()
     # flip() the display to put your work on screen
