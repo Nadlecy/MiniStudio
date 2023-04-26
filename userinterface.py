@@ -120,10 +120,6 @@ class Menu:
                 if event.key == pygame.K_ESCAPE:
                     pass
 
-class IngameMenu:
-    def __init__(self):
-        pass
-
 
 class ATH:
     def __init__(self):
