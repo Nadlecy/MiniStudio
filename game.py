@@ -29,7 +29,6 @@ class TriggerFunction () :
         if self.TimeTrigger < self.clock:
             self.function(self.param)
             self.clock = 0
-    
 
 def spawn_ennemi_1 (enemiesOnScreen):
     enemiesOnScreen.append(Enemy(screen,3).spawn())
@@ -59,14 +58,12 @@ minus_btn = buttons.Button(30, 30, minus_btn_img, 2)
 next_btn = buttons.Button(1200, 30, next_btn_img, 2)
 last_btn = buttons.Button(1140, 30, last_btn_img, 2)
 
-
 #Load Music
 music_volume = 0.5
 music_volume_display = 5
 pygame.mixer.music.load("music/ugly_travel.ogg")
 pygame.mixer.music.play(-1)
 music_order_check = 0
-
 
 #creating the player character
 skin = 1
@@ -120,12 +117,7 @@ while running:
             elif menu.home_status == 2:
                 running = False
             continue
-
-    #ATH
-    ath.displayLifebar()
-    ath.displayGadgetbar()
-    
-        
+         
     # poll for events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -136,7 +128,6 @@ while running:
             if event.key == pygame.K_ESCAPE:
                 print("caca")
                 menu.menu_pause()
-
 
             #boosts
             if event.key == pygame.K_o:
@@ -154,6 +145,7 @@ while running:
                         thisPlayer.powerUps.append(Heal(thisPlayer,1))
                         print(thisPlayer.lives)
 
+                
 
             #spawn enemies
             elif event.key == pygame.K_1:
@@ -168,11 +160,14 @@ while running:
                 enemiesOnScreen.append(Enemy(screen,2, "boss_idle", enemyType = 4, animationType = "boss_idle").spawn())
                 if music_order_check != 2:
                     music_order_check = 2
+    #enemy autospawn
+    spawn_penguin.TriggerCheck(dt)
+    spawn_hirondelle.TriggerCheck(dt)
+    spawn_poule.TriggerCheck(dt)
+    spawn_pigeon.TriggerCheck(dt)
     
-
     #Boosts labels
     ASPBoostLabel = volumeFont.render("ASPBoost = " + str(thisPlayer.shotSpeed), False, (255,255,255))
-
 
     #map management
     level1.mapProceed(thisPlayer)
@@ -193,10 +188,10 @@ while running:
         pygame.mixer.music.play(-1)
         music_order_check = 3
 
+
         # enemies act
     for i in enemiesOnScreen:
         i.ai(thisPlayer,dt)
-
 
     # decreases the cooldown on the player's attack
     thisPlayer.currentShotCoolDown -=1
@@ -211,13 +206,10 @@ while running:
             for i in toDelete:
                 del thisPlayer.shotsList[i]
 
-
-
     for i in range(len(enemiesOnScreen)):
         enemy = enemiesOnScreen[i]
         enemy.currentShotCoolDown -= 1
         if not enemy.shotsList: continue
-
 
         #Penguin
         if enemy.enemyType == 0:
@@ -226,7 +218,6 @@ while running:
                 if not keeping:
                     del enemy.shotsList[j]
 
- 
         #Chicken
         elif enemy.enemyType == 2:
             for j in range(len(enemy.shotsList)-1, 0, -1):
@@ -238,7 +229,6 @@ while running:
                     keeping = shot.move_type2_state2(dt)
                 if not keeping:
                     del enemy.shotsList[j]
-
 
         #Pigeon
         elif enemy.enemyType == 3:
@@ -254,9 +244,6 @@ while running:
                 if not keeping:
                     del enemy.shotsList[j]
 
-        
-
-
     #MOVEMENT
     keys = pygame.key.get_pressed()
     if (keys[pygame.K_z] or keys[pygame.K_UP]) and thisPlayer.position.y > screen.get_height()/9:
@@ -269,9 +256,6 @@ while running:
         thisPlayer.position.x += thisPlayer.speed * dt
     if keys[pygame.K_SPACE]:
         thisPlayer.shoot()
-        
-        
-
         
     #Collision    
     for i in range (len(enemiesOnScreen)):
@@ -313,9 +297,6 @@ while running:
                         print(thisPlayer.shield)
                         break
 
-
-
-
     for i in range(len(enemiesOnScreen)):
         enemy = enemiesOnScreen[i]
         if thisPlayer:
@@ -334,7 +315,7 @@ while running:
                     break
                 elif col and elapsed > 1 and thisPlayer.shield == True:
                     enemiesOnScreen[i].hp -= 1
-                    thisPlayer.shield = False
+                    thisPlayer.shield = False 
                     thisPlayer.position.x -= 50
                     thisPlayer.lastHitTime = time.time()
                     print("hp : ", thisPlayer.lives)
@@ -368,10 +349,6 @@ while running:
             del thisPlayer.powerUps[i]
             print(len(thisPlayer.powerUps))
 
-
-
-
-
     #BUTTONS
     '''
         #VOLUME
@@ -392,7 +369,6 @@ while running:
 
     volumeLabel = volumeFont.render("Music = " + str(music_volume_display), False, (0,0,0))
     '''
-    
     #SKINS
     if next_btn.draw(screen):
         if skin < 6:
@@ -409,14 +385,13 @@ while running:
 
     #ANIMATION READER
     thisPlayer.playerAnimate()
+    ath.displayLighting()
     ath.displayLifebar()
+    ath.displayGadgetbar()
 
 #    screen.blit(volumeLabel, (30, 70))
-    screen.blit(ASPBoostLabel, (30, 1000))
     pygame.display.update()
     # flip() the display to put your work on screen
     pygame.display.flip()
-
-    
 
 pygame.quit()
