@@ -66,6 +66,7 @@ def loadLevel1():
     #fourth bay
     fourthCircle2= MapSection(3, pygame.transform.scale(backgrounds[4][6],(height * 2, height)), None) # connect to intersection41
     fourthCircle1= MapSection(3, pygame.transform.scale(backgrounds[4][5],(height * 2, height)), fourthCircle2)
+    fourthCircle11= MapSection(3, pygame.transform.scale(backgrounds[4][6],(height * 2, height)), fourthCircle1)
 
     #third bay
     thirdCircle3= MapSection(3, pygame.transform.scale(backgrounds[3][1],(height * 2, height)), None) # connect to intersection32
@@ -101,7 +102,7 @@ def loadLevel1():
     secondCircle3.nextSection = intersection32
     thirdCircle3.nextSection = intersection32
 
-    intersection41 = MapSection(2, pygame.transform.scale(backgrounds[5][2],(height * 2, height)), firstCircle1, secondarySection= fourthCircle1)
+    intersection41 = MapSection(2, pygame.transform.scale(backgrounds[5][2],(height * 2, height)), firstCircle1, secondarySection= fourthCircle11)
     firstCircle6.nextSection = intersection41
     fourthCircle2.nextSection = intersection41
 
