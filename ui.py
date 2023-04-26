@@ -33,7 +33,7 @@ class Menu:
         self.surf = pygame.display.get_surface()
         self.width = self.surf.get_width()
         self.height = self.surf.get_height()
-        self.splash = pygame.transform.scale(pygame.image.load('image/menu/menu_bg_space.png'), (self.width,self.height))
+        self.splash = pygame.transform.scale(pygame.image.load('image/menu/bg_space.png'), (self.width,self.height))
         self.logo = pygame.transform.scale(pygame.image.load('image/menu/menu_logo.png'), (self.width/2.5, self.height/2.5))
         self.msg =  pygame.transform.scale(pygame.image.load('image/menu/press_start.png'), (self.width/2.5, self.height/20))
         self.fadingText = FadingSurf(self.msg, 0.5)
@@ -130,24 +130,50 @@ class Menu:
 
 class ATH:
     img_life_array = {3:"three_lives.png", 2:"two_lives.png", 1:"one_life.png", 0:"zero_lives.png"}
-    img_gadget_array = {3:"three_nade.png" "three_health.png", 2:"two_nade.png" "two_health.png", 1:"one_nade.png" "one_health.png" "one_shield.png" "one_gun.png", 0:"zero_nade.png" "zero_health.png" "zero_shield.png" "zero_gun.png"}
+    img_nade_array = {3:"three_health.png", 2:"two_health.png", 1:"one_health.png", 0:"zero_nade.png"}
+    img_health_array = {3:"three_health.png", 2:"two_health.png", 1:"one_health.png", 0:"zero_health.png"}
+    img_shiel_array = {1:"one_shield.png", 0:"zero_shield.png"}
+    img_gun_array = {1:"one_gun.png", 0:"zero_gun.png"}
 
     def __init__(self, player):
         self.surf = pygame.display.get_surface()
+        self.width = self.surf.get_width()
+        self.height  = self.surf.get_height()
         self.player = player
 
     def displayLifebar(self):
-        
-        lifebar_surf = pygame.transform.scale(load("image/ath/lifebar/"+self.img_life_array[self.player.lives]),(160,44))
+        lifebar_surf = pygame.transform.scale(load("image/ath/lifebar/"+self.img_life_array[self.player.lives]),(160*self.surf.get_width()/500,44*self.surf.get_width()/500))
         self.surf.blit(lifebar_surf, (0,0))
+        if self.player.lives == 0:
+            pygame.quit()
 
-        pygame.display.update()
 
     def displayGadgetbar(self):
-        
-        self.gadget_surf = pygame.Surface((192,48))
+        self.gadget_surf = pygame.Surface((192,48), pygame.SRCALPHA)
         gadget_slot_one = pygame.transform.scale(load("image/ath/gadget/boost1_overlay.png"),(48,16))
-        self.surf.blit(self.gadget_surf, (0,self.surf.get_height()-192))
+        gadget_slot_two = pygame.transform.scale(load("image/ath/gadget/boost2_overlay.png"),(48,16))
+        gadget_slot_three = pygame.transform.scale(load("image/ath/gadget/boost3_overlay.png"),(48,16))
+        gadget_slot_four = pygame.transform.scale(load("image/ath/gadget/boost4_overlay.png"),(48,16))
+        """
+        health_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_nade_array[self.player]),(32,32))
+        nade_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_nade_array[self.player]),(32,32))
+        shield_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_nade_array[self.player]),(32,32))
+        gun_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_nade_array[self.player]),(32,32))
+        """
         self.gadget_surf.blit(gadget_slot_one,(0,0))
+        self.gadget_surf.blit(gadget_slot_two,(48,0))
+        self.gadget_surf.blit(gadget_slot_three,(96,0))
+        self.gadget_surf.blit(gadget_slot_four,(144,0))
+        """
+        self.gadget_surf.blit(health_icon, (0,16))
+        self.gadget_surf.blit(nade_icon, (48,16))
+        self.gadget_surf.blit(shield_icon, (96,16))
+        self.gadget_surf.blit(gun_icon, (144,16))
+        """
+        self.surf.blit(self.gadget_surf, (0,self.height-192))
 
-        pygame.display.update()
+
+    def displayLighting(self):
+        lighting = pygame.transform.scale(load("image/ath/lueur_all.png"),(self.width, self.height))
+        self.surf.blit(lighting,(0,0))
+        
