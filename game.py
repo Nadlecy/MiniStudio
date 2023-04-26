@@ -6,8 +6,7 @@ from enemies import Enemy, EnemyBullet
 from menu import Menu, Button
 import buttons
 from powerUp import *
-from map import level1
-from spritesheet import load_backgrounds
+from map import loadLevel1
 
 # pygame setup
 pygame.init()
@@ -31,25 +30,23 @@ minus_btn = buttons.Button(30, 30, minus_btn_img, 2)
 next_btn = buttons.Button(1200, 30, next_btn_img, 2)
 last_btn = buttons.Button(1140, 30, last_btn_img, 2)
 
+"""
 #Load Music
-music_volume = 0.1
+music_volume = 3
 music_volume_display = 3
 pygame.mixer.music.load("music/birds_attacks_intro.ogg")
 pygame.mixer.music.play()
+"""
 
 #creating the player character
 skin = 1
 thisPlayer=Player(currentSurface=screen, currentVisuals= "player_anim" + str(skin), position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
 
+# creating the first level
+level1 = loadLevel1(screen)
 
 #Text through GUI
 volumeFont = pygame.font.SysFont("Times New Roman", 18, True)
-
-#preparing the scrolling screen
-bg = pygame.transform.scale(pygame.image.load("image/background2.png"),(screen.get_height() * 4, screen.get_height()))
-bg_width = bg.get_width()
-scroll = 0
-tiles = math.ceil(screen.get_width() / bg_width) +1
 
 #launching the game
 running = True
@@ -60,15 +57,7 @@ dt = 0
 #preparing enemy storage list
 enemiesOnScreen = []
 
-# Generating Backgrounds for the level
-backgrounds = []
-for i in range(4):
-    if i == 0:
-        backgrounds.append(load_backgrounds("corridors_boss","corridors"))
-    else:
-        backgrounds.append(load_backgrounds("corridors_" + str(i),"corridors"))
-
-
+        
 while running:
     # limits FPS to 60
     # dt is delta time in seconds since last frame, used for framerate-independent physics.
@@ -122,25 +111,16 @@ while running:
             elif event.key == pygame.K_4:
                 enemiesOnScreen.append(Enemy(screen,2, "enemy_anim4", enemyType = 3).spawn())
 
-    
-
-    # draw scrolling background
-    for i in range(0, tiles):
-        screen.blit(bg,(i*bg_width+ scroll,0))
-    scroll -= screen.get_width()/240
-    #scroll reset
-    if abs(scroll) > bg_width:
-        scroll = 0
     #map management
     level1.mapProceed(thisPlayer)
 
-
+    """
     # music
     pygame.mixer.music.set_volume(music_volume)
     if (pygame.mixer.music.get_busy() == False):
         pygame.mixer.music.load("music/birds_attacks.ogg")
         pygame.mixer.music.play(-1)
-
+    """
     
     # enemies act
     for i in enemiesOnScreen:
@@ -295,7 +275,8 @@ while running:
             music_volume_display -= 1
         print(music_volume)
     
-    volumeLabel = volumeFont.render("Music = " + str(music_volume_display), False, (0,0,0))
+
+    # volumeLabel = volumeFont.render("Music = " + str(music_volume_display), False, (0,0,0))
     
     #SKINS
     if next_btn.draw(screen):
@@ -316,7 +297,7 @@ while running:
 
 
 
-    screen.blit(volumeLabel, (30, 70))
+#    screen.blit(volumeLabel, (30, 70))
     pygame.display.update()
     # flip() the display to put your work on screen
     pygame.display.flip()

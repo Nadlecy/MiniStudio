@@ -4,7 +4,7 @@ import json
 class Spritesheet:
     def __init__(self, filename, animationType):
         self.filename = filename
-        self.sprite_sheet = pygame.image.load(filename).convert()
+        self.sprite_sheet = pygame.image.load(filename).convert_alpha()
 
         #determining which json to use depending on the animationType
         self.meta_data = "spritesheets/" + animationType + ".json"
