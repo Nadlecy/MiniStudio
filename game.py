@@ -249,9 +249,9 @@ while running:
                     del enemy.shotsList[j]
 
         #Boss
-        elif enemy.enemyType == 3:
+        elif enemy.enemyType == 4:
             for j in range(len(enemy.shotsList)-1,0,-1):
-                keeping = enemy.shotsList[j].move_type1(dt)
+                keeping = enemy.shotsList[j].move_boss_type1(dt)
                 if not keeping:
                     del enemy.shotsList[j]
 
@@ -294,7 +294,7 @@ while running:
             if enemy.shotsList:
                 for a in range (len(enemy.shotsList)):
                     if enemy.enemyType == 4:
-                        collision = EnemyBullet.isCollision(enemy.shotsList[a],thisPlayer.position,screen.get_width()/3,screen.get_width()/16)
+                        collision = EnemyBullet.isCollision(enemy.shotsList[a],thisPlayer.position,screen.get_width()/16,screen.get_width()/16)
                     else:
                         collision = EnemyBullet.isCollision(enemy.shotsList[a],thisPlayer.position,screen.get_width()/16,screen.get_width()/16)
                     elapsed = time.time() - thisPlayer.lastHitTime
@@ -313,9 +313,12 @@ while running:
                         print("hp : ", thisPlayer.lives)
                         print(thisPlayer.shield)
                         break
-
-
-
+            if enemy.lasersList:
+                for laser in enemy.lasersList:
+                    laser.update(dt)
+                    laser.render()
+                    if laser.expired:
+                        enemy.lasersList.remove(laser)
 
     for i in range(len(enemiesOnScreen)):
         enemy = enemiesOnScreen[i]
