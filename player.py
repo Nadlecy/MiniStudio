@@ -54,6 +54,11 @@ class Player ():
             return True
         else:
             return False
+    def die(self):
+        if self.lives <= 0:
+            return True
+        else:
+            return False
         
 
 class PlayerBullet ():
