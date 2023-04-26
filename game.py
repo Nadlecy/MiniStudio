@@ -348,6 +348,12 @@ while running:
         if power.isOver():
             del thisPlayer.powerUps[i]
             print(len(thisPlayer.powerUps))
+    if thisPlayer.die():
+        pygame.quit()
+        menu.gameOver()
+        
+
+        
 
     #BUTTONS
     '''

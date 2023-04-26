@@ -7,11 +7,12 @@ from pygame.mouse import get_pressed as mouse_buttons
 from pygame.image import load
 
 class Button:
-  def __init__(self, size, pos, sprite_path):
+  def __init__(self, size, pos, sprite_path, sprite_hov_path):
     self.displaySurf = pygame.display.get_surface()
     self.size = size
     self.position = pos
     self.sprite = pygame.transform.scale(pygame.image.load(sprite_path), size)
+    self.sprite_hov = pygame.transform.scale(pygame.image.load(sprite_hov_path), size)
     self.to = None
     self.isPressed = False
 
@@ -20,12 +21,13 @@ class Button:
 
   def draw(self):
     rect = self.displaySurf.blit(self.sprite, self.position)
-    
-    if self.to and not self.isPressed and rect.collidepoint(mouse_pos()) and mouse_buttons()[0]:
-      self.isPressed = True
-      self.to()
-    else:
-      self.isPressed = False
+    if rect.collidepoint(mouse_pos()):
+        self.displaySurf.blit(self.sprite_hov, self.position)
+        if self.to and not self.isPressed  and mouse_buttons()[0]:
+            self.isPressed = True
+            self.to()
+        else:
+            self.isPressed = False
 
 
 class Menu:
@@ -40,12 +42,12 @@ class Menu:
 
         largeButtonSize = (160*self.width/550, 32*self.height/300)
         smallButtonSize = (64*self.width/600, 32*self.height/300)
-        self.newGameButton = Button(largeButtonSize,(self.width/4.75,self.height/1.75),'image/menu/new_game_min.png')
-        self.resumeButton = Button(largeButtonSize,(self.width/1.999,self.height/1.75),'image/menu/resume_min.png')
-        self.howToPlayButton = Button(largeButtonSize,(self.width/4.75,self.height/1.4),'image/menu/how_to_min.png')
-        self.optionsButton = Button(largeButtonSize,(self.width/1.999,self.height/1.4),'image/menu/options_min.png')
-        self.quitButton = Button(smallButtonSize,(self.width/160,self.height/1.12),'image/menu/quit.png')
-        self.backButton = Button(smallButtonSize,(self.width/160,self.height/1.12),'image/menu/quit.png')
+        self.newGameButton = Button(largeButtonSize,(self.width/4.75,self.height/1.75),'image/menu/new_game_min.png','image/menu/new_game_hover.png')
+        self.resumeButton = Button(largeButtonSize,(self.width/1.999,self.height/1.75),'image/menu/resume_min.png','image/menu/resume_hover.png')
+        self.howToPlayButton = Button(largeButtonSize,(self.width/4.75,self.height/1.4),'image/menu/how_to_min.png','image/menu/how_to_hover.png')
+        self.optionsButton = Button(largeButtonSize,(self.width/1.999,self.height/1.4),'image/menu/options_min.png','image/menu/options_hover.png')
+        self.quitButton = Button(smallButtonSize,(self.width/160,self.height/1.12),'image/menu/quit.png','image/menu/quit.png')
+        self.backButton = Button(smallButtonSize,(self.width/160,self.height/1.12),'image/menu/quit.png','image/menu/quit.png')
         self.newGameButton.bind(self.handleNewGame)
         self.resumeButton.bind(self.handleResume)
         self.howToPlayButton.bind(self.handleHowToPlay)
@@ -113,19 +115,22 @@ class Menu:
     def musicOption():
         pass
 
-
     def handleQuit(self):
         pygame.quit()
 
     def handleBack(self):
         self.home_status = 1
 
-    def menu_pause(self):
+    def menuPause(self):
         pass
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     pass
+
+    def gameOver(self):
+        pass
+        
 
 
 class ATH:
@@ -144,9 +149,6 @@ class ATH:
     def displayLifebar(self):
         lifebar_surf = pygame.transform.scale(load("image/ath/lifebar/"+self.img_life_array[self.player.lives]),(160*self.surf.get_width()/500,44*self.surf.get_width()/500))
         self.surf.blit(lifebar_surf, (0,0))
-        if self.player.lives == 0:
-            pygame.quit()
-
 
     def displayGadgetbar(self):
         resizing_width = self.width/600
