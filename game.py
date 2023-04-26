@@ -6,8 +6,7 @@ from enemies import Enemy, EnemyBullet
 from ui import Menu, ATH
 import buttons
 from powerUp import *
-from map import level1
-from spritesheet import load_backgrounds
+from map import loadLevel1
 
 # pygame setup
 pygame.init()
@@ -27,28 +26,26 @@ minus_btn = buttons.Button(30, 30, minus_btn_img, 2)
 next_btn = buttons.Button(1200, 30, next_btn_img, 2)
 last_btn = buttons.Button(1140, 30, last_btn_img, 2)
 
+"""
 #Load Music
-music_volume = 0.1
+music_volume = 3
 music_volume_display = 3
 pygame.mixer.music.load("music/birds_attacks_intro.ogg")
 pygame.mixer.music.play()
+"""
 
 #creating the player character
 skin = 1
 thisPlayer=Player(currentSurface=screen, currentVisuals= "player_anim" + str(skin), position = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2))
 
+# creating the first level
+level1 = loadLevel1(screen)
 #menus init
 menu = Menu()
 ath = ATH(thisPlayer)
 
 #Text through GUI
 volumeFont = pygame.font.SysFont("Times New Roman", 18, True)
-
-#preparing the scrolling screen
-bg = pygame.transform.scale(pygame.image.load("image/background2.png"),(screen.get_height() * 4, screen.get_height()))
-bg_width = bg.get_width()
-scroll = 0
-tiles = math.ceil(screen.get_width() / bg_width) +1
 
 #launching the game
 running = True
@@ -59,15 +56,7 @@ dt = 0
 #preparing enemy storage list
 enemiesOnScreen = []
 
-# Generating Backgrounds for the level
-backgrounds = []
-for i in range(4):
-    if i == 0:
-        backgrounds.append(load_backgrounds("corridors_boss","corridors"))
-    else:
-        backgrounds.append(load_backgrounds("corridors_" + str(i),"corridors"))
-
-
+        
 while running:
     # limits FPS to 60
     # dt is delta time in seconds since last frame, used for framerate-independent physics.
@@ -125,11 +114,11 @@ while running:
 
             #spawn enemies
             elif event.key == pygame.K_1:
-                enemiesOnScreen.append(Enemy(screen,2).spawn())
+                enemiesOnScreen.append(Enemy(screen,3).spawn())
             elif event.key == pygame.K_2:
                 enemiesOnScreen.append(Enemy(screen,1, "enemy_anim3", enemyType = 1).spawn())
             elif event.key == pygame.K_3:
-                enemiesOnScreen.append(Enemy(screen,3, "enemy_anim2", enemyType = 2).spawn())
+                enemiesOnScreen.append(Enemy(screen,5, "enemy_anim2", enemyType = 2).spawn())
             elif event.key == pygame.K_4:
                 enemiesOnScreen.append(Enemy(screen,2, "enemy_anim4", enemyType = 3).spawn())
             elif event.key == pygame.K_5:
@@ -139,16 +128,9 @@ while running:
     #Boosts labels
     ASPBoostLabel = volumeFont.render("ASPBoost = " + str(thisPlayer.shotSpeed), False, (255,255,255))
 
-    # draw scrolling background
-    for i in range(0, tiles):
-        screen.blit(bg,(i*bg_width+ scroll,0))
-    scroll -= screen.get_width()/240
-    #scroll reset
-    if abs(scroll) > bg_width:
-        scroll = 0
+
     #map management
     level1.mapProceed(thisPlayer)
-
 
     # music
     pygame.mixer.music.set_volume(music_volume)
@@ -217,36 +199,54 @@ while running:
         
     #Collision    
     for i in range (len(enemiesOnScreen)):
+            enemy = enemiesOnScreen[i]
             if thisPlayer.shotsList:
-                for a in range (len(thisPlayer.shotsList)):
-                    collision = PlayerBullet.isCollision(thisPlayer.shotsList[a],enemiesOnScreen[i].position,80)
+                for a in range (len(thisPlayer.shotsList)):  
+                    if enemy.enemyType == 4:
+                        collision = PlayerBullet.isCollision(thisPlayer.shotsList[a],enemy.position,screen.get_width()/3,screen.get_width()/16)
+                    else:
+                        collision = PlayerBullet.isCollision(thisPlayer.shotsList[a],enemy.position,screen.get_width()/16,screen.get_width()/16)
+                    
                     if collision :
                         thisPlayer.shotsList[a].position.y = screen.get_height()+40
-                        enemiesOnScreen[i].hp -= 1
+                        enemy.hp -= 1
+                        print(enemy.hp)    
+
     for i in range (len(enemiesOnScreen)):
-            if enemiesOnScreen[i].shotsList:
-                for a in range (len(enemiesOnScreen[i].shotsList)):
-                    collision = EnemyBullet.isCollision(enemiesOnScreen[i].shotsList[a],thisPlayer.position,80)
+            enemy = enemiesOnScreen[i]
+            if enemy.shotsList:
+                for a in range (len(enemy.shotsList)):
+                    if enemy.enemyType == 4:
+                        collision = EnemyBullet.isCollision(enemy.shotsList[a],thisPlayer.position,screen.get_width()/1.5,screen.get_width()/16)
+                    else:
+                        collision = EnemyBullet.isCollision(enemy.shotsList[a],thisPlayer.position,screen.get_width()/16,screen.get_width()/16)
                     elapsed = time.time() - thisPlayer.lastHitTime
                     if collision and elapsed >1 and thisPlayer.shield == False:
                         enemiesOnScreen[i].shotsList[a].position.y = screen.get_height()+40
                         thisPlayer.position.x -= screen.get_width()/400
                         thisPlayer.lastHitTime = time.time()
                         thisPlayer.lives -= 1
+                        print(thisPlayer.lives)
                         break
                     elif collision and elapsed > 1 and thisPlayer.shield:
                         enemiesOnScreen[i].shotsList[a].position.y = screen.get_height()+40
                         thisPlayer.shield = False
                         thisPlayer.position.x -= screen.get_width()/400
                         thisPlayer.lastHitTime = time.time()
+                        print("hp : ", thisPlayer.lives)
+                        print(thisPlayer.shield)
                         break
 
 
     for i in range(len(enemiesOnScreen)):
+        enemy = enemiesOnScreen[i]
         if thisPlayer:
-            col = thisPlayer.Collision(enemiesOnScreen[i].position,80)
+            if enemy.enemyType == 4:
+                col = thisPlayer.Collision(enemy.position,screen.get_width()/3,screen.get_width()/16)
+            else:
+                col = thisPlayer.Collision(enemy.position,screen.get_width()/16,screen.get_width()/16)
             elapsed = time.time() - thisPlayer.lastHitTime
-            if enemiesOnScreen[i].enemyType == 0:
+            if enemiesOnScreen[i].enemyType == 0 or 2 or 3 or 4:
                 if col and elapsed > 1 and thisPlayer.shield == False:
                     thisPlayer.lives -= 1
                     thisPlayer.position.x -= 50
@@ -307,7 +307,8 @@ while running:
             music_volume_display -= 1
         print(music_volume)
     
-    volumeLabel = volumeFont.render("Music = " + str(music_volume_display), False, (0,0,0))
+
+    # volumeLabel = volumeFont.render("Music = " + str(music_volume_display), False, (0,0,0))
     
     #SKINS
     if next_btn.draw(screen):

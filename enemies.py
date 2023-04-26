@@ -145,10 +145,10 @@ class EnemyBullet ():
         else :
             return False
         
-    def isCollision (self,Object:pygame.Vector2,size):
-        vect = Object + pygame.Vector2(size/2,size/2)
-        distance = (vect-self.position).magnitude()
-        if distance < size/2:
-            return True
-        else:
-            return False
+    def isCollision (self,Object:pygame.Vector2,size,bulletsize):
+        offset = pygame.Vector2(size/2,size/2)
+        bullet_offset = pygame.Vector2(bulletsize/2,bulletsize/2)
+        vect = Object + offset
+        bullet_vect = self.position + bullet_offset
+        distance = (vect-bullet_vect).magnitude()
+        return distance < size/2

@@ -1,5 +1,5 @@
 { "frames": {
-   "Sprite-0017 0.": {
+   "choix 0.aseprite": {
     "frame": { "x": 0, "y": 0, "w": 256, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -7,7 +7,7 @@
     "sourceSize": { "w": 256, "h": 128 },
     "duration": 100
    },
-   "Sprite-0017 1.": {
+   "choix 1.aseprite": {
     "frame": { "x": 0, "y": 128, "w": 256, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -15,7 +15,7 @@
     "sourceSize": { "w": 256, "h": 128 },
     "duration": 100
    },
-   "Sprite-0017 2.": {
+   "choix 2.aseprite": {
     "frame": { "x": 0, "y": 256, "w": 256, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -23,16 +23,8 @@
     "sourceSize": { "w": 256, "h": 128 },
     "duration": 100
    },
-   "Sprite-0017 3.": {
+   "choix 3.aseprite": {
     "frame": { "x": 0, "y": 384, "w": 256, "h": 128 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 128 },
-    "sourceSize": { "w": 256, "h": 128 },
-    "duration": 100
-   },
-   "Sprite-0017 4.": {
-    "frame": { "x": 0, "y": 512, "w": 256, "h": 128 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 128 },
@@ -43,14 +35,17 @@
  "meta": {
   "app": "https://www.aseprite.org/",
   "version": "1.2.40-x64",
-  "image": "transition.png",
+  "image": "choix.png",
   "format": "RGBA8888",
-  "size": { "w": 256, "h": 640 },
+  "size": { "w": 256, "h": 512 },
   "scale": "1",
   "frameTags": [
   ],
   "layers": [
-   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+   { "name": "Border", "opacity": 255, "blendMode": "normal" },
+   { "name": "Background", "opacity": 255, "blendMode": "normal" },
+   { "name": "Poteaux", "opacity": 255, "blendMode": "normal" },
+   { "name": "Peinture", "opacity": 255, "blendMode": "normal" }
   ],
   "slices": [
   ]
