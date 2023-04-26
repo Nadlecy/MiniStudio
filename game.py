@@ -10,6 +10,7 @@ from map import loadLevel1
 
 # pygame setup
 pygame.init()
+
 #creating a screen
 screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 clock = pygame.time.Clock()
@@ -26,13 +27,13 @@ minus_btn = buttons.Button(30, 30, minus_btn_img, 2)
 next_btn = buttons.Button(1200, 30, next_btn_img, 2)
 last_btn = buttons.Button(1140, 30, last_btn_img, 2)
 
-"""
+
 #Load Music
 music_volume = 3
 music_volume_display = 3
 pygame.mixer.music.load("music/birds_attacks_intro.ogg")
 pygame.mixer.music.play()
-"""
+
 
 #creating the player character
 skin = 1
@@ -308,7 +309,7 @@ while running:
         print(music_volume)
     
 
-    # volumeLabel = volumeFont.render("Music = " + str(music_volume_display), False, (0,0,0))
+    volumeLabel = volumeFont.render("Music = " + str(music_volume_display), False, (0,0,0))
     
     #SKINS
     if next_btn.draw(screen):

@@ -110,6 +110,10 @@ class Menu:
     def handleOptions(self):
         self.surf.blit(self.splash, (0, 0))
 
+    def musicOption():
+        pass
+
+
     def handleQuit(self):
         pygame.quit()
 
