@@ -1,4 +1,3 @@
-# Example file showing a circle moving on screen
 import pygame
 import math
 from player import Player,PlayerBullet
