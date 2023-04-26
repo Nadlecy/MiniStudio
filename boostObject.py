@@ -4,3 +4,6 @@ class boosObject():
         self.currentSurface = currentSurface
         self.visual = Visual
         self.name = name
+
+    def afficher(self):
+        self.currentSurface.blit(self.visual,self.position)

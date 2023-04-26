@@ -51,7 +51,7 @@ class Player ():
         obj_vect = Object + offset
         player_vect = self.position + player_offset
         distance = (obj_vect-player_vect).magnitude()
-        return distance < size
+        return distance < size/2
         
     def die(self):
         if self.lives <= 0:

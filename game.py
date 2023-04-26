@@ -7,6 +7,7 @@ from ui import Menu, ATH
 import buttons
 from powerUp import *
 from map import loadLevel1
+from boostObject import *
 
 
 class gameState ():
@@ -93,15 +94,17 @@ spawn_hirondelle =TriggerFunction(7,spawn_ennemi_2,enemiesOnScreen)
 spawn_poule = TriggerFunction(15,spawn_ennemi_3,enemiesOnScreen)
 spawn_pigeon = TriggerFunction(8,spawn_ennemi_4,enemiesOnScreen)
 
+Shield_boost = boosObject(pygame.Vector2(screen.get_width()/2,screen.get_height()/2),screen,Visual="boost_coin_shield",name="Shield")
+
         
 while running:
     # limits FPS to 60
     # dt is delta time in seconds since last frame, used for framerate-independent physics.
     dt = clock.tick(60) / 1000  
-    spawn_penguin.TriggerCheck(dt)
-    spawn_hirondelle.TriggerCheck(dt)
-    spawn_poule.TriggerCheck(dt)
-    spawn_pigeon.TriggerCheck(dt)
+    #spawn_penguin.TriggerCheck(dt)
+    #spawn_hirondelle.TriggerCheck(dt)
+    #spawn_poule.TriggerCheck(dt)
+    #spawn_pigeon.TriggerCheck(dt)
     #MENU
     if menu:
         if menu_splash_ongoing:
@@ -291,7 +294,7 @@ while running:
             if enemy.shotsList:
                 for a in range (len(enemy.shotsList)):
                     if enemy.enemyType == 4:
-                        collision = EnemyBullet.isCollision(enemy.shotsList[a],thisPlayer.position,screen.get_width()/1.5,screen.get_width()/16)
+                        collision = EnemyBullet.isCollision(enemy.shotsList[a],thisPlayer.position,screen.get_width()/3,screen.get_width()/16)
                     else:
                         collision = EnemyBullet.isCollision(enemy.shotsList[a],thisPlayer.position,screen.get_width()/16,screen.get_width()/16)
                     elapsed = time.time() - thisPlayer.lastHitTime
