@@ -243,8 +243,6 @@ class Ray:
     def player_collision(self):
         plr_size = self.displaySurf.get_width() / 16
         plr_rect = pygame.Rect(self.player.position, pygame.Vector2(1,1) * plr_size)
-        pygame.draw.rect(self.displaySurf, 'lime', plr_rect, 5)
-        pygame.draw.rect(self.displaySurf, 'lime', self.rect, 5)
         if self.rect.colliderect(plr_rect) and not self.dealth_damage:
             if 5 < self.sprite_index < 13:
                 self.dealth_damage = True

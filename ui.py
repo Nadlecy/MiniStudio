@@ -158,8 +158,8 @@ class ATH:
         gadget_slot_two = pygame.transform.scale(load("image/ath/gadget/boost2_overlay.png"),(48*resizing_width,16*resizing_width))
         gadget_slot_three = pygame.transform.scale(load("image/ath/gadget/boost3_overlay.png"),(48*resizing_width,16*resizing_width))
         gadget_slot_four = pygame.transform.scale(load("image/ath/gadget/boost4_overlay.png"),(48*resizing_width,16*resizing_width))
-        heal_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_nade_array[self.player.inventoryBoost["Heal"]]),(32*resizing_width,32*resizing_width))
-        nade_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_heal_array[self.player.inventoryBoost["Grenade"]]),(32*resizing_width,32*resizing_width))
+        heal_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_heal_array[self.player.inventoryBoost["Heal"]]),(32*resizing_width,32*resizing_width))
+        nade_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_nade_array[self.player.inventoryBoost["Grenade"]]),(32*resizing_width,32*resizing_width))
         shield_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_shield_array[self.player.inventoryBoost["Shield"]]),(32*resizing_width,32*resizing_width))
         gun_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_gun_array[self.player.inventoryBoost["ASPBoost"]]),(32*resizing_width,32*resizing_width))
 

@@ -1,5 +1,5 @@
 { "frames": {
-   "boosts_coin_shield 0.png": {
+   "boosts_bouclier 0.png": {
     "frame": { "x": 0, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -7,7 +7,7 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 200
    },
-   "boosts_coin_shield 1.png": {
+   "boosts_bouclier 1.png": {
     "frame": { "x": 16, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -15,7 +15,7 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 200
    },
-   "boosts_coin_shield 2.png": {
+   "boosts_bouclier 2.png": {
     "frame": { "x": 32, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -23,7 +23,7 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 200
    },
-   "boosts_coin_shield 3.png": {
+   "boosts_bouclier 3.png": {
     "frame": { "x": 48, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -31,7 +31,7 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 200
    },
-   "boosts_coin_shield 4.png": {
+   "boosts_bouclier 4.png": {
     "frame": { "x": 64, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -39,7 +39,7 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 200
    },
-   "boosts_coin_shield 5.png": {
+   "boosts_bouclier 5.png": {
     "frame": { "x": 80, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -47,7 +47,7 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 200
    },
-   "boosts_coin_shield 6.png": {
+   "boosts_bouclier 6.png": {
     "frame": { "x": 96, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -55,7 +55,7 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 200
    },
-   "boosts_coin_shield 7.png": {
+   "boosts_bouclier 7.png": {
     "frame": { "x": 112, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -63,7 +63,7 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 200
    },
-   "boosts_coin_shield 8.png": {
+   "boosts_bouclier 8.png": {
     "frame": { "x": 128, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -71,7 +71,7 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 200
    },
-   "boosts_coin_shield 9.png": {
+   "boosts_bouclier 9.png": {
     "frame": { "x": 144, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
@@ -79,7 +79,7 @@
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 200
    },
-   "boosts_coin_shield 10.png": {
+   "boosts_bouclier 10.png": {
     "frame": { "x": 160, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,

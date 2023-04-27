@@ -20,10 +20,9 @@ class Player ():
         self.lastHitTime = 0
         self.powerUps = []
         self.inventoryBoost = {
-            "ASPBoost" : 1,
-            "Shield" : 0,
+            "ASPBoost" : 0,
+            "Shield" : 1,
             "Grenade" : 0,
-            "Laser" : 0,
             "Heal" : 0
         }
         self.shield = False

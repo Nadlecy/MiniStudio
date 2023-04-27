@@ -39,6 +39,14 @@ def spawn_ennemi_3 (enemiesOnScreen):
 def spawn_ennemi_4 (enemiesOnScreen):
     enemiesOnScreen.append(Enemy(screen,2, "enemy_anim4", enemyType = 3).spawn())
 
+#Boosts List
+def gun_boost(boostsOnScreen):
+    boostsOnScreen.append(BoostObject(1, screen, "boosts_coin_gun", "boost_tir").spawn())
+def shield_boost(boostsOnScreen):
+    boostsOnScreen.append(BoostObject(2, screen, "boosts_coin_shield", "boost_bouclier").spawn())
+def heal_boost(boostsOnScreen):
+    boostsOnScreen.append(BoostObject(3, screen, "boosts_coin_heal", "boost_heal").spawn())
+
 # pygame setup
 pygame.init()
 
@@ -91,18 +99,16 @@ spawn_penguin = TriggerFunction(10,spawn_ennemi_1,enemiesOnScreen)
 spawn_hirondelle =TriggerFunction(7,spawn_ennemi_2,enemiesOnScreen)
 spawn_poule = TriggerFunction(15,spawn_ennemi_3,enemiesOnScreen)
 spawn_pigeon = TriggerFunction(8,spawn_ennemi_4,enemiesOnScreen)
-
-Shield_boost = boosObject(pygame.Vector2(screen.get_width()/2,screen.get_height()/2),screen,Visual="boost_coin_shield",name="Shield")
+boostsOnScreen = []
+spawn_gun_boost = TriggerFunction(50,gun_boost,boostsOnScreen)
+spawn_shield_boost =TriggerFunction(30,shield_boost,boostsOnScreen)
+spawn_heal_boost = TriggerFunction(10,heal_boost,boostsOnScreen)
 
         
 while running:
     # limits FPS to 60
     # dt is delta time in seconds since last frame, used for framerate-independent physics.
     dt = clock.tick(60) / 1000  
-    #spawn_penguin.TriggerCheck(dt)
-    #spawn_hirondelle.TriggerCheck(dt)
-    #spawn_poule.TriggerCheck(dt)
-    #spawn_pigeon.TriggerCheck(dt)
     #MENU
     if menu:
         if menu_splash_ongoing:
@@ -128,37 +134,23 @@ while running:
             
             #Pause menu
             if event.key == pygame.K_ESCAPE:
-                print("caca")
                 menu.menu_pause()
 
             #boosts
-            if event.key == pygame.K_o:
+            if event.key == pygame.K_4:
                 if thisPlayer.inventoryBoost["ASPBoost"]> 0:
                     thisPlayer.inventoryBoost["ASPBoost"] -= 1
                     thisPlayer.powerUps.append(ASPBoost(6,thisPlayer))
-            elif event.key == pygame.K_p:
+            elif event.key == pygame.K_3:
                 if thisPlayer.inventoryBoost["Shield"]> 0:
                     thisPlayer.inventoryBoost["Shield"] -= 1
                     thisPlayer.powerUps.append(Shield(10,thisPlayer))
-            elif event.key == pygame.K_i:
+            elif event.key == pygame.K_1:
                 if thisPlayer.inventoryBoost["Heal"]> 0:
                     thisPlayer.inventoryBoost["Heal"] -= 1
                     if thisPlayer.lives < 3:
                         thisPlayer.powerUps.append(Heal(thisPlayer,1))
-                        print(thisPlayer.lives)
-
-                
-
-            #spawn enemies
-            elif event.key == pygame.K_1:
-                enemiesOnScreen.append(Enemy(screen,3).spawn())
-            elif event.key == pygame.K_2:
-                enemiesOnScreen.append(Enemy(screen,1, "enemy_anim3", enemyType = 1).spawn())
-            elif event.key == pygame.K_3:
-                enemiesOnScreen.append(Enemy(screen,5, "enemy_anim2", enemyType = 2).spawn())
-            elif event.key == pygame.K_4:
-                enemiesOnScreen.append(Enemy(screen,2, "enemy_anim4", enemyType = 3).spawn())
-            elif event.key == pygame.K_5:
+            elif event.key == pygame.K_F1:
                 enemiesOnScreen.append(Enemy(screen,2, "boss_idle", enemyType = 4, animationType = "boss_idle").spawn())
                 if music_order_check != 2:
                     music_order_check = 2
@@ -167,9 +159,9 @@ while running:
     spawn_hirondelle.TriggerCheck(dt)
     spawn_poule.TriggerCheck(dt)
     spawn_pigeon.TriggerCheck(dt)
-    
-    #Boosts labels
-    ASPBoostLabel = volumeFont.render("ASPBoost = " + str(thisPlayer.shotSpeed), False, (255,255,255))
+    spawn_heal_boost.TriggerCheck(dt)
+    spawn_gun_boost.TriggerCheck(dt)
+    spawn_shield_boost.TriggerCheck(dt)
 
     #map management
     level1.mapProceed(thisPlayer)
@@ -194,6 +186,40 @@ while running:
         # enemies act
     for i in enemiesOnScreen:
         i.ai(thisPlayer,dt)
+
+    for i in boostsOnScreen:
+        i.ai(dt)
+
+
+
+    for i in range (len(boostsOnScreen)):
+        boost = boostsOnScreen[i]
+        colli = thisPlayer.Collision(boost.position,80,screen.get_width()/16)
+        if colli :
+            if boost.type == 1:
+                if thisPlayer.inventoryBoost["ASPBoost"] == 0:
+                    thisPlayer.inventoryBoost["ASPBoost"] += 1
+                    del boostsOnScreen[i]
+                else:
+                    thisPlayer.powerUps.append(ASPBoost(6,thisPlayer))
+                    del boostsOnScreen[i]
+            elif boost.type == 2:
+                if thisPlayer.inventoryBoost["Shield"] < 3:
+                    thisPlayer.inventoryBoost["Shield"] += 1
+                    del boostsOnScreen[i]
+                else:
+                    thisPlayer.powerUps.append(Shield(10,thisPlayer))
+                    del boostsOnScreen[i]
+            elif boost.type == 3:
+                if thisPlayer.inventoryBoost["Heal"] < 3 :
+                    thisPlayer.inventoryBoost["Heal"] += 1
+                    del boostsOnScreen[i]
+                else:
+                    if thisPlayer.lives < 3 :
+                        thisPlayer.powerUps.append(Heal(thisPlayer,1))
+                        del boostsOnScreen[i]
+                    else:
+                        del boostsOnScreen[i]
 
     # decreases the cooldown on the player's attack
     thisPlayer.currentShotCoolDown -=1
@@ -271,8 +297,7 @@ while running:
                     
                     if collision :
                         thisPlayer.shotsList[a].position.y = screen.get_height()+40
-                        enemy.hp -= 1
-                        print(enemy.hp)    
+                        enemy.hp -= 1  
 
     for i in range (len(enemiesOnScreen)):
             enemy = enemiesOnScreen[i]
@@ -288,15 +313,12 @@ while running:
                         thisPlayer.position.x -= screen.get_width()/400
                         thisPlayer.lastHitTime = time.time()
                         thisPlayer.lives -= 1
-                        print(thisPlayer.lives)
                         break
                     elif collision and elapsed > 1 and thisPlayer.shield:
                         enemiesOnScreen[i].shotsList[a].position.y = screen.get_height()+40
                         thisPlayer.shield = False
                         thisPlayer.position.x -= screen.get_width()/400
                         thisPlayer.lastHitTime = time.time()
-                        print("hp : ", thisPlayer.lives)
-                        print(thisPlayer.shield)
                         break
 
             if enemy.lasersList:
@@ -320,27 +342,23 @@ while running:
                     thisPlayer.lives -= 1
                     thisPlayer.position.x -= 50
                     thisPlayer.lastHitTime = time.time()
-                    print(enemiesOnScreen[i])
                     break
                 elif col and elapsed > 1 and thisPlayer.shield == True:
                     enemiesOnScreen[i].hp -= 1
                     thisPlayer.shield = False 
                     thisPlayer.position.x -= 50
                     thisPlayer.lastHitTime = time.time()
-                    print("hp : ", thisPlayer.lives)
                     break
             else:
                 if col and elapsed > 1 and thisPlayer.shield == False:
                     thisPlayer.lives -= 1
                     thisPlayer.position.x -= 50
                     thisPlayer.lastHitTime = time.time()
-                    print("hp : ", thisPlayer.lives)
                     break
                 elif col and elapsed > 1 and thisPlayer.shield == True:
                     thisPlayer.shield = False
                     thisPlayer.position.x -= 50
                     thisPlayer.lastHitTime = time.time()
-                    print("hp : ", thisPlayer.lives)
                     break
 
     if enemiesOnScreen:
@@ -356,7 +374,6 @@ while running:
         power.effect(dt)
         if power.isOver():
             del thisPlayer.powerUps[i]
-            print(len(thisPlayer.powerUps))
     if thisPlayer.die():
         pygame.quit()
         menu.gameOver()
@@ -373,17 +390,15 @@ while running:
         if music_volume<0.9:
             music_volume = music_volume + 0.1
             music_volume_display += 1
-        print(music_volume)
         #DOWN
     if minus_btn.draw(screen):
         if music_volume>0.1:
             music_volume = music_volume - 0.1
             music_volume_display -= 1
-        print(music_volume)
     
 
     volumeLabel = volumeFont.render("Music = " + str(music_volume_display), False, (0,0,0))
-    '''
+    
     #SKINS
     if next_btn.draw(screen):
         if skin < 6:
@@ -397,10 +412,10 @@ while running:
         else:
             skin=6
         thisPlayer=Player(currentSurface=screen, currentVisuals= "player_anim" + str(skin), position = pygame.Vector2(thisPlayer.position,thisPlayer.position))
-
+    '''
     #ANIMATION READER
     thisPlayer.playerAnimate()
-    ath.displayLighting()
+    #ath.displayLighting()
     ath.displayLifebar()
     ath.displayGadgetbar()
     ath.displayScore()
