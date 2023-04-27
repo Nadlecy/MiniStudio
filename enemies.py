@@ -52,7 +52,6 @@ class Enemy():
             self.position = pygame.Vector2(self.currentSurface.get_width() , random.randint ( (self.currentSurface.get_height()/9) , (self.currentSurface.get_height()/9)*7 ))
 
 
-        # maybe delete that next line and do something smarter
         return self
     
     def shoot_type1 (self):
