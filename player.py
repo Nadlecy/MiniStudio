@@ -1,18 +1,17 @@
 import pygame
-
-from enemies import Enemy
 from animation import animation_init, animate_loop
 import time
 
+from enemies import Enemy
+
 class Player ():
-    def __init__(self, currentSurface, currentVisuals, shotVisuals = "shot.png",damage = 1,shotSpeed = 3, shotCoolDown = 20, currentShotCoolDown = 0, shotsList = [] , position = pygame.Vector2(0,0) ,lives = 3,laserSprite = "laserSprite.png", playerScore = 0, playerKills = 0):
-        # general data
+    def __init__(self, currentSurface, currentVisuals, shotVisuals = "shot.png",damage = 1,shotSpeed = 3, shotCoolDown = 20, currentShotCoolDown = 0, shotsList = [] , position = pygame.Vector2(0,0) ,lives = 3,laserSprite = "laserSprite.png", playerScore = 0, playerKills = 0):        # general data
         self.currentSurface = currentSurface # which surface the player is currently seen
-        self.playerScore = playerScore
-        self.playerKills = playerKills
         self.currentVisuals = currentVisuals # which spritesheet will be used to animate the player
         self.position = position # the player's position on screen
         self.lives = lives # number of lives the player has
+        self.playerScore = playerScore
+        self.playerKills = playerKills
         self.speed = 400
         # bullet data
         self.shotVisuals = shotVisuals # what the player's attacks look like
@@ -25,7 +24,7 @@ class Player ():
         self.powerUps = []
         self.inventoryBoost = {
             "ASPBoost" : 0,
-            "Shield" : 1,
+            "Shield" : 0,
             "Grenade" : 0,
             "Heal" : 0
         }
