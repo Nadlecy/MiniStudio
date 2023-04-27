@@ -31,13 +31,13 @@ class TriggerFunction () :
             self.clock = 0
 
 def spawn_ennemi_1 (enemiesOnScreen):
-    enemiesOnScreen.append(Enemy(screen,3).spawn())
+    enemiesOnScreen.append(Enemy(screen, 2, 1500, thisPlayer.addScore, thisPlayer.addDeath).spawn())
 def spawn_ennemi_2 (enemiesOnScreen):
-    enemiesOnScreen.append(Enemy(screen,1, "enemy_anim3", enemyType = 1).spawn())
+    enemiesOnScreen.append(Enemy(screen, 1, 1000, thisPlayer.addScore, thisPlayer.addDeath, "enemy_anim3", enemyType = 1).spawn())
 def spawn_ennemi_3 (enemiesOnScreen):
-    enemiesOnScreen.append(Enemy(screen,5, "enemy_anim2", enemyType = 2).spawn())
+    enemiesOnScreen.append(Enemy(screen, 3, 3000, thisPlayer.addScore, thisPlayer.addDeath, "enemy_anim2", enemyType = 2).spawn())
 def spawn_ennemi_4 (enemiesOnScreen):
-    enemiesOnScreen.append(Enemy(screen,2, "enemy_anim4", enemyType = 3).spawn())
+    enemiesOnScreen.append(Enemy(screen, 2, 2000, thisPlayer.addScore, thisPlayer.addDeath, "enemy_anim4", enemyType = 3).spawn())
 
 # pygame setup
 pygame.init()
@@ -81,6 +81,9 @@ volumeFont = pygame.font.SysFont("Times New Roman", 18, True)
 running = True
 menu_splash_ongoing = True
 menu_ongoing = True
+pause = False
+settings = False
+lose = False
 dt = 0
 
 #preparing enemy storage list
@@ -97,10 +100,7 @@ while running:
     # limits FPS to 60
     # dt is delta time in seconds since last frame, used for framerate-independent physics.
     dt = clock.tick(60) / 1000  
-    #spawn_penguin.TriggerCheck(dt)
-    #spawn_hirondelle.TriggerCheck(dt)
-    #spawn_poule.TriggerCheck(dt)
-    #spawn_pigeon.TriggerCheck(dt)
+
     #MENU
     if menu:
         if menu_splash_ongoing:
@@ -123,11 +123,11 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
-            
-            #Pause menu
+
+            #Pause
             if event.key == pygame.K_ESCAPE:
-                print("caca")
-                menu.menu_pause()
+                pause = True
+                settings = True
 
             #boosts
             if event.key == pygame.K_o:
@@ -145,21 +145,20 @@ while running:
                         thisPlayer.powerUps.append(Heal(thisPlayer,1))
                         print(thisPlayer.lives)
 
-                
-
             #spawn enemies
             elif event.key == pygame.K_1:
-                enemiesOnScreen.append(Enemy(screen,3).spawn())
+                enemiesOnScreen.append(Enemy(screen,3,1500,thisPlayer.addScore, thisPlayer.addDeath).spawn())
             elif event.key == pygame.K_2:
-                enemiesOnScreen.append(Enemy(screen,1, "enemy_anim3", enemyType = 1).spawn())
+                enemiesOnScreen.append(Enemy(screen,1, 1000,thisPlayer.addScore, thisPlayer.addDeath, "enemy_anim3", enemyType = 1).spawn())
             elif event.key == pygame.K_3:
-                enemiesOnScreen.append(Enemy(screen,5, "enemy_anim2", enemyType = 2).spawn())
+                enemiesOnScreen.append(Enemy(screen,5, 3000,thisPlayer.addScore, thisPlayer.addDeath, "enemy_anim2", enemyType = 2).spawn())
             elif event.key == pygame.K_4:
-                enemiesOnScreen.append(Enemy(screen,2, "enemy_anim4", enemyType = 3).spawn())
+                enemiesOnScreen.append(Enemy(screen,2, 2000,thisPlayer.addScore, thisPlayer.addDeath, "enemy_anim4", enemyType = 3).spawn())
             elif event.key == pygame.K_5:
-                enemiesOnScreen.append(Enemy(screen,2, "boss_idle", enemyType = 4, animationType = "boss_idle").spawn())
+                enemiesOnScreen.append(Enemy(screen,2, 200000,thisPlayer.addScore, thisPlayer.addDeath, "boss_idle", enemyType = 4, animationType = "boss_idle").spawn())
                 if music_order_check != 2:
                     music_order_check = 2
+
     #enemy autospawn
     spawn_penguin.TriggerCheck(dt)
     spawn_hirondelle.TriggerCheck(dt)
@@ -338,6 +337,7 @@ while running:
         DelEnemies = []
         for i in range(len(enemiesOnScreen)-1,-1,-1):
             if (enemiesOnScreen[i].die()==True):
+                print(i)
                 DelEnemies.append(i)
                 if DelEnemies:
                     del enemiesOnScreen[i]
@@ -349,14 +349,12 @@ while running:
             del thisPlayer.powerUps[i]
             print(len(thisPlayer.powerUps))
     if thisPlayer.die():
-        pygame.quit()
-        menu.gameOver()
-        
+        pause = True
+        lose = True
 
-        
+
 
     #BUTTONS
-    '''
         #VOLUME
 
         #UP
@@ -374,7 +372,7 @@ while running:
     
 
     volumeLabel = volumeFont.render("Music = " + str(music_volume_display), False, (0,0,0))
-    '''
+
     #SKINS
     if next_btn.draw(screen):
         if skin < 6:
@@ -389,14 +387,21 @@ while running:
             skin=6
         thisPlayer=Player(currentSurface=screen, currentVisuals= "player_anim" + str(skin), position = pygame.Vector2(thisPlayer.position,thisPlayer.position))
 
+    #Pause menu
+    while pause:
+        if settings:
+            menu.menuPause(pause,settings)
+        if lose:
+            menu.gameOver(pause,lose)
+    
     #ANIMATION READER
     thisPlayer.playerAnimate()
     ath.displayLighting()
     ath.displayLifebar()
     ath.displayGadgetbar()
-    ath.displayScore()
+    ath.displayScore(thisPlayer.playerScore, thisPlayer.playerKills)
 
-#    screen.blit(volumeLabel, (30, 70))
+    screen.blit(volumeLabel, (30, 70))
     pygame.display.update()
     # flip() the display to put your work on screen
     pygame.display.flip()

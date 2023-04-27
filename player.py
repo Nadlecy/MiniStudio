@@ -1,11 +1,15 @@
 import pygame
+
+from enemies import Enemy
 from animation import animation_init, animate_loop
 import time
 
 class Player ():
-    def __init__(self, currentSurface, currentVisuals, shotVisuals = "shot.png",damage = 1,shotSpeed = 3, shotCoolDown = 20, currentShotCoolDown = 0, shotsList = [] , position = pygame.Vector2(0,0) ,lives = 3,laserSprite = "laserSprite.png"):
+    def __init__(self, currentSurface, currentVisuals, shotVisuals = "shot.png",damage = 1,shotSpeed = 3, shotCoolDown = 20, currentShotCoolDown = 0, shotsList = [] , position = pygame.Vector2(0,0) ,lives = 3,laserSprite = "laserSprite.png", playerScore = 0, playerKills = 0):
         # general data
         self.currentSurface = currentSurface # which surface the player is currently seen
+        self.playerScore = playerScore
+        self.playerKills = playerKills
         self.currentVisuals = currentVisuals # which spritesheet will be used to animate the player
         self.position = position # the player's position on screen
         self.lives = lives # number of lives the player has
@@ -20,11 +24,11 @@ class Player ():
         self.lastHitTime = 0
         self.powerUps = []
         self.inventoryBoost = {
-            "ASPBoost" : 1,
-            "Shield" : 0,
-            "Grenade" : 0,
+            "ASPBoost" : 0,
+            "Shield" : 1,
+            "Grenade" : 3,
             "Laser" : 0,
-            "Heal" : 0
+            "Heal" : 2
         }
         self.shield = False
         self.laser = True
@@ -52,6 +56,12 @@ class Player ():
         player_vect = self.position + player_offset
         distance = (obj_vect-player_vect).magnitude()
         return distance < size/2
+    
+    def addScore(self, score):
+        self.playerScore += score
+
+    def addDeath(self):
+        self.playerKills += 1
         
     def die(self):
         if self.lives <= 0:

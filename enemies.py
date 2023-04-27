@@ -1,15 +1,21 @@
 import random
 import pygame
+
 from animation import animation_init, animate_loop, animate_one
 
 #making the Enemy class for everything that revolves around basic adversaries
 class Enemy():
-    def __init__(self, currentSurface, hp, currentVisuals = "enemy_anim1", enemyType:int = 0, animationType = "enemy", speed:int = 800, position:pygame.Vector2 = (0,0), isOnScreen:bool = False):
+    def __init__(self, currentSurface, hp, enemyScore:int, addScore, addDeath, currentVisuals = "enemy_anim1", enemyType:int = 0, animationType = "enemy", speed:int = 800, position:pygame.Vector2 = (0,0), isOnScreen:bool = False):
         self.currentSurface = currentSurface
         self.animationType = animationType
         self.currentVisuals = currentVisuals # which spritesheet will be used to animate the player
         self.hp = hp
+        self.enemyScore = enemyScore
+        self.addScore  = addScore
+        self.addDeath = addDeath
+        self.dead = False
         self.enemyType = enemyType
+        self.enemyDeath = 1
         self.speed = speed
         self.position = position
         self.isOnScreen = isOnScreen
@@ -113,6 +119,11 @@ class Enemy():
 
     # removing the enemy from the screen etc
     def die(self):
+        if self.dead:
+            return self.hp <= 0
+        self.addScore(self.enemyScore)
+        self.addDeath()
+        self.dead = True
         return self.hp <= 0 
     
 

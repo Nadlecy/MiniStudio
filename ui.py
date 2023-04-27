@@ -1,6 +1,7 @@
 import pygame
 from fade import FadingSurf
 from player import Player
+from text import Text
 
 from pygame.mouse import get_pos as mouse_pos
 from pygame.mouse import get_pressed as mouse_buttons
@@ -29,7 +30,6 @@ class Button:
         else:
             self.isPressed = False
 
-
 class Menu:
     def __init__(self):
         self.surf = pygame.display.get_surface()
@@ -48,12 +48,16 @@ class Menu:
         self.optionsButton = Button(largeButtonSize,(self.width/1.999,self.height/1.4),'image/menu/options_min.png','image/menu/options_hover.png')
         self.quitButton = Button(smallButtonSize,(self.width/160,self.height/1.12),'image/menu/quit.png','image/menu/quit.png')
         self.backButton = Button(smallButtonSize,(self.width/160,self.height/1.12),'image/menu/quit.png','image/menu/quit.png')
+        self.yesButton = Button(smallButtonSize,(self.width/4,self.height/1.6),'image/pause/yes.png','image/pause/yes_hover.png')
+        self.noButton = Button(smallButtonSize,(self.width/1.52,self.height/1.6),'image/pause/no.png','image/pause/no_hover.png')
         self.newGameButton.bind(self.handleNewGame)
         self.resumeButton.bind(self.handleResume)
         self.howToPlayButton.bind(self.handleHowToPlay)
         self.optionsButton.bind(self.handleOptions)
         self.quitButton.bind(self.handleQuit)
         self.backButton.bind(self.handleBack)
+        self.yesButton.bind(self.handleYes)
+        self.noButton.bind(self.handleNo)
 
         # 0:no update,  1:continue, 2:quit 
         self.splash_status = 0
@@ -121,19 +125,39 @@ class Menu:
     def handleBack(self):
         self.home_status = 1
 
-    def menuPause(self):
-        pass
+    def handleYes(self):
+        self.home_status = 1
+        self.pause = False
+
+    def handleNo(self):
+        self.home_status = 0
+        self.menu_ongoing = True
+        self.pause = False
+
+    def menuPause(self, pause, settings):
+        self.pause = pause        
+        self.settings = settings
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pass
+                    self.pause = False
+                    self.settings = False
 
-    def gameOver(self):
-        pass
+        pygame.display.update()
+
+    def gameOver(self, pause, lose):
+        self.pause = pause
+        self.lose = lose
+        self.backgound = pygame.transform.scale(load("image/pause/gameover_bg.png"),(self.width, self.height))
+        self.surf.blit(self.backgound,(0,0))
+
+        self.yesButton.draw()
+        self.noButton.draw()
+
+        pygame.display.update()
         
-
-
 class ATH:
+
     img_life_array = {3:"three_lives.png", 2:"two_lives.png", 1:"one_life.png", 0:"zero_lives.png"}
     img_nade_array = {3:"three_nade.png", 2:"two_nade.png", 1:"one_nade.png", 0:"zero_nade.png"}
     img_heal_array = {3:"three_heal.png", 2:"two_heal.png", 1:"one_heal.png", 0:"zero_heal.png"}
@@ -158,11 +182,10 @@ class ATH:
         gadget_slot_two = pygame.transform.scale(load("image/ath/gadget/boost2_overlay.png"),(48*resizing_width,16*resizing_width))
         gadget_slot_three = pygame.transform.scale(load("image/ath/gadget/boost3_overlay.png"),(48*resizing_width,16*resizing_width))
         gadget_slot_four = pygame.transform.scale(load("image/ath/gadget/boost4_overlay.png"),(48*resizing_width,16*resizing_width))
-        heal_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_nade_array[self.player.inventoryBoost["Heal"]]),(32*resizing_width,32*resizing_width))
-        nade_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_heal_array[self.player.inventoryBoost["Grenade"]]),(32*resizing_width,32*resizing_width))
+        heal_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_heal_array[self.player.inventoryBoost["Heal"]]),(32*resizing_width,32*resizing_width))
+        nade_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_nade_array[self.player.inventoryBoost["Grenade"]]),(32*resizing_width,32*resizing_width))
         shield_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_shield_array[self.player.inventoryBoost["Shield"]]),(32*resizing_width,32*resizing_width))
         gun_icon = pygame.transform.scale(load("image/ath/gadget/"+self.img_gun_array[self.player.inventoryBoost["ASPBoost"]]),(32*resizing_width,32*resizing_width))
-
 
         self.gadget_surf.blit(gadget_slot_one, (0,0))
         self.gadget_surf.blit(gadget_slot_two, (48*resizing_width,0))
@@ -174,13 +197,20 @@ class ATH:
         self.gadget_surf.blit(gun_icon, (152*resizing_width,16*resizing_height))
         self.surf.blit(self.gadget_surf, (0,self.height-(75*resizing_height)))
         
-    def displayScore(self):
-        scoreHolder = pygame.transform.scale(load("image/ath/score/score_death.png"),(48*self.width/550,48*self.width/550))
-        self.surf.blit(scoreHolder,(self.width-48*self.width/550,0))
+    def displayScore(self, score, kills):
+        
+        statHolder = pygame.transform.scale(load("image/ath/score/score_death.png"),(48*self.width/550,48*self.width/550))
+        self.scoreHolder = pygame.surface.Surface((self.width,self.height), pygame.SRCALPHA)
+        self.killHolder = pygame.surface.Surface((self.width,self.height), pygame.SRCALPHA)
+        scoreText = Text("Arial",60).drawText(str(score),(255,255,255))
+        killText = Text("Arial",300).drawText(str(kills),(0,0,0))
+        self.scoreHolder.blit(scoreText,(0,0))
+        self.killHolder.blit(killText,(0,0))
+
+        self.surf.blit(statHolder,(self.width-48*self.width/550,0))
 
     def displayLighting(self):
         lighting = pygame.transform.scale(load("image/ath/lueur_all.png"),(self.width, self.height))
         self.surf.blit(lighting,(0,0))
     
-  
         

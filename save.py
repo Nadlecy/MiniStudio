@@ -1,14 +1,17 @@
 import pygame, os, json
 from pygame import Vector2 as vector
 
-#CHANGE NAME
 class Player:
     def __init__(self):
         self.position = vector(0,0)
         self.level = 0
         self.score = 0
         self.boosts = {
-            "Speed":0
+            "ASPBoost" : 0,
+            "Shield" : 0,
+            "Grenade" : 0,
+            "Laser" : 0,
+            "Heal" : 0
         }
         self.meta = {
             "time_played": 0
