@@ -151,7 +151,7 @@ while running:
                     if thisPlayer.lives < 3:
                         thisPlayer.powerUps.append(Heal(thisPlayer,1))
             elif event.key == pygame.K_F1:
-                enemiesOnScreen.append(Enemy(screen,2, "boss_idle", enemyType = 4, animationType = "boss_idle").spawn())
+                enemiesOnScreen.append(Enemy(screen,200, "boss_idle", enemyType = 4, animationType = "boss_idle").spawn())
                 if music_order_check != 2:
                     music_order_check = 2
     #enemy autospawn
