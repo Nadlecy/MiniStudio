@@ -84,8 +84,8 @@ def loadLevel1():
     firstCircle6 = MapSection(1, pygame.transform.scale(backgrounds[1][4],(height * 2, height)), None) #connect to intersection41
     firstCircle5 = MapSection(1, pygame.transform.scale(backgrounds[1][5],(height * 2, height)), firstCircle6) 
     firstCircle4 = MapSection(1, pygame.transform.scale(backgrounds[1][7],(height * 2, height)), None) #connect to intersectionB
-    firstCircle33 = MapSection(1, pygame.transform.scale(backgrounds[0][4],(height * 2, height)), firstCircle4)
-    firstCircle3 = MapSection(1, pygame.transform.scale(backgrounds[0][7],(height * 2, height)), firstCircle33)
+    firstCircle33 = MapSection(1, pygame.transform.scale(backgrounds[1][4],(height * 2, height)), firstCircle4)
+    firstCircle3 = MapSection(1, pygame.transform.scale(backgrounds[1][7],(height * 2, height)), firstCircle33)
     firstCircle2 = MapSection(1, pygame.transform.scale(backgrounds[1][3],(height * 2, height)), None) #connect to intersection21
     firstCircle11 = MapSection(1, pygame.transform.scale(backgrounds[1][6],(height * 2, height)), firstCircle2)
     firstCircle1 = MapSection(1, pygame.transform.scale(backgrounds[1][4],(height * 2, height)), firstCircle11)

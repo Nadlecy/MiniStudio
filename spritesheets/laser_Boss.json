@@ -1,0 +1,147 @@
+{ "frames": {
+   "laser_Boss 0.png": {
+    "frame": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   },
+   "laser_Boss 1.png": {
+    "frame": { "x": 0, "y": 32, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   },
+   "laser_Boss 2.png": {
+    "frame": { "x": 0, "y": 64, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   },
+   "laser_Boss 3.png": {
+    "frame": { "x": 0, "y": 96, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   },
+   "laser_Boss 4.png": {
+    "frame": { "x": 0, "y": 128, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   },
+   "laser_Boss 5.png": {
+    "frame": { "x": 0, "y": 160, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   },
+   "laser_Boss 6.png": {
+    "frame": { "x": 0, "y": 192, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   },
+   "laser_Boss 7.png": {
+    "frame": { "x": 0, "y": 224, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   },
+   "laser_Boss 8.png": {
+    "frame": { "x": 0, "y": 256, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   },
+   "laser_Boss 9.png": {
+    "frame": { "x": 0, "y": 288, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   },
+   "laser_Boss 10.png": {
+    "frame": { "x": 0, "y": 320, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   },
+   "laser_Boss 11.png": {
+    "frame": { "x": 0, "y": 352, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   },
+   "laser_Boss 12.png": {
+    "frame": { "x": 0, "y": 384, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   },
+   "laser_Boss 13.png": {
+    "frame": { "x": 0, "y": 416, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   },
+   "laser_Boss 14.png": {
+    "frame": { "x": 0, "y": 448, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   },
+   "laser_Boss 15.png": {
+    "frame": { "x": 0, "y": 480, "w": 256, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 32 },
+    "sourceSize": { "w": 256, "h": 32 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.40-x64",
+  "image": "laser_Boss.png",
+  "format": "RGBA8888",
+  "size": { "w": 256, "h": 512 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" },
+   { "name": "Layer 2", "opacity": 255, "blendMode": "lighten" }
+  ],
+  "slices": [
+  ]
+ }
+}

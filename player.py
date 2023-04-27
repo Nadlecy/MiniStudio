@@ -26,9 +26,8 @@ class Player ():
         self.inventoryBoost = {
             "ASPBoost" : 0,
             "Shield" : 1,
-            "Grenade" : 3,
-            "Laser" : 0,
-            "Heal" : 2
+            "Grenade" : 0,
+            "Heal" : 0
         }
         self.shield = False
         self.laser = True
